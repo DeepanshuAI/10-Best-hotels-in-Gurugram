@@ -1,0 +1,193 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import { generateBreadcrumbSchema } from '../../lib/seo';
+
+const title = 'Editorial Policy & Standards: Best Hotels in Gurugram (2026)';
+const description = 'Our strict editorial standards, independence guidelines, non-commercial disclosures, and zero-tolerance policy for paid hotel placement.';
+
+const breadcrumbs = [
+  { label: 'Editorial Policy', href: '/editorial-policy/' }
+];
+
+const breadcrumbSchema = generateBreadcrumbSchema([
+  { name: 'Home', url: '/' },
+  { name: 'Editorial Policy', url: '/editorial-policy/' },
+]);
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  canonicalPath="/editorial-policy/"
+  jsonLd={breadcrumbSchema}
+>
+  <Breadcrumbs items={breadcrumbs} />
+
+  <article class="policy-page container section-padding">
+    <header class="policy-header">
+      <span class="badge badge-emerald">Governance & Standards</span>
+      <h1 class="policy-h1">Editorial Policy & Independence Disclosures</h1>
+      <p class="lead policy-lead">
+        We believe that trustworthy accommodation advice cannot be purchased. This document articulates our editorial governance, independence guarantees, and factual verification rules.
+      </p>
+    </header>
+
+    <div class="policy-layout-grid">
+      <div class="policy-main">
+        <section class="policy-section">
+          <h2>1. Independence Guarantee</h2>
+          <p>
+            Best Hotels in Gurugram operates as an autonomous, non-commercial research directory. We maintain an absolute firewall between commercial entities and our editorial judgment:
+          </p>
+          <ul>
+            <li><strong>Zero Paid Placements:</strong> We do not sell listings, featured badges, "top recommended" tags, or higher positions in our directory grid.</li>
+            <li><strong>No Complimentary Stay Influences:</strong> Our reviews and evaluations are never conditioned upon free stays, complimentary meals, or hospitality PR junkets.</li>
+            <li><strong>No Affiliate Bias:</strong> We provide outbound links directly to official hotel websites so travelers can access direct corporate member perks, transparent cancellation terms, and verified room configurations without middleman markups.</li>
+          </ul>
+        </section>
+
+        <section class="policy-section">
+          <h2>2. Factual Attribution & Sourcing</h2>
+          <p>
+            Every factual statement published on this website must be corroborated:
+          </p>
+          <ul>
+            <li><strong>Official Sources:</strong> Primary facts—including property names, full postal addresses, direct phone numbers, meeting hall capacities, and published room specifications—are cross-checked directly against official hotel chain portals and municipal registries.</li>
+            <li><strong>Transit Times:</strong> Travel times and transit distances are based on physical road geometry, verified highway junctions (Shankar Chowk, IFFCO Chowk, Rajiv Chowk), and Delhi Metro Rail Corporation (DMRC) / Rapid Metro Gurugram schedules. We strictly avoid theoretical radial measurements.</li>
+            <li><strong>Dates of Verification:</strong> All rate representations and amenity lists display their most recent audit date.</li>
+          </ul>
+        </section>
+
+        <section class="policy-section">
+          <h2>3. Balanced Editorial Judgment</h2>
+          <p>
+            We require that every published hotel profile include balanced critique. Rather than publishing generic promotional blurbs, our editors are required to identify objective constraints (such as approach road congestion, banquet sound leakage during peak wedding seasons, compact room dimensions in budget properties, or distance from the central Yellow Line metro).
+          </p>
+        </section>
+
+        <section class="policy-section">
+          <h2>4. Future Commercial Disclosures</h2>
+          <p>
+            If commercial partnerships, sponsorships, or qualifying links are introduced in the future to offset technical operating costs, they will be explicitly designated with clear visual disclosures and coded with standard <code>rel="sponsored"</code> or <code>rel="nofollow"</code> attributes in compliance with Google Webmaster Guidelines. Sponsorship will never be misrepresented as independent editorial merit.
+          </p>
+        </section>
+      </div>
+
+      <aside class="policy-sidebar">
+        <div class="sidebar-box card">
+          <h3>Related Policies</h3>
+          <ul class="policy-nav-list" role="list">
+            <li><a href="/how-we-choose-hotels/">Selection Methodology</a></li>
+            <li><a href="/about/">About This Directory</a></li>
+            <li><a href="/corrections/">Submit Data Correction</a></li>
+            <li><a href="/privacy-policy/">Privacy Policy</a></li>
+            <li><a href="/contact/">Contact Our Desk</a></li>
+          </ul>
+        </div>
+      </aside>
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  .policy-header {
+    text-align: center;
+    max-width: 860px;
+    margin: 0 auto 3rem;
+  }
+
+  .policy-header .badge {
+    margin-bottom: 0.875rem;
+  }
+
+  .policy-h1 {
+    font-size: 2.25rem;
+    line-height: 1.2;
+    margin-bottom: 1rem;
+  }
+
+  @media (min-width: 768px) {
+    .policy-h1 {
+      font-size: 2.875rem;
+    }
+  }
+
+  .policy-lead {
+    font-size: 1.125rem;
+  }
+
+  .policy-layout-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+
+  @media (min-width: 1024px) {
+    .policy-layout-grid {
+      grid-template-columns: 1fr 320px;
+    }
+  }
+
+  .policy-section {
+    margin-bottom: 3rem;
+  }
+
+  .policy-section h2 {
+    font-size: 1.625rem;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--bg-subtle);
+  }
+
+  .policy-section p {
+    font-size: 1.0625rem;
+    line-height: 1.75;
+    color: var(--text-secondary);
+    margin-bottom: 1.25rem;
+  }
+
+  .policy-section ul {
+    padding-left: 1.5rem;
+    margin-bottom: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    font-size: 1.0625rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+  }
+
+  .sidebar-box {
+    padding: 1.5rem;
+    position: sticky;
+    top: 5.5rem;
+  }
+
+  .sidebar-box h3 {
+    font-size: 1rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-muted);
+    margin-bottom: 1rem;
+  }
+
+  .policy-nav-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    font-size: 0.9375rem;
+  }
+
+  .policy-nav-list a {
+    color: var(--text-primary);
+    font-weight: 500;
+    transition: color var(--transition-fast);
+  }
+
+  .policy-nav-list a:hover {
+    color: var(--emerald-primary);
+  }
+</style>

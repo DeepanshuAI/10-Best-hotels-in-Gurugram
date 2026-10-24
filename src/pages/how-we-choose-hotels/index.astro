@@ -1,0 +1,292 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import { generateBreadcrumbSchema } from '../../lib/seo';
+
+const title = 'How We Choose Hotels: Selection Methodology & Editorial Standards (2026)';
+const description = 'Our public editorial methodology for evaluating hotels in Gurugram. How we audit physical amenities, verify transit times, filter fake reviews, and enforce zero paid placement.';
+
+const breadcrumbs = [
+  { label: 'Selection Methodology', href: '/how-we-choose-hotels/' }
+];
+
+const breadcrumbSchema = generateBreadcrumbSchema([
+  { name: 'Home', url: '/' },
+  { name: 'Selection Methodology', url: '/how-we-choose-hotels/' },
+]);
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  canonicalPath="/how-we-choose-hotels/"
+  jsonLd={breadcrumbSchema}
+>
+  <Breadcrumbs items={breadcrumbs} />
+
+  <article class="trust-page container section-padding">
+    <header class="trust-header">
+      <span class="badge badge-gold">Editorial Integrity Framework</span>
+      <h1 class="trust-h1">How We Choose & Evaluate Hotels in Gurugram</h1>
+      <p class="lead trust-lead">
+        In an accommodation market overwhelmed by sponsored search placements and manipulated guest reviews, our directory operates under a strict, non-commercial editorial standard. Here is exactly how properties are selected, audited, and maintained.
+      </p>
+    </header>
+
+    <div class="trust-content-layout">
+      <div class="trust-main">
+        <section class="trust-section">
+          <h2>1. The Definition of "Best" & "Top"</h2>
+          <p>
+            We do not believe any single hotel is objectively the "best" for all people. Gurugram accommodates vastly different traveler cohorts: a C-suite executive negotiating an M&A deal in DLF Cyber City requires completely different amenities than a solo software auditor visiting Golf Course Road on a strict per diem, or a family seeking open resort lawns.
+          </p>
+          <p>
+            When we designate a property as "best for" a specific purpose (e.g., "Best for Large-Scale Conventions" or "Best for Rapid Metro Walkability"), that characterization must be defended by verifiable physical specifications, corroborated operational history, and observable geographic advantages.
+          </p>
+        </section>
+
+        <section class="trust-section">
+          <h2>2. The Five Objective Selection Pillars</h2>
+          <div class="pillars-detailed-list">
+            <div class="pillar-card card">
+              <div class="pillar-num">01</div>
+              <div class="pillar-text">
+                <h3>Verifiable Physical Facilities</h3>
+                <p>Every listed facility (dedicated in-room desks, soundproof double-glazing, power backup generators, meeting room capacities, and swimming pools) is corroborated against official hotel corporate documentation and active municipal registrations.</p>
+              </div>
+            </div>
+
+            <div class="pillar-card card">
+              <div class="pillar-num">02</div>
+              <div class="pillar-text">
+                <h3>Transit Reality & U-Turn Verification</h3>
+                <p>We completely reject radial "as-the-crow-flies" distance measurements. Gurugram’s highway infrastructure (NH-48, Shankar Chowk, IFFCO Chowk) requires significant U-turns. We record real driving minutes and verify walkability to Delhi Metro Yellow Line or Gurugram Rapid Metro stations.</p>
+              </div>
+            </div>
+
+            <div class="pillar-card card">
+              <div class="pillar-num">03</div>
+              <div class="pillar-text">
+                <h3>Corroborated Public Reputation</h3>
+                <p>We cross-reference public sentiment across Google Maps and independent travel forums to verify operational consistency. We explicitly audit for "red flag" patterns: recurring reports of air-conditioning failures during hot summer months, unpaved or flooded approach roads, or noisy banquet disruptions.</p>
+              </div>
+            </div>
+
+            <div class="pillar-card card">
+              <div class="pillar-num">04</div>
+              <div class="pillar-text">
+                <h3>Balanced Editorial Reporting</h3>
+                <p>No property is flawless. Every hotel profile in our directory features both "Key Strengths" and "Things to Keep in Mind." We transparently highlight highway noise, valet bottlenecks during wedding seasons, compact room footprints, or remote locations.</p>
+              </div>
+            </div>
+
+            <div class="pillar-card card">
+              <div class="pillar-num">05</div>
+              <div class="pillar-text">
+                <h3>Zero Paid Placement & Commercial Separation</h3>
+                <p>Hoteliers, management agencies, and hospitality chains cannot purchase inclusion, premium placement, or positive editorial copy. The directory is maintained as an independent, non-commercial public utility.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="trust-section">
+          <h2>3. Methodology Limitations</h2>
+          <p>
+            We are transparent about what this directory can and cannot do:
+          </p>
+          <ul>
+            <li><strong>Dynamic Pricing:</strong> Room tariffs in the National Capital Region fluctuate based on corporate demand, wedding dates, and season. All rates displayed are historical starting benchmarks recorded on specific verification dates. Travelers must check official booking channels for live quotes.</li>
+            <li><strong>No Pretend First-Hand Stays:</strong> We do not fabricate overnight reviews or pretend to have slept in every room. Our profiles are compiled from verified architectural plans, corporate specifications, verified public reviews, and transit measurements.</li>
+          </ul>
+        </section>
+
+        <section class="trust-section">
+          <h2>4. Ongoing Freshness & Corrections Pathway</h2>
+          <p>
+            Hotels frequently renovate facilities, change restaurant concepts, or alter shuttle services. We conduct regular audits to verify contact details, operational status, and transit conditions.
+          </p>
+          <div class="corrections-box card">
+            <h3>Notice a Factual Error?</h3>
+            <p>If you represent a hotel or recently stayed at a property and observed changes in amenities, pricing, or transit access, please let us know immediately.</p>
+            <a href="/corrections/" class="btn btn-primary btn-sm">Submit a Correction Request &rarr;</a>
+          </div>
+        </section>
+      </div>
+
+      <aside class="trust-sidebar">
+        <div class="trust-sidebar-card card">
+          <h3>Trust & Policies</h3>
+          <ul class="sidebar-policy-links" role="list">
+            <li><a href="/editorial-policy/">Editorial Policy & Disclosures</a></li>
+            <li><a href="/about/">About This Directory</a></li>
+            <li><a href="/corrections/">Submit Corrections</a></li>
+            <li><a href="/contact/">Contact Our Desk</a></li>
+            <li><a href="/privacy-policy/">Privacy Policy</a></li>
+          </ul>
+        </div>
+      </aside>
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  .trust-header {
+    text-align: center;
+    max-width: 860px;
+    margin: 0 auto 3rem;
+  }
+
+  .trust-header .badge {
+    margin-bottom: 0.875rem;
+  }
+
+  .trust-h1 {
+    font-size: 2.25rem;
+    line-height: 1.2;
+    margin-bottom: 1rem;
+  }
+
+  @media (min-width: 768px) {
+    .trust-h1 {
+      font-size: 2.875rem;
+    }
+  }
+
+  .trust-lead {
+    font-size: 1.125rem;
+  }
+
+  .trust-content-layout {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+
+  @media (min-width: 1024px) {
+    .trust-content-layout {
+      grid-template-columns: 1fr 320px;
+    }
+  }
+
+  .trust-section {
+    margin-bottom: 3rem;
+  }
+
+  .trust-section h2 {
+    font-size: 1.625rem;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--bg-subtle);
+  }
+
+  .trust-section p {
+    font-size: 1.0625rem;
+    line-height: 1.75;
+    color: var(--text-secondary);
+    margin-bottom: 1.25rem;
+  }
+
+  .trust-section ul {
+    padding-left: 1.5rem;
+    margin-bottom: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    font-size: 1.0625rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+  }
+
+  .pillars-detailed-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    margin-top: 1.5rem;
+  }
+
+  .pillar-card {
+    padding: 1.5rem;
+    display: flex;
+    gap: 1.25rem;
+    align-items: flex-start;
+  }
+
+  .pillar-num {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--emerald-primary);
+    background-color: var(--emerald-light);
+    border: 1px solid var(--emerald-border);
+    width: 3rem;
+    height: 3rem;
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .pillar-text h3 {
+    font-size: 1.125rem;
+    margin-bottom: 0.375rem;
+  }
+
+  .pillar-text p {
+    font-size: 0.9375rem;
+    line-height: 1.6;
+    margin-bottom: 0;
+  }
+
+  .corrections-box {
+    padding: 1.75rem;
+    background-color: var(--emerald-light);
+    border: 1px solid var(--emerald-border);
+    margin-top: 1.5rem;
+  }
+
+  .corrections-box h3 {
+    font-size: 1.125rem;
+    color: var(--emerald-hover);
+    margin-bottom: 0.5rem;
+  }
+
+  .corrections-box p {
+    font-size: 0.9375rem;
+    color: var(--emerald-hover);
+    margin-bottom: 1rem;
+  }
+
+  .trust-sidebar-card {
+    padding: 1.5rem;
+    position: sticky;
+    top: 5.5rem;
+  }
+
+  .trust-sidebar-card h3 {
+    font-size: 1rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-muted);
+    margin-bottom: 1rem;
+  }
+
+  .sidebar-policy-links {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    font-size: 0.9375rem;
+  }
+
+  .sidebar-policy-links a {
+    color: var(--text-primary);
+    font-weight: 500;
+    transition: color var(--transition-fast);
+  }
+
+  .sidebar-policy-links a:hover {
+    color: var(--emerald-primary);
+  }
+</style>

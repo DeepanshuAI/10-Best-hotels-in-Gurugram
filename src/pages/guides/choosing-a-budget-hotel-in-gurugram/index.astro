@@ -1,0 +1,380 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../../components/Breadcrumbs.astro';
+import HotelCard from '../../../components/HotelCard.astro';
+import { GUIDES } from '../../../data/guides';
+import { HOTELS } from '../../../data/hotels';
+import { generateArticleSchema, generateBreadcrumbSchema } from '../../../lib/seo';
+
+const guide = GUIDES['choosing-a-budget-hotel-in-gurugram'];
+const relatedHotels = HOTELS.filter((h) => guide.relatedHotelSlugs.includes(h.slug)).slice(0, 3);
+
+const breadcrumbs = [
+  { label: 'Guides', href: '/guides/where-to-stay-in-gurugram/' },
+  { label: 'Choosing a Budget Hotel', href: '/guides/choosing-a-budget-hotel-in-gurugram/' }
+];
+
+const articleSchema = generateArticleSchema(guide);
+const breadcrumbSchema = generateBreadcrumbSchema([
+  { name: 'Home', url: '/' },
+  { name: 'Guides', url: '/guides/where-to-stay-in-gurugram/' },
+  { name: guide.title, url: '/guides/choosing-a-budget-hotel-in-gurugram/' },
+]);
+---
+
+<BaseLayout
+  title={guide.metaTitle}
+  description={guide.metaDescription}
+  canonicalPath="/guides/choosing-a-budget-hotel-in-gurugram/"
+  ogType="article"
+  jsonLd={[articleSchema, breadcrumbSchema]}
+>
+  <Breadcrumbs items={breadcrumbs} />
+
+  <article class="guide-article-page">
+    <header class="guide-header container">
+      <div class="guide-header-badges">
+        <span class="badge badge-emerald">Consumer Protection</span>
+        <span class="guide-meta-item">{guide.readTime}</span>
+        <span class="guide-meta-item">&bull;</span>
+        <span class="guide-meta-item">Updated: {guide.lastUpdated}</span>
+      </div>
+
+      <h1 class="guide-h1">{guide.title}</h1>
+      <p class="lead guide-lead">{guide.summary}</p>
+
+      <div class="guide-author-bar">
+        <div class="author-avatar" aria-hidden="true">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+            <circle cx="12" cy="7" r="4"/>
+          </svg>
+        </div>
+        <div class="author-details">
+          <span class="author-name">{guide.author}</span>
+          <span class="author-role">Accommodation Quality & Safety Analysts</span>
+        </div>
+      </div>
+    </header>
+
+    <div class="container guide-layout-grid section-padding">
+      <div class="guide-main-content">
+        <!-- Table of Contents -->
+        <nav class="guide-toc card" aria-label="Table of contents">
+          <h2 class="toc-title">Table of Contents</h2>
+          <ol class="toc-list" role="list">
+            {guide.sections.map((sec) => (
+              <li><a href={`#${sec.id}`}>{sec.title}</a></li>
+            ))}
+          </ol>
+        </nav>
+
+        {guide.sections.map((sec) => (
+          <section class="guide-section-block" id={sec.id} aria-labelledby={`${sec.id}-heading`}>
+            <h2 id={`${sec.id}-heading`}>{sec.title}</h2>
+            <div class="guide-section-body" set:html={sec.content.replace(/\n\n/g, '<br/><br/>')} />
+            
+            {sec.keyTakeaways && sec.keyTakeaways.length > 0 && (
+              <div class="key-takeaways card">
+                <span class="takeaways-label">Key Safety & Value Takeaways:</span>
+                <ul class="takeaways-list" role="list">
+                  {sec.keyTakeaways.map((point) => (
+                    <li>{point}</li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </section>
+        ))}
+
+        <div class="guide-integrity-box card">
+          <h3>Consumer First Policy</h3>
+          <p>
+            We do not accept commissions, free rooms, or referral kickbacks from budget accommodation providers. Our advice is structured solely to protect travelers from deceptive OTA marketing and unsafe accommodations.
+          </p>
+        </div>
+      </div>
+
+      <!-- Sidebar -->
+      <aside class="guide-sidebar" aria-label="Related budget resources">
+        <div class="sidebar-sticky card">
+          <h3 class="sidebar-heading">Budget Stays Directory</h3>
+          <ul class="corridor-links-list" role="list">
+            <li><a href="/budget-hotels-in-gurugram/">All Verified Budget Hotels &rarr;</a></li>
+            <li><a href="/hotels-near-golf-course-road/">Golf Course Road Value &rarr;</a></li>
+            <li><a href="/hotels-near-mg-road-gurugram/">MG Road Value &rarr;</a></li>
+          </ul>
+
+          <hr class="sidebar-sep" />
+
+          <h3 class="sidebar-heading">Related Reading</h3>
+          <ul class="corridor-links-list" role="list">
+            <li><a href="/guides/where-to-stay-in-gurugram/">Where to Stay in Gurugram</a></li>
+            <li><a href="/guides/hotels-for-business-travel-in-gurugram/">Business Travel Guide</a></li>
+            <li><a href="/how-we-choose-hotels/">Selection Standards</a></li>
+          </ul>
+        </div>
+      </aside>
+    </div>
+
+    <!-- Related Hotel Recommendations -->
+    {relatedHotels.length > 0 && (
+      <section class="container related-hotels-section section-padding">
+        <div class="related-header">
+          <span class="badge badge-emerald">Vetted Budget Stays</span>
+          <h2>Safe Branded Properties Highlighted in This Guide</h2>
+          <p>Verified budget options offering predictable hygiene and comfort.</p>
+        </div>
+        <div class="related-grid">
+          {relatedHotels.map((rel) => (
+            <HotelCard hotel={rel} />
+          ))}
+        </div>
+      </section>
+    )}
+  </article>
+</BaseLayout>
+
+<style>
+  .guide-header {
+    padding-top: 1.5rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid var(--border-subtle);
+  }
+
+  .guide-header-badges {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+    font-size: 0.8125rem;
+    color: var(--text-muted);
+  }
+
+  .guide-h1 {
+    font-size: 2.25rem;
+    line-height: 1.2;
+    margin-bottom: 1rem;
+  }
+
+  @media (min-width: 768px) {
+    .guide-h1 {
+      font-size: 2.875rem;
+    }
+  }
+
+  .guide-lead {
+    font-size: 1.125rem;
+    max-width: 820px;
+    margin-bottom: 1.5rem;
+  }
+
+  .guide-author-bar {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .author-avatar {
+    width: 2.5rem;
+    height: 2.5rem;
+    background-color: var(--emerald-light);
+    color: var(--emerald-primary);
+    border-radius: var(--radius-full);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .author-details {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .author-name {
+    font-size: 0.9375rem;
+    font-weight: 700;
+    color: var(--text-primary);
+  }
+
+  .author-role {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+  }
+
+  .guide-layout-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+
+  @media (min-width: 1024px) {
+    .guide-layout-grid {
+      grid-template-columns: 1fr 320px;
+    }
+  }
+
+  .guide-toc {
+    padding: 1.5rem;
+    margin-bottom: 2.5rem;
+    background-color: var(--bg-subtle);
+  }
+
+  .toc-title {
+    font-size: 1.0625rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .toc-list {
+    padding-left: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    font-size: 0.9375rem;
+  }
+
+  .toc-list a {
+    color: var(--emerald-primary);
+    font-weight: 500;
+  }
+
+  .toc-list a:hover {
+    text-decoration: underline;
+  }
+
+  .guide-section-block {
+    margin-bottom: 3rem;
+  }
+
+  .guide-section-block h2 {
+    font-size: 1.625rem;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--bg-subtle);
+  }
+
+  .guide-section-body {
+    font-size: 1.0625rem;
+    line-height: 1.75;
+    color: var(--text-secondary);
+    margin-bottom: 1.5rem;
+  }
+
+  .key-takeaways {
+    padding: 1.25rem 1.5rem;
+    background-color: var(--emerald-light);
+    border: 1px solid var(--emerald-border);
+    margin-top: 1.5rem;
+  }
+
+  .takeaways-label {
+    display: block;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--emerald-hover);
+    margin-bottom: 0.5rem;
+  }
+
+  .takeaways-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.375rem;
+    font-size: 0.875rem;
+    color: var(--emerald-hover);
+  }
+
+  .takeaways-list li {
+    position: relative;
+    padding-left: 1.25rem;
+  }
+
+  .takeaways-list li::before {
+    content: "✓";
+    position: absolute;
+    left: 0;
+    font-weight: bold;
+  }
+
+  .guide-integrity-box {
+    padding: 1.5rem;
+    background-color: var(--bg-subtle);
+    border-left: 4px solid var(--emerald-primary);
+    margin-top: 2.5rem;
+  }
+
+  .guide-integrity-box h3 {
+    font-size: 1.0625rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .guide-integrity-box p {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    margin-bottom: 0;
+  }
+
+  .sidebar-sticky {
+    position: sticky;
+    top: 5.5rem;
+    padding: 1.5rem;
+  }
+
+  .sidebar-heading {
+    font-size: 0.875rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--text-muted);
+    margin-bottom: 0.875rem;
+  }
+
+  .corridor-links-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.625rem;
+    font-size: 0.875rem;
+  }
+
+  .corridor-links-list a {
+    color: var(--text-primary);
+    font-weight: 500;
+    transition: color var(--transition-fast);
+  }
+
+  .corridor-links-list a:hover {
+    color: var(--emerald-primary);
+  }
+
+  .sidebar-sep {
+    margin: 1.25rem 0;
+    border: 0;
+    border-top: 1px solid var(--border-subtle);
+  }
+
+  .related-header {
+    text-align: center;
+    max-width: 600px;
+    margin: 0 auto 2.5rem;
+  }
+
+  .related-header .badge {
+    margin-bottom: 0.5rem;
+  }
+
+  .related-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.75rem;
+  }
+
+  @media (min-width: 768px) {
+    .related-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+</style>

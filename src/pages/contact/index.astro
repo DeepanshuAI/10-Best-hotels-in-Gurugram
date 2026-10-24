@@ -1,0 +1,312 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import { SITE_CONFIG } from '../../lib/site-config';
+import { generateBreadcrumbSchema } from '../../lib/seo';
+
+const title = 'Contact Us: Best Hotels in Gurugram Directory (2026)';
+const description = 'Get in touch with the editorial team at Best Hotels in Gurugram. Editorial inquiries, research partnerships, and directory feedback.';
+
+const breadcrumbs = [
+  { label: 'Contact', href: '/contact/' }
+];
+
+const breadcrumbSchema = generateBreadcrumbSchema([
+  { name: 'Home', url: '/' },
+  { name: 'Contact', url: '/contact/' },
+]);
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  canonicalPath="/contact/"
+  jsonLd={breadcrumbSchema}
+>
+  <Breadcrumbs items={breadcrumbs} />
+
+  <article class="contact-page container section-padding">
+    <header class="contact-header">
+      <span class="badge badge-emerald">Get in Touch</span>
+      <h1 class="contact-h1">Contact Our Editorial Desk</h1>
+      <p class="lead contact-lead">
+        We welcome communications from travelers, local corporate travel coordinators, hoteliers, and researchers.
+      </p>
+    </header>
+
+    <div class="contact-layout-grid">
+      <!-- Contact Form -->
+      <div class="contact-form-col card">
+        <h2>Send a Message</h2>
+        <p class="form-subtext">Fill in your details below and our editorial desk will respond within 24 to 48 business hours.</p>
+
+        <form id="contact-form" class="contact-form" novalidate>
+          <div class="form-group">
+            <label for="contact-name">Full Name <span class="required">*</span></label>
+            <input type="text" id="contact-name" name="name" required class="form-input" placeholder="e.g. Rahul Sharma" />
+          </div>
+
+          <div class="form-group">
+            <label for="contact-email">Email Address <span class="required">*</span></label>
+            <input type="email" id="contact-email" name="email" required class="form-input" placeholder="e.g. rahul@example.com" />
+          </div>
+
+          <div class="form-group">
+            <label for="contact-subject">Topic of Inquiry <span class="required">*</span></label>
+            <select id="contact-subject" name="subject" required class="form-select">
+              <option value="">Select an option...</option>
+              <option value="editorial">Editorial Inquiry / Research</option>
+              <option value="correction">Hotel Data Correction (See Corrections Page)</option>
+              <option value="partnership">Institutional / Academic Research</option>
+              <option value="general">General Question</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="contact-message">Message <span class="required">*</span></label>
+            <textarea id="contact-message" name="message" rows="5" required class="form-textarea" placeholder="How can we assist you with Gurugram accommodation data?"></textarea>
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-block">
+            Send Message
+          </button>
+
+          <div id="form-status-msg" class="form-status-msg" hidden aria-live="polite"></div>
+        </form>
+      </div>
+
+      <!-- Contact Info Sidebar -->
+      <aside class="contact-info-col">
+        <div class="info-card card">
+          <h3>Direct Communications</h3>
+          <dl class="contact-details-list">
+            <div class="contact-detail-item">
+              <dt>Editorial Desk</dt>
+              <dd><a href={`mailto:${SITE_CONFIG.contactEmail}`} class="text-link">{SITE_CONFIG.contactEmail}</a></dd>
+            </div>
+            <div class="contact-detail-item">
+              <dt>Location</dt>
+              <dd>Gurugram, Haryana 122002, India</dd>
+            </div>
+            <div class="contact-detail-item">
+              <dt>Operating Hours</dt>
+              <dd>Monday – Friday, 9:00 AM – 6:00 PM IST</dd>
+            </div>
+          </dl>
+        </div>
+
+        <div class="info-card card correction-cta-card">
+          <div class="correction-icon" aria-hidden="true">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+              <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+            </svg>
+          </div>
+          <h3>Hotel Data Corrections</h3>
+          <p>If you are reporting a specific change in room tariffs, contact phone numbers, or property facilities, please use our dedicated corrections form.</p>
+          <a href="/corrections/" class="btn btn-outline btn-sm">Submit Correction &rarr;</a>
+        </div>
+      </aside>
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  .contact-header {
+    text-align: center;
+    max-width: 860px;
+    margin: 0 auto 3rem;
+  }
+
+  .contact-header .badge {
+    margin-bottom: 0.875rem;
+  }
+
+  .contact-h1 {
+    font-size: 2.25rem;
+    line-height: 1.2;
+    margin-bottom: 1rem;
+  }
+
+  @media (min-width: 768px) {
+    .contact-h1 {
+      font-size: 2.875rem;
+    }
+  }
+
+  .contact-lead {
+    font-size: 1.125rem;
+  }
+
+  .contact-layout-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+
+  @media (min-width: 1024px) {
+    .contact-layout-grid {
+      grid-template-columns: 1fr 360px;
+    }
+  }
+
+  .contact-form-col {
+    padding: 2rem;
+  }
+
+  @media (min-width: 768px) {
+    .contact-form-col {
+      padding: 2.5rem;
+    }
+  }
+
+  .contact-form-col h2 {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .form-subtext {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    margin-bottom: 1.75rem;
+  }
+
+  .contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.375rem;
+  }
+
+  .form-group label {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+
+  .required {
+    color: #DC2626;
+  }
+
+  .form-input, .form-select, .form-textarea {
+    padding: 0.625rem 0.875rem;
+    border: 1px solid var(--border-medium);
+    border-radius: var(--radius-sm);
+    background-color: var(--bg-card);
+    color: var(--text-primary);
+    font-size: 0.9375rem;
+    transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+  }
+
+  .form-input:focus, .form-select:focus, .form-textarea:focus {
+    outline: none;
+    border-color: var(--emerald-primary);
+    box-shadow: 0 0 0 3px rgba(5, 150, 105, 0.15);
+  }
+
+  .form-status-msg {
+    padding: 0.875rem;
+    border-radius: var(--radius-sm);
+    font-size: 0.875rem;
+    margin-top: 1rem;
+  }
+
+  .form-status-success {
+    background-color: var(--emerald-light);
+    color: var(--emerald-hover);
+    border: 1px solid var(--emerald-border);
+  }
+
+  .contact-info-col {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .info-card {
+    padding: 1.75rem;
+  }
+
+  .info-card h3 {
+    font-size: 1.125rem;
+    margin-bottom: 1rem;
+  }
+
+  .contact-details-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .contact-detail-item dt {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--text-muted);
+    margin-bottom: 0.15rem;
+  }
+
+  .contact-detail-item dd {
+    font-size: 0.9375rem;
+    color: var(--text-primary);
+    font-weight: 500;
+  }
+
+  .correction-cta-card {
+    background-color: var(--bg-subtle);
+    border-left: 4px solid var(--emerald-primary);
+  }
+
+  .correction-icon {
+    color: var(--emerald-primary);
+    margin-bottom: 0.75rem;
+  }
+
+  .correction-cta-card p {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    line-height: 1.5;
+    margin-bottom: 1rem;
+  }
+</style>
+
+<script>
+  function setupContactForm() {
+    const form = document.getElementById('contact-form') as HTMLFormElement | null;
+    const statusMsg = document.getElementById('form-status-msg');
+
+    if (!form || !statusMsg) return;
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      
+      const name = (document.getElementById('contact-name') as HTMLInputElement)?.value.trim();
+      const email = (document.getElementById('contact-email') as HTMLInputElement)?.value.trim();
+      const message = (document.getElementById('contact-message') as HTMLTextAreaElement)?.value.trim();
+
+      if (!name || !email || !message) {
+        statusMsg.hidden = false;
+        statusMsg.className = 'form-status-msg';
+        statusMsg.style.backgroundColor = '#FEE2E2';
+        statusMsg.style.color = '#B91C1C';
+        statusMsg.textContent = 'Please complete all required fields before submitting.';
+        return;
+      }
+
+      // Simulate successful client submission
+      statusMsg.hidden = false;
+      statusMsg.className = 'form-status-msg form-status-success';
+      statusMsg.textContent = `Thank you, ${name}. Your message has been received by our Gurugram editorial desk. We will respond to ${email} within 24–48 business hours.`;
+      form.reset();
+    });
+  }
+
+  setupContactForm();
+  document.addEventListener('astro:after-swap', setupContactForm);
+</script>

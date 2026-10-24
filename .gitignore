@@ -1,0 +1,22 @@
+# Dependencies
+node_modules/
+.pnpm-store/
+
+# Production build outputs
+dist/
+.astro/
+.vercel/
+
+# Environment files
+.env
+.env.production
+.env.local
+*.env.local
+
+# OS / Editor artifacts
+.DS_Store
+Thumbs.db
+*.log
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json

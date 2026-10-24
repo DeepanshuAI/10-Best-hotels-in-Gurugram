@@ -1,0 +1,329 @@
+---
+import { SITE_CONFIG } from '../lib/site-config';
+
+interface Props {
+  activePath?: string;
+}
+
+const { activePath = Astro.url.pathname } = Astro.props;
+
+const navItems = [
+  { label: 'Directory', href: '/' },
+  { label: 'Luxury Stays', href: '/luxury-hotels-in-gurugram/' },
+  { label: 'Business Stays', href: '/business-hotels-in-gurugram/' },
+  { label: 'Budget Stays', href: '/budget-hotels-in-gurugram/' },
+  { label: 'Guides', href: '/guides/where-to-stay-in-gurugram/' },
+  { label: 'Methodology', href: '/how-we-choose-hotels/' },
+];
+
+const locationItems = [
+  { label: 'Cyber City', href: '/hotels-near-cyber-city/' },
+  { label: 'Golf Course Road', href: '/hotels-near-golf-course-road/' },
+  { label: 'Udyog Vihar', href: '/hotels-near-udyog-vihar/' },
+  { label: 'MG Road', href: '/hotels-near-mg-road-gurugram/' },
+  { label: 'Sohna Road', href: '/hotels-near-sohna-road/' },
+];
+---
+
+<header class="site-header" role="banner">
+  <div class="container header-container">
+    <a href="/" class="brand-link" aria-label="Best Hotels in Gurugram - Home">
+      <div class="brand-icon" aria-hidden="true">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M3 21h18M5 21V7l8-4v18M19 21V11l-6-3M9 9h1M9 13h1M9 17h1M15 13h1M15 17h1" />
+        </svg>
+      </div>
+      <div class="brand-text">
+        <span class="brand-title">{SITE_CONFIG.name}</span>
+        <span class="brand-subtitle">Gurugram, Haryana</span>
+      </div>
+    </a>
+
+    <!-- Desktop Navigation -->
+    <nav class="desktop-nav" aria-label="Primary navigation">
+      <ul class="nav-list" role="list">
+        {navItems.map((item) => {
+          const isActive = activePath === item.href || (item.href !== '/' && activePath.startsWith(item.href));
+          return (
+            <li class="nav-item">
+              <a
+                href={item.href}
+                class:list={['nav-link', { 'nav-link-active': isActive }]}
+                aria-current={isActive ? 'page' : undefined}
+              >
+                {item.label}
+              </a>
+            </li>
+          );
+        })}
+      </ul>
+    </nav>
+
+    <!-- Quick Location Bar (Sub-Navigation) -->
+    <div class="header-actions">
+      <a href="/guides/where-to-stay-in-gurugram/" class="btn btn-outline btn-sm district-guide-btn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <circle cx="12" cy="12" r="10"/>
+          <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20M2 12h20"/>
+        </svg>
+        Area Guide
+      </a>
+      <button
+        id="mobile-menu-toggle"
+        class="mobile-menu-btn"
+        aria-label="Toggle navigation menu"
+        aria-expanded="false"
+        aria-controls="mobile-nav-drawer"
+      >
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Mobile Drawer -->
+  <div id="mobile-nav-drawer" class="mobile-drawer" hidden>
+    <div class="container mobile-drawer-content">
+      <nav aria-label="Mobile Navigation">
+        <div class="mobile-nav-section">
+          <span class="mobile-nav-heading">Main Directory</span>
+          <ul class="mobile-nav-list" role="list">
+            {navItems.map((item) => (
+              <li>
+                <a href={item.href} class="mobile-nav-link">{item.label}</a>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <div class="mobile-nav-section">
+          <span class="mobile-nav-heading">Business Corridors</span>
+          <ul class="mobile-nav-list" role="list">
+            {locationItems.map((loc) => (
+              <li>
+                <a href={loc.href} class="mobile-nav-link">{loc.label}</a>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <div class="mobile-nav-section">
+          <span class="mobile-nav-heading">Trust & Editorial</span>
+          <ul class="mobile-nav-list" role="list">
+            <li><a href="/how-we-choose-hotels/" class="mobile-nav-link">Selection Methodology</a></li>
+            <li><a href="/editorial-policy/" class="mobile-nav-link">Editorial Policy</a></li>
+            <li><a href="/corrections/" class="mobile-nav-link">Report a Correction</a></li>
+            <li><a href="/about/" class="mobile-nav-link">About This Directory</a></li>
+          </ul>
+        </div>
+      </nav>
+    </div>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    background-color: var(--bg-card);
+    border-bottom: 1px solid var(--border-subtle);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .header-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 4.25rem;
+  }
+
+  .brand-link {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    color: var(--text-primary);
+  }
+
+  .brand-icon {
+    width: 2.25rem;
+    height: 2.25rem;
+    background-color: var(--emerald-light);
+    color: var(--emerald-primary);
+    border-radius: var(--radius-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--emerald-border);
+  }
+
+  .brand-text {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .brand-title {
+    font-weight: 700;
+    font-size: 1.0625rem;
+    line-height: 1.2;
+    color: var(--text-primary);
+  }
+
+  .brand-subtitle {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    font-weight: 500;
+  }
+
+  .desktop-nav {
+    display: none;
+  }
+
+  @media (min-width: 900px) {
+    .desktop-nav {
+      display: block;
+    }
+  }
+
+  .nav-list {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    list-style: none;
+  }
+
+  .nav-link {
+    font-size: 0.9375rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+    padding: 0.375rem 0.25rem;
+    border-bottom: 2px solid transparent;
+    transition: all var(--transition-fast);
+  }
+
+  .nav-link:hover {
+    color: var(--emerald-primary);
+  }
+
+  .nav-link-active {
+    color: var(--emerald-primary);
+    font-weight: 600;
+    border-bottom-color: var(--emerald-primary);
+  }
+
+  .header-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .district-guide-btn {
+    display: none;
+  }
+
+  @media (min-width: 640px) {
+    .district-guide-btn {
+      display: inline-flex;
+    }
+  }
+
+  .mobile-menu-btn {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    width: 2.25rem;
+    height: 2.25rem;
+    background: transparent;
+    border: 1px solid var(--border-medium);
+    border-radius: var(--radius-sm);
+    padding: 0.4rem;
+    cursor: pointer;
+  }
+
+  @media (min-width: 900px) {
+    .mobile-menu-btn {
+      display: none;
+    }
+  }
+
+  .hamburger-line {
+    width: 100%;
+    height: 2px;
+    background-color: var(--text-primary);
+    border-radius: 1px;
+    transition: transform var(--transition-fast);
+  }
+
+  /* Mobile Drawer */
+  .mobile-drawer {
+    border-top: 1px solid var(--border-subtle);
+    background-color: var(--bg-card);
+    padding: 1.5rem 0 2rem;
+    max-height: calc(100vh - 4.25rem);
+    overflow-y: auto;
+  }
+
+  .mobile-drawer[hidden] {
+    display: none;
+  }
+
+  .mobile-nav-section {
+    margin-bottom: 1.5rem;
+  }
+
+  .mobile-nav-heading {
+    display: block;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-muted);
+    margin-bottom: 0.625rem;
+  }
+
+  .mobile-nav-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.375rem;
+  }
+
+  .mobile-nav-link {
+    display: block;
+    padding: 0.5rem 0;
+    color: var(--text-primary);
+    font-size: 1rem;
+    font-weight: 500;
+  }
+
+  .mobile-nav-link:hover {
+    color: var(--emerald-primary);
+  }
+</style>
+
+<script>
+  function setupMobileMenu() {
+    const toggleBtn = document.getElementById('mobile-menu-toggle');
+    const drawer = document.getElementById('mobile-nav-drawer');
+
+    if (!toggleBtn || !drawer) return;
+
+    toggleBtn.addEventListener('click', () => {
+      const isExpanded = toggleBtn.getAttribute('aria-expanded') === 'true';
+      toggleBtn.setAttribute('aria-expanded', String(!isExpanded));
+      drawer.hidden = isExpanded;
+    });
+
+    // Close on escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && !drawer.hidden) {
+        toggleBtn.setAttribute('aria-expanded', 'false');
+        drawer.hidden = true;
+        toggleBtn.focus();
+      }
+    });
+  }
+
+  setupMobileMenu();
+  document.addEventListener('astro:after-swap', setupMobileMenu);
+</script>

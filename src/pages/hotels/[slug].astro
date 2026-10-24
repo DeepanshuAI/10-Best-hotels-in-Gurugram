@@ -1,0 +1,885 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import RatingBadge from '../../components/RatingBadge.astro';
+import HotelCard from '../../components/HotelCard.astro';
+import { HOTELS } from '../../data/hotels';
+import type { HotelRecord } from '../../data/types';
+import { formatINR } from '../../lib/site-config';
+import { generateHotelSchema, generateBreadcrumbSchema } from '../../lib/seo';
+
+export async function getStaticPaths() {
+  return HOTELS.map((hotel) => ({
+    params: { slug: hotel.slug },
+    props: { hotel },
+  }));
+}
+
+interface Props {
+  hotel: HotelRecord;
+}
+
+const { hotel } = Astro.props;
+
+const pageTitle = `${hotel.officialName} Gurugram: Verified Review, Amenities & Location Guide (2026)`;
+const pageDescription = `Independent review of ${hotel.officialName} in ${hotel.address.locality}, Gurugram. Verified starting rates from ${formatINR(hotel.indicativeStartingRateINR)}, metro transit times, meeting facilities & honest caveats.`;
+
+const breadcrumbs = [
+  { label: 'Hotels', href: '/' },
+  { label: hotel.officialName, href: `/hotels/${hotel.slug}/` }
+];
+
+const hotelSchema = generateHotelSchema(hotel);
+const breadcrumbSchema = generateBreadcrumbSchema([
+  { name: 'Home', url: '/' },
+  { name: 'Hotels', url: '/' },
+  { name: hotel.officialName, url: `/hotels/${hotel.slug}/` },
+]);
+
+// Find related hotels in the same primary district or category
+const relatedHotels = HOTELS
+  .filter((h) => h.id !== hotel.id && (h.primaryDistrict === hotel.primaryDistrict || h.category === hotel.category))
+  .slice(0, 3);
+---
+
+<BaseLayout
+  title={pageTitle}
+  description={pageDescription}
+  canonicalPath={`/hotels/${hotel.slug}/`}
+  ogImage={hotel.heroImage.src}
+  jsonLd={[hotelSchema, breadcrumbSchema]}
+>
+  <Breadcrumbs items={breadcrumbs} />
+
+  <!-- Hotel Hero Section -->
+  <article class="hotel-profile-page">
+    <header class="profile-header container">
+      <div class="header-badges">
+        <span class="badge badge-emerald">{hotel.brand}</span>
+        <span class="badge badge-neutral">{hotel.primaryDistrict}</span>
+        <span class="badge badge-gold">{hotel.priceTier} Tier</span>
+        <span class="verification-status-pill">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+            <polyline points="20 6 9 17 4 12"/>
+          </svg>
+          Audit Status: Verified ({hotel.lastVerifiedDate})
+        </span>
+      </div>
+
+      <h1 class="profile-h1">{hotel.officialName}</h1>
+
+      <p class="lead profile-lead">{hotel.summary}</p>
+
+      <div class="profile-header-meta">
+        <div class="meta-item">
+          <RatingBadge benchmark={hotel.ratingBenchmark} size="md" />
+        </div>
+        <div class="meta-divider" aria-hidden="true">&bull;</div>
+        <div class="meta-item address-meta">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+            <circle cx="12" cy="10" r="3"/>
+          </svg>
+          <span>{hotel.address.street}, {hotel.address.locality}, Gurugram {hotel.address.postalCode}</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Visual Media Container -->
+    <div class="container hero-image-container">
+      <div class="profile-image-wrap card">
+        <img
+          src={hotel.heroImage.src}
+          alt={hotel.heroImage.alt}
+          width="1200"
+          height="675"
+          fetchpriority="high"
+          class="profile-hero-image"
+        />
+        <figcaption class="profile-image-caption">
+          {hotel.heroImage.caption}
+        </figcaption>
+      </div>
+    </div>
+
+    <!-- Main Content Grid -->
+    <div class="container profile-layout-grid section-padding">
+      <!-- Left Column: Deep Content -->
+      <div class="profile-main-content">
+        <!-- Overview Section -->
+        <section class="content-block" aria-labelledby="overview-heading">
+          <h2 id="overview-heading">Property Overview & Character</h2>
+          <p class="body-text">{hotel.inDepthDescription}</p>
+        </section>
+
+        <!-- Best For Section -->
+        <section class="content-block" aria-labelledby="best-for-heading">
+          <h2 id="best-for-heading">Who This Hotel Suits Best</h2>
+          <ul class="best-for-list" role="list">
+            {hotel.bestFor.map((item: string) => (
+              <li class="best-for-item">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2.5" aria-hidden="true">
+                  <polyline points="20 6 9 17 4 12"/>
+                </svg>
+                <span>{item}</span>
+              </li>
+            ))}
+          </ul>
+        </section>
+
+        <!-- Balanced Evaluation: Strengths vs Considerations -->
+        <section class="content-block" aria-labelledby="evaluation-heading">
+          <h2 id="evaluation-heading">Balanced Editorial Evaluation</h2>
+          <div class="evaluation-grid">
+            <div class="eval-column card eval-strengths">
+              <div class="eval-header strengths-header">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                  <path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/>
+                </svg>
+                <h3>Key Strengths</h3>
+              </div>
+              <ul class="eval-list" role="list">
+                {hotel.keyStrengths.map((str: string) => (
+                  <li>{str}</li>
+                ))}
+              </ul>
+            </div>
+
+            <div class="eval-column card eval-considerations">
+              <div class="eval-header considerations-header">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                  <circle cx="12" cy="12" r="10"/>
+                  <line x1="12" y1="8" x2="12" y2="12"/>
+                  <line x1="12" y1="16" x2="12.01" y2="16"/>
+                </svg>
+                <h3>Things to Keep in Mind</h3>
+              </div>
+              <ul class="eval-list" role="list">
+                {hotel.considerations.map((con: string) => (
+                  <li>{con}</li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <!-- Transit Reality Section -->
+        <section class="content-block" aria-labelledby="transit-heading">
+          <h2 id="transit-heading">The Gurugram Transit Reality</h2>
+          <div class="transit-card card">
+            <div class="transit-metric-grid">
+              <div class="transit-metric">
+                <span class="metric-label">Nearest Metro Station</span>
+                <span class="metric-value">{hotel.transit.nearestMetroStation}</span>
+                <span class="metric-sub">{hotel.transit.metroLine} &bull; {hotel.transit.distanceToMetroKm} km ({hotel.transit.walkingTimeToMetroMin} min walk)</span>
+              </div>
+
+              <div class="transit-metric">
+                <span class="metric-label">Commute to DLF Cyber City</span>
+                <span class="metric-value">{hotel.transit.driveTimeToCyberCityMin} min drive</span>
+                <span class="metric-sub">Via direct highway or signal-free underpass</span>
+              </div>
+
+              <div class="transit-metric">
+                <span class="metric-label">Indira Gandhi Airport (DEL T3)</span>
+                <span class="metric-value">{hotel.transit.driveTimeToIGI_T3Min} min drive</span>
+                <span class="metric-sub">Direct access via NH-48 or Northern Peripheral Road</span>
+              </div>
+
+              <div class="transit-metric">
+                <span class="metric-label">Expressway Access Point</span>
+                <span class="metric-value">{hotel.transit.highwayAccess}</span>
+              </div>
+            </div>
+
+            <div class="transit-advice-box">
+              <strong>Local Commute Tip:</strong> {hotel.transit.transitTips}
+            </div>
+          </div>
+        </section>
+
+        <!-- Verified Amenities Matrix -->
+        <section class="content-block" aria-labelledby="amenities-heading">
+          <h2 id="amenities-heading">Verified Property Amenities</h2>
+          <div class="amenities-grid">
+            {hotel.verifiedAmenities.map((amenity: string) => (
+              <div class="amenity-item">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2" aria-hidden="true">
+                  <polyline points="20 6 9 17 4 12"/>
+                </svg>
+                <span>{amenity}</span>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <!-- Business Facilities -->
+        <section class="content-block" aria-labelledby="business-facilities-heading">
+          <h2 id="business-facilities-heading">Corporate & Meeting Facilities</h2>
+          <div class="business-facilities-list">
+            {hotel.businessFacilities.map((bf: string) => (
+              <div class="bf-item card">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                  <rect x="2" y="7" width="20" height="14" rx="2" ry="2"/>
+                  <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>
+                </svg>
+                <span>{bf}</span>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <!-- Dining Venues -->
+        <section class="content-block" aria-labelledby="dining-heading">
+          <h2 id="dining-heading">On-Site Dining & Gastronomy</h2>
+          <div class="dining-cards-list">
+            {hotel.diningVenues.map((venue: string) => (
+              <div class="dining-card card">
+                <div class="dining-icon" aria-hidden="true">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M18 8h1a4 4 0 0 1 0 8h-1"/>
+                    <path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/>
+                    <line x1="6" y1="1" x2="6" y2="4"/>
+                    <line x1="10" y1="1" x2="10" y2="4"/>
+                    <line x1="14" y1="1" x2="14" y2="4"/>
+                  </svg>
+                </div>
+                <div class="dining-info">
+                  <p class="dining-venue-text">{venue}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <!-- Editorial Rationale & Sourcing -->
+        <section class="content-block editorial-box card" aria-labelledby="editorial-heading">
+          <h3 id="editorial-heading">Directory Selection Rationale</h3>
+          <p>{hotel.editorialRationale}</p>
+          <div class="sourcing-meta">
+            <span><strong>Primary Source:</strong> {hotel.verificationSource}</span>
+            <span>&bull;</span>
+            <span><strong>Last Audit:</strong> {hotel.lastVerifiedDate}</span>
+          </div>
+          <div class="corrections-prompt">
+            Notice a change in rates or amenities? <a href="/corrections/" class="text-link">Submit a correction request</a> to help fellow travelers.
+          </div>
+        </section>
+      </div>
+
+      <!-- Right Column: Sticky Quick-Facts Card -->
+      <aside class="profile-sidebar" aria-label="Hotel quick reservation facts">
+        <div class="sidebar-sticky-card card">
+          <div class="sidebar-price-header">
+            <span class="sidebar-price-label">Indicative starting tariff</span>
+            <div class="sidebar-price-value">
+              <span class="amount">{formatINR(hotel.indicativeStartingRateINR)}</span>
+              <span class="period">/ night</span>
+            </div>
+            <span class="sidebar-price-date">Recorded {hotel.rateVerificationDate}</span>
+          </div>
+
+          <div class="sidebar-actions">
+            <a
+              href={hotel.officialBookingUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="btn btn-primary btn-block"
+            >
+              Check Availability & Rates
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+                <polyline points="15 3 21 3 21 9"/>
+                <line x1="10" y1="14" x2="21" y2="3"/>
+              </svg>
+            </a>
+            <a
+              href={hotel.officialWebsite}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="btn btn-outline btn-block"
+            >
+              Official Hotel Website
+            </a>
+          </div>
+
+          <hr class="sidebar-divider" />
+
+          <!-- Key Specifications Table -->
+          <div class="sidebar-specs">
+            <h4 class="specs-title">Property Details</h4>
+            <dl class="specs-list">
+              <div class="spec-row">
+                <dt>Property Type</dt>
+                <dd>{hotel.category.toUpperCase()}</dd>
+              </div>
+              <div class="spec-row">
+                <dt>Hospitality Group</dt>
+                <dd>{hotel.brand}</dd>
+              </div>
+              <div class="spec-row">
+                <dt>Primary Zone</dt>
+                <dd>{hotel.primaryDistrict}</dd>
+              </div>
+              <div class="spec-row">
+                <dt>Direct Telephone</dt>
+                <dd><a href={`tel:${hotel.phone}`} class="tel-link">{hotel.phone}</a></dd>
+              </div>
+              <div class="spec-row">
+                <dt>Postal Code</dt>
+                <dd>{hotel.address.postalCode}</dd>
+              </div>
+              <div class="spec-row">
+                <dt>GPS Coordinates</dt>
+                <dd>{hotel.coordinates.latitude.toFixed(4)}, {hotel.coordinates.longitude.toFixed(4)}</dd>
+              </div>
+            </dl>
+          </div>
+
+          <!-- Trust Callout -->
+          <div class="sidebar-trust-box">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <circle cx="12" cy="12" r="10"/>
+              <line x1="12" y1="16" x2="12" y2="12"/>
+              <line x1="12" y1="8" x2="12.01" y2="8"/>
+            </svg>
+            <span>Independent non-commercial listing. We receive zero commission on direct bookings.</span>
+          </div>
+        </div>
+      </aside>
+    </div>
+
+    <!-- Related Accommodations Section -->
+    {relatedHotels.length > 0 && (
+      <section class="container related-hotels-section section-padding">
+        <div class="related-header">
+          <span class="badge badge-emerald">Alternative Stays</span>
+          <h2>Similar Hotels in {hotel.primaryDistrict}</h2>
+          <p>Compare with other verified properties in the same corridor.</p>
+        </div>
+        <div class="related-grid">
+          {relatedHotels.map((rel: HotelRecord) => (
+            <HotelCard hotel={rel} />
+          ))}
+        </div>
+      </section>
+    )}
+  </article>
+</BaseLayout>
+
+<style>
+  .profile-header {
+    padding-top: 1.5rem;
+    padding-bottom: 2rem;
+  }
+
+  .header-badges {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .verification-status-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--emerald-primary);
+    background-color: var(--emerald-light);
+    border: 1px solid var(--emerald-border);
+    padding: 0.2rem 0.5rem;
+    border-radius: var(--radius-full);
+  }
+
+  .profile-h1 {
+    font-size: 2.25rem;
+    line-height: 1.15;
+    margin-bottom: 0.75rem;
+  }
+
+  @media (min-width: 768px) {
+    .profile-h1 {
+      font-size: 3rem;
+    }
+  }
+
+  .profile-lead {
+    font-size: 1.125rem;
+    max-width: 850px;
+    margin-bottom: 1.25rem;
+  }
+
+  .profile-header-meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+  }
+
+  .meta-divider {
+    color: var(--border-medium);
+  }
+
+  .address-meta {
+    display: flex;
+    align-items: center;
+    gap: 0.375rem;
+  }
+
+  /* Hero Image */
+  .hero-image-container {
+    margin-bottom: 1rem;
+  }
+
+  .profile-image-wrap {
+    overflow: hidden;
+    background-color: var(--bg-dark);
+  }
+
+  .profile-hero-image {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+  }
+
+  .profile-image-caption {
+    padding: 0.75rem 1rem;
+    font-size: 0.8125rem;
+    color: var(--text-muted);
+    background-color: var(--bg-card);
+    border-top: 1px solid var(--border-subtle);
+  }
+
+  /* Layout Grid */
+  .profile-layout-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+
+  @media (min-width: 1024px) {
+    .profile-layout-grid {
+      grid-template-columns: 1fr 360px;
+    }
+  }
+
+  .content-block {
+    margin-bottom: 3rem;
+  }
+
+  .content-block h2 {
+    margin-bottom: 1.25rem;
+    border-bottom: 2px solid var(--bg-subtle);
+    padding-bottom: 0.5rem;
+  }
+
+  .body-text {
+    font-size: 1.0625rem;
+    line-height: 1.7;
+    color: var(--text-secondary);
+  }
+
+  /* Best For List */
+  .best-for-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .best-for-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.625rem;
+    background-color: var(--emerald-light);
+    border: 1px solid var(--emerald-border);
+    padding: 0.875rem 1.25rem;
+    border-radius: var(--radius-md);
+    font-size: 0.9375rem;
+    color: var(--emerald-hover);
+    font-weight: 500;
+  }
+
+  .best-for-item svg {
+    flex-shrink: 0;
+    margin-top: 0.15rem;
+  }
+
+  /* Evaluation Grid */
+  .evaluation-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+
+  @media (min-width: 640px) {
+    .evaluation-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  .eval-column {
+    padding: 1.5rem;
+  }
+
+  .eval-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--border-subtle);
+  }
+
+  .strengths-header {
+    color: var(--emerald-primary);
+  }
+
+  .considerations-header {
+    color: #B45309;
+  }
+
+  .eval-header h3 {
+    font-size: 1.0625rem;
+    margin-bottom: 0;
+    color: inherit;
+  }
+
+  .eval-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.625rem;
+  }
+
+  .eval-list li {
+    font-size: 0.875rem;
+    line-height: 1.5;
+    color: var(--text-secondary);
+    position: relative;
+    padding-left: 1.25rem;
+  }
+
+  .eval-strengths .eval-list li::before {
+    content: "✓";
+    position: absolute;
+    left: 0;
+    color: var(--emerald-primary);
+    font-weight: bold;
+  }
+
+  .eval-considerations .eval-list li::before {
+    content: "!";
+    position: absolute;
+    left: 0;
+    color: #B45309;
+    font-weight: bold;
+  }
+
+  /* Transit Card */
+  .transit-card {
+    padding: 1.75rem;
+  }
+
+  .transit-metric-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+    margin-bottom: 1.5rem;
+  }
+
+  @media (min-width: 640px) {
+    .transit-metric-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  .transit-metric {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .metric-label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--text-muted);
+  }
+
+  .metric-value {
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: var(--text-primary);
+  }
+
+  .metric-sub {
+    font-size: 0.8125rem;
+    color: var(--text-secondary);
+  }
+
+  .transit-advice-box {
+    padding: 1rem;
+    background-color: var(--bg-subtle);
+    border-radius: var(--radius-sm);
+    font-size: 0.875rem;
+    line-height: 1.5;
+    color: var(--text-secondary);
+  }
+
+  /* Amenities Grid */
+  .amenities-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+
+  @media (min-width: 640px) {
+    .amenities-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  .amenity-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.9375rem;
+    color: var(--text-secondary);
+    padding: 0.5rem 0.75rem;
+    background-color: var(--bg-subtle);
+    border-radius: var(--radius-sm);
+  }
+
+  /* Business Facilities List */
+  .business-facilities-list {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+
+  .bf-item {
+    padding: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 0.9375rem;
+    color: var(--text-primary);
+  }
+
+  .bf-item svg {
+    color: var(--emerald-primary);
+    flex-shrink: 0;
+  }
+
+  /* Dining Cards */
+  .dining-cards-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .dining-card {
+    padding: 1rem 1.25rem;
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+
+  .dining-icon {
+    width: 2.25rem;
+    height: 2.25rem;
+    background-color: var(--bg-subtle);
+    border-radius: var(--radius-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--emerald-primary);
+    flex-shrink: 0;
+  }
+
+  .dining-venue-text {
+    font-size: 0.9375rem;
+    color: var(--text-primary);
+    margin-bottom: 0;
+    line-height: 1.5;
+  }
+
+  /* Editorial Box */
+  .editorial-box {
+    padding: 1.75rem;
+    background-color: var(--bg-subtle);
+    border-left: 4px solid var(--emerald-primary);
+  }
+
+  .editorial-box h3 {
+    font-size: 1.125rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .sourcing-meta {
+    font-size: 0.8125rem;
+    color: var(--text-muted);
+    margin-top: 0.75rem;
+    margin-bottom: 0.75rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .corrections-prompt {
+    font-size: 0.8125rem;
+    color: var(--text-secondary);
+    padding-top: 0.75rem;
+    border-top: 1px solid var(--border-subtle);
+  }
+
+  /* Sidebar */
+  .sidebar-sticky-card {
+    position: sticky;
+    top: 5.5rem;
+    padding: 1.75rem;
+  }
+
+  .sidebar-price-header {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1.25rem;
+  }
+
+  .sidebar-price-label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--text-muted);
+  }
+
+  .sidebar-price-value {
+    display: flex;
+    align-items: baseline;
+    gap: 0.375rem;
+    margin-top: 0.25rem;
+  }
+
+  .sidebar-price-value .amount {
+    font-size: 1.875rem;
+    font-weight: 800;
+    color: var(--text-primary);
+  }
+
+  .sidebar-price-value .period {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+  }
+
+  .sidebar-price-date {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    margin-top: 0.15rem;
+  }
+
+  .sidebar-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 0.625rem;
+  }
+
+  .btn-block {
+    width: 100%;
+  }
+
+  .sidebar-divider {
+    margin: 1.5rem 0;
+    border: 0;
+    border-top: 1px solid var(--border-subtle);
+  }
+
+  .specs-title {
+    font-size: 0.875rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-muted);
+    margin-bottom: 0.875rem;
+  }
+
+  .specs-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.625rem;
+    font-size: 0.875rem;
+  }
+
+  .spec-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 0.5rem;
+    padding-bottom: 0.375rem;
+    border-bottom: 1px dashed var(--border-subtle);
+  }
+
+  .spec-row dt {
+    color: var(--text-muted);
+    flex-shrink: 0;
+  }
+
+  .spec-row dd {
+    font-weight: 600;
+    color: var(--text-primary);
+    text-align: right;
+  }
+
+  .tel-link {
+    color: var(--emerald-primary);
+  }
+
+  .sidebar-trust-box {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+    margin-top: 1.5rem;
+    padding: 0.75rem;
+    background-color: var(--bg-subtle);
+    border-radius: var(--radius-sm);
+    font-size: 0.75rem;
+    line-height: 1.4;
+    color: var(--text-muted);
+  }
+
+  .sidebar-trust-box svg {
+    flex-shrink: 0;
+    margin-top: 0.1rem;
+    color: var(--emerald-primary);
+  }
+
+  /* Related Section */
+  .related-header {
+    text-align: center;
+    max-width: 600px;
+    margin: 0 auto 2.5rem;
+  }
+
+  .related-header .badge {
+    margin-bottom: 0.5rem;
+  }
+
+  .related-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.75rem;
+  }
+
+  @media (min-width: 768px) {
+    .related-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+</style>

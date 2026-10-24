@@ -1,0 +1,197 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import { generateBreadcrumbSchema } from '../../lib/seo';
+
+const title = 'Privacy Policy: Best Hotels in Gurugram (2026)';
+const description = 'Our privacy policy regarding data collection, zero third-party tracking, visitor rights, and contact information handling.';
+
+const breadcrumbs = [
+  { label: 'Privacy Policy', href: '/privacy-policy/' }
+];
+
+const breadcrumbSchema = generateBreadcrumbSchema([
+  { name: 'Home', url: '/' },
+  { name: 'Privacy Policy', url: '/privacy-policy/' },
+]);
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  canonicalPath="/privacy-policy/"
+  jsonLd={breadcrumbSchema}
+>
+  <Breadcrumbs items={breadcrumbs} />
+
+  <article class="privacy-page container section-padding">
+    <header class="privacy-header">
+      <span class="badge badge-neutral">Legal Compliance</span>
+      <h1 class="privacy-h1">Privacy Policy</h1>
+      <p class="lead privacy-lead">
+        Your privacy is paramount. This policy describes how Best Hotels in Gurugram handles visitor data, communications, and server logs.
+      </p>
+    </header>
+
+    <div class="privacy-content-layout">
+      <div class="privacy-main">
+        <section class="privacy-section">
+          <h2>1. Overview & Core Privacy Commitment</h2>
+          <p>
+            Best Hotels in Gurugram is an informational and comparison directory. We do not operate booking checkout engines, process financial payments, or maintain user registration accounts.
+          </p>
+          <p>
+            We do not sell, rent, monetize, or trade visitor personal data to commercial third parties, ad networks, or data brokers.
+          </p>
+        </section>
+
+        <section class="privacy-section">
+          <h2>2. Information We Collect</h2>
+          <ul>
+            <li><strong>Form Submissions:</strong> When you submit a message via our Contact or Corrections forms, we collect your name, email address, and submitted details solely to investigate your inquiry or apply factual directory updates.</li>
+            <li><strong>Technical Server Logs:</strong> Standard web hosting servers may log non-identifiable technical data (such as IP addresses, browser user-agent, referring URLs, and access timestamps) for security diagnostics and DDoS mitigation.</li>
+          </ul>
+        </section>
+
+        <section class="privacy-section">
+          <h2>3. Cookies & Tracking Technologies</h2>
+          <p>
+            This website does not use invasive third-party behavioral advertising cookies or cross-site tracking pixels. Local browser storage may be used strictly to retain temporary client-side interface states (such as active directory filter selections) without tracking personal identity.
+          </p>
+        </section>
+
+        <section class="privacy-section">
+          <h2>4. External Links to Hotel Websites</h2>
+          <p>
+            Our directory provides direct outbound links to official hotel websites (e.g., Oberoi Hotels, Marriott, Accor, The Leela, Taj/IHCL, Bloom Hotels). When clicking an external link, you are subject to the respective property’s own terms of service and privacy policies.
+          </p>
+        </section>
+
+        <section class="privacy-section">
+          <h2>5. Your Rights & Inquiries</h2>
+          <p>
+            Under applicable data protection laws (including the Digital Personal Data Protection Act of India), you have the right to request access to or deletion of any correspondence sent to our editorial desk.
+          </p>
+          <p>
+            To exercise these rights, please email <a href="mailto:editor@besthotelsingurugram.com" class="text-link">editor@besthotelsingurugram.com</a> with the subject line <code>[Data Privacy Inquiry]</code>.
+          </p>
+        </section>
+      </div>
+
+      <aside class="privacy-sidebar">
+        <div class="sidebar-box card">
+          <h3>Directory Policies</h3>
+          <ul class="sidebar-links" role="list">
+            <li><a href="/editorial-policy/">Editorial Policy</a></li>
+            <li><a href="/how-we-choose-hotels/">Selection Methodology</a></li>
+            <li><a href="/about/">About This Directory</a></li>
+            <li><a href="/corrections/">Submit Corrections</a></li>
+            <li><a href="/contact/">Contact Our Desk</a></li>
+          </ul>
+        </div>
+      </aside>
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  .privacy-header {
+    text-align: center;
+    max-width: 860px;
+    margin: 0 auto 3rem;
+  }
+
+  .privacy-header .badge {
+    margin-bottom: 0.875rem;
+  }
+
+  .privacy-h1 {
+    font-size: 2.25rem;
+    line-height: 1.2;
+    margin-bottom: 1rem;
+  }
+
+  @media (min-width: 768px) {
+    .privacy-h1 {
+      font-size: 2.875rem;
+    }
+  }
+
+  .privacy-lead {
+    font-size: 1.125rem;
+  }
+
+  .privacy-content-layout {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+
+  @media (min-width: 1024px) {
+    .privacy-content-layout {
+      grid-template-columns: 1fr 320px;
+    }
+  }
+
+  .privacy-section {
+    margin-bottom: 3rem;
+  }
+
+  .privacy-section h2 {
+    font-size: 1.625rem;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--bg-subtle);
+  }
+
+  .privacy-section p {
+    font-size: 1.0625rem;
+    line-height: 1.75;
+    color: var(--text-secondary);
+    margin-bottom: 1.25rem;
+  }
+
+  .privacy-section ul {
+    padding-left: 1.5rem;
+    margin-bottom: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    font-size: 1.0625rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+  }
+
+  .sidebar-box {
+    padding: 1.5rem;
+    position: sticky;
+    top: 5.5rem;
+  }
+
+  .sidebar-box h3 {
+    font-size: 1rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-muted);
+    margin-bottom: 1rem;
+  }
+
+  .sidebar-links {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    font-size: 0.9375rem;
+  }
+
+  .sidebar-links a {
+    color: var(--text-primary);
+    font-weight: 500;
+    transition: color var(--transition-fast);
+  }
+
+  .sidebar-links a:hover {
+    color: var(--emerald-primary);
+  }
+</style>

@@ -1,0 +1,201 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import HotelCard from '../../components/HotelCard.astro';
+import FaqAccordion from '../../components/FaqAccordion.astro';
+import { HOTELS } from '../../data/hotels';
+import { CATEGORY_HUBS } from '../../data/categories';
+import { generateItemListSchema, generateBreadcrumbSchema, generateFaqSchema } from '../../lib/seo';
+
+const hub = CATEGORY_HUBS['hotels-near-golf-course-road'];
+const golfCourseHotels = HOTELS.filter((h) => h.districts.includes('Golf Course Road'));
+
+const breadcrumbs = [
+  { label: hub.title, href: '/hotels-near-golf-course-road/' }
+];
+
+const itemListSchema = generateItemListSchema(hub.title, golfCourseHotels, 'hotels-near-golf-course-road');
+const breadcrumbSchema = generateBreadcrumbSchema([
+  { name: 'Home', url: '/' },
+  { name: hub.title, url: '/hotels-near-golf-course-road/' },
+]);
+const faqSchema = generateFaqSchema(hub.faqItems);
+---
+
+<BaseLayout
+  title={hub.metaTitle}
+  description={hub.metaDescription}
+  canonicalPath="/hotels-near-golf-course-road/"
+  jsonLd={[itemListSchema, breadcrumbSchema, faqSchema]}
+>
+  <Breadcrumbs items={breadcrumbs} />
+
+  <section class="hub-hero">
+    <div class="container hub-hero-container">
+      <span class="badge badge-emerald">Golf Course Road Corridor</span>
+      <h1 class="hub-h1">{hub.h1}</h1>
+      <p class="lead hub-lead">{hub.heroLead}</p>
+      <div class="hub-stats-bar">
+        <span class="hub-stat"><strong>{golfCourseHotels.length} Verified Properties</strong></span>
+        <span>&bull;</span>
+        <span class="hub-stat">Rapid Metro: Sector 42, 53 & 56</span>
+        <span>&bull;</span>
+        <span class="hub-stat">Tariffs: ₹3,600 – ₹15,500</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="container section-padding">
+    <div class="hub-grid-intro">
+      <h2>Accommodations Along Golf Course Road</h2>
+      <p>From architectural luxury flagships like Grand Hyatt to full-service Hilton corporate stays and smart budget rooms (ibis, Bloom) with direct Rapid Metro walkability.</p>
+    </div>
+
+    <div class="hotel-grid">
+      {golfCourseHotels.map((hotel) => (
+        <HotelCard hotel={hotel} />
+      ))}
+    </div>
+  </section>
+
+  <!-- Buying Advice -->
+  <section class="buying-advice-section section-padding">
+    <div class="container advice-container">
+      <div class="advice-header">
+        <span class="badge badge-emerald">Corridor Intelligence</span>
+        <h2>Why Stay Along Golf Course Road?</h2>
+        <p>Key lifestyle and transit advantages of choosing Gurugram’s most prestigious boulevard.</p>
+      </div>
+
+      <div class="advice-grid">
+        {hub.buyingAdvice.map((item, idx) => (
+          <div class="advice-card card">
+            <span class="advice-number">0{idx + 1}</span>
+            <h3>{item.title}</h3>
+            <p>{item.content}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <FaqAccordion faqs={hub.faqItems} title={`Frequently Asked Questions About ${hub.title}`} />
+</BaseLayout>
+
+<style>
+  .hub-hero {
+    background: linear-gradient(180deg, #ECFDF5 0%, var(--bg-primary) 100%);
+    padding: 3rem 0 2rem;
+    border-bottom: 1px solid var(--border-subtle);
+  }
+
+  .hub-hero-container {
+    max-width: 860px;
+    text-align: center;
+  }
+
+  .hub-hero .badge {
+    margin-bottom: 0.875rem;
+  }
+
+  .hub-h1 {
+    margin-bottom: 1rem;
+  }
+
+  .hub-lead {
+    margin-bottom: 1.5rem;
+  }
+
+  .hub-stats-bar {
+    display: inline-flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    padding: 0.5rem 1rem;
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-full);
+    font-size: 0.8125rem;
+    color: var(--text-secondary);
+  }
+
+  .hub-grid-intro {
+    max-width: 750px;
+    margin-bottom: 2rem;
+  }
+
+  .hotel-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.75rem;
+  }
+
+  @media (min-width: 640px) {
+    .hotel-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .hotel-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .buying-advice-section {
+    background-color: var(--bg-card);
+    border-top: 1px solid var(--border-subtle);
+  }
+
+  .advice-container {
+    max-width: 1000px;
+  }
+
+  .advice-header {
+    text-align: center;
+    max-width: 700px;
+    margin: 0 auto 2.5rem;
+  }
+
+  .advice-header .badge {
+    margin-bottom: 0.5rem;
+  }
+
+  .advice-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  @media (min-width: 768px) {
+    .advice-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .advice-card {
+    padding: 1.75rem;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .advice-number {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--emerald-primary);
+    margin-bottom: 0.5rem;
+  }
+
+  .advice-card h3 {
+    font-size: 1.125rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .advice-card p {
+    font-size: 0.875rem;
+    line-height: 1.6;
+    color: var(--text-secondary);
+    margin-bottom: 0;
+  }
+</style>

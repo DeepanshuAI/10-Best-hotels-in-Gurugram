@@ -1,0 +1,231 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import { generateBreadcrumbSchema } from '../../lib/seo';
+
+const title = 'About Us: Independent Gurugram Hotel Directory (2026)';
+const description = 'Learn about our independent, transit-aware hotel directory for Gurugram, Haryana. Built to provide verified facts, real commute times, and zero paid placements.';
+
+const breadcrumbs = [
+  { label: 'About', href: '/about/' }
+];
+
+const breadcrumbSchema = generateBreadcrumbSchema([
+  { name: 'Home', url: '/' },
+  { name: 'About', url: '/about/' },
+]);
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  canonicalPath="/about/"
+  jsonLd={breadcrumbSchema}
+>
+  <Breadcrumbs items={breadcrumbs} />
+
+  <article class="about-page container section-padding">
+    <header class="about-header">
+      <span class="badge badge-emerald">About Our Project</span>
+      <h1 class="about-h1">Independent Accommodation Intelligence for Gurugram</h1>
+      <p class="lead about-lead">
+        We built this directory to solve a widespread travel frustration: online booking algorithms that prioritize sponsored commissions over real-world traveler utility in Gurugram, Haryana.
+      </p>
+    </header>
+
+    <div class="about-layout-grid">
+      <div class="about-main">
+        <section class="about-section">
+          <h2>The Problem with Existing Hotel Portals</h2>
+          <p>
+            Gurugram is one of India’s most commercially vibrant cities, hosting hundreds of multinational offices, Fortune 500 corporate campuses, and an affluent dining scene. Yet, when corporate executives or visitors search for accommodation online, they encounter severe obstacles:
+          </p>
+          <ul>
+            <li><strong>Deceptive Distance Indicators:</strong> Mainstream travel sites report linear "as-the-crow-flies" distances. In Gurugram, divided expressways like NH-48 mean an office physically 1 km away requires a 20-minute, 5 km flyover U-turn loop.</li>
+            <li><strong>Review Inflation:</strong> Budget hotel chains aggressively incentivize guests at check-out desks to post 5-star ratings, obscuring maintenance failures and hygiene lapses.</li>
+            <li><strong>Corporate Noise:</strong> Generic "business-friendly" checkboxes hide whether a room actually has an ergonomic work desk, proper lighting, or acoustic soundproofing against 24-hour highway truck traffic.</li>
+          </ul>
+        </section>
+
+        <section class="about-section">
+          <h2>Our Core Principles</h2>
+          <div class="principles-grid">
+            <div class="principle-card card">
+              <h3>1. Transit-First Accuracy</h3>
+              <p>Every profile records real driving times, Rapid Metro walkability, and highway approach routes rather than misleading radial distances.</p>
+            </div>
+
+            <div class="principle-card card">
+              <h3>2. Zero Paid Inclusions</h3>
+              <p>No hotel can pay to be listed, ranked higher, or given preferential editorial copy. The directory is maintained as a transparent public research resource.</p>
+            </div>
+
+            <div class="principle-card card">
+              <h3>3. Standardized Value Curation</h3>
+              <p>In the budget tier, we strictly curate standardized, reputable chains (Bloom, ibis, Lemon Tree, Ginger) to ensure travelers avoid unsafe, unbranded guest houses.</p>
+            </div>
+
+            <div class="principle-card card">
+              <h3>4. Open Corrections</h3>
+              <p>We invite hoteliers, visitors, and corporate travel managers to submit updates via our open corrections system to keep data fresh.</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="about-section">
+          <h2>Publisher Information</h2>
+          <p>
+            This website is developed and maintained by an independent group of local travel researchers, frontend engineers, and technical SEO specialists based in the National Capital Region.
+          </p>
+          <p>
+            Have feedback, suggestions, or institutional inquiries? Visit our <a href="/contact/" class="text-link">Contact Page</a> or review our <a href="/editorial-policy/" class="text-link">Editorial Policy</a>.
+          </p>
+        </section>
+      </div>
+
+      <aside class="about-sidebar">
+        <div class="sidebar-card card">
+          <h3>Quick Links</h3>
+          <ul class="sidebar-nav" role="list">
+            <li><a href="/how-we-choose-hotels/">Selection Methodology</a></li>
+            <li><a href="/editorial-policy/">Editorial Policy</a></li>
+            <li><a href="/corrections/">Submit Corrections</a></li>
+            <li><a href="/contact/">Contact Our Desk</a></li>
+            <li><a href="/privacy-policy/">Privacy Policy</a></li>
+          </ul>
+        </div>
+      </aside>
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  .about-header {
+    text-align: center;
+    max-width: 860px;
+    margin: 0 auto 3rem;
+  }
+
+  .about-header .badge {
+    margin-bottom: 0.875rem;
+  }
+
+  .about-h1 {
+    font-size: 2.25rem;
+    line-height: 1.2;
+    margin-bottom: 1rem;
+  }
+
+  @media (min-width: 768px) {
+    .about-h1 {
+      font-size: 2.875rem;
+    }
+  }
+
+  .about-lead {
+    font-size: 1.125rem;
+  }
+
+  .about-layout-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+
+  @media (min-width: 1024px) {
+    .about-layout-grid {
+      grid-template-columns: 1fr 320px;
+    }
+  }
+
+  .about-section {
+    margin-bottom: 3rem;
+  }
+
+  .about-section h2 {
+    font-size: 1.625rem;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--bg-subtle);
+  }
+
+  .about-section p {
+    font-size: 1.0625rem;
+    line-height: 1.75;
+    color: var(--text-secondary);
+    margin-bottom: 1.25rem;
+  }
+
+  .about-section ul {
+    padding-left: 1.5rem;
+    margin-bottom: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    font-size: 1.0625rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+  }
+
+  .principles-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+    margin-top: 1.5rem;
+  }
+
+  @media (min-width: 640px) {
+    .principles-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  .principle-card {
+    padding: 1.5rem;
+  }
+
+  .principle-card h3 {
+    font-size: 1.125rem;
+    color: var(--emerald-primary);
+    margin-bottom: 0.5rem;
+  }
+
+  .principle-card p {
+    font-size: 0.9375rem;
+    line-height: 1.6;
+    margin-bottom: 0;
+  }
+
+  .sidebar-card {
+    padding: 1.5rem;
+    position: sticky;
+    top: 5.5rem;
+  }
+
+  .sidebar-card h3 {
+    font-size: 1rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-muted);
+    margin-bottom: 1rem;
+  }
+
+  .sidebar-nav {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    font-size: 0.9375rem;
+  }
+
+  .sidebar-nav a {
+    color: var(--text-primary);
+    font-weight: 500;
+    transition: color var(--transition-fast);
+  }
+
+  .sidebar-nav a:hover {
+    color: var(--emerald-primary);
+  }
+</style>
