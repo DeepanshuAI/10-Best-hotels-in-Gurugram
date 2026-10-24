@@ -2,6 +2,7 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import { generateBreadcrumbSchema } from '../../lib/seo';
+import { SITE_CONFIG } from '../../lib/site-config';
 
 const title = 'Privacy Policy: Best Hotels in Gurugram (2026)';
 const description = 'Our privacy policy regarding data collection, zero third-party tracking, visitor rights, and contact information handling.';
@@ -70,10 +71,10 @@ const breadcrumbSchema = generateBreadcrumbSchema([
         <section class="privacy-section">
           <h2>5. Your Rights & Inquiries</h2>
           <p>
-            Under applicable data protection laws (including the Digital Personal Data Protection Act of India), you have the right to request access to or deletion of any correspondence sent to our editorial desk.
+            Under applicable data protection laws (including the Digital Personal Data Protection Act of India), you have the right to request access to or deletion of any correspondence sent to us.
           </p>
           <p>
-            To exercise these rights, please email <a href="mailto:editor@besthotelsingurugram.com" class="text-link">editor@besthotelsingurugram.com</a> with the subject line <code>[Data Privacy Inquiry]</code>.
+            To exercise these rights, please email <a href={`mailto:${SITE_CONFIG.contactEmail}`} class="text-link">{SITE_CONFIG.contactEmail}</a> with the subject line <code>[Data Privacy Inquiry]</code>.
           </p>
         </section>
       </div>
@@ -86,7 +87,7 @@ const breadcrumbSchema = generateBreadcrumbSchema([
             <li><a href="/how-we-choose-hotels/">Selection Methodology</a></li>
             <li><a href="/about/">About This Directory</a></li>
             <li><a href="/corrections/">Submit Corrections</a></li>
-            <li><a href="/contact/">Contact Our Desk</a></li>
+            <li><a href="/contact/">Contact Us</a></li>
           </ul>
         </div>
       </aside>

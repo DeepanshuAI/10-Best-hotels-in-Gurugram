@@ -2,104 +2,144 @@
 
 **Standard:** E-E-A-T (Experience, Expertise, Authoritativeness, Trustworthiness) & People-First Content  
 **Scope:** All Published Hotel Profiles, Category Hubs, Area Guides, and Trust Documentation  
-**Version:** 1.0 (Production Standard)  
+**Version:** 2.0 (Post-Audit Remediation Standard)  
+**Publisher:** Deepanshu (Independent Directory Curator & Technical Maintainer)  
+**Production Origin:** `https://10-best-hotels-in-gurugram.vercel.app`  
 
 ---
 
-## 1. Editorial Mission & Guiding Principles
+## 1. Editorial Mission & Publisher Identity
 
-The Best Hotels in Gurugram Directory exists to provide **unbiased, technically accurate, transit-aware, and verified accommodation intelligence** for visitors travelling to Gurugram, Haryana. 
+The Best Hotels in Gurugram Directory is an **independent, transit-aware, non-commercial local accommodation resource** maintained by a single independent researcher and software developer (Deepanshu) based in the National Capital Region (NCR).
 
-We do not accept payment for inclusion, numerical rankings, or positive editorial characterizations. Every published property must earn its place based on verifiable amenities, reliable location suitability, verified public reputation, and objective value for specific traveler types.
-
----
-
-## 2. Core Content Standards
-
-### A. Credibility & Factual Integrity
-1. **Source Every Concrete Claim:** Property addresses, contact phone numbers, metro station proximities, official website links, and facility offerings must be corroborated against official hotel documentation or verified mapping data.
-2. **Never Fabricate First-Hand Inspections:** Do not claim an editorial team member stayed overnight, slept on the bed, or dined in the restaurant unless that event was an actual, verified first-hand visit. Describe facilities accurately using confirmed specifications.
-3. **Explicit Verification Dates:** Every listing displays a `lastVerified` timestamp indicating when the profile was audited against active hotel operations.
-4. **Correction Mechanism:** Every listing includes a direct pathway to `/corrections/` allowing hoteliers, guests, and local operators to flag discrepancies.
-
-### B. Transit & Location Precision (The Gurugram Standard)
-1. **No Straight-Line Distances:** Radial "as-the-crow-flies" measurements are prohibited. In Gurugram, a 1 km physical distance can entail a 5 km circuitous drive via highway underpasses (e.g., Shankar Chowk, IFFCO Chowk, Rajiv Chowk).
-2. **Transit Nuance Requirement:** Descriptions must explicitly clarify:
-   - Walkability vs. motorized transit requirement.
-   - Metro connectivity: Specify whether the station is **Delhi Metro Yellow Line** (direct to Central/South Delhi, Connaught Place) or **Gurugram Rapid Metro** (internal loop connecting Cyber City, DLF Phase 2/3, and Golf Course Road).
-   - Proximity to key corporate centers: DLF Cyber City, Udyog Vihar, Golf Course Road, Candor TechSpace, Unitech Cyber Park.
-
-### C. Tone, Readability & Style
-1. **Clear, Direct, Active Voice:** Avoid breathless promotional prose ("an oasis of unbridled luxury nestled in the shimmering heart..."). Use crisp, informative language ("Located 5 minutes from Shankar Chowk, this property offers 24-hour meeting facilities, soundproofed executive rooms, and direct access to Udyog Vihar").
-2. **Objective Balance:** Every hotel profile must feature balanced analysis, highlighting both **Key Strengths** ("Best For") and **Important Considerations** ("Things to Keep in Mind" — e.g., highway traffic noise, valet delays during wedding season, compact budget room dimensions).
-3. **Typography & Structure:** Use scannable formatting: descriptive H2/H3 subheadings, bulleted amenity matrices, comparison tables, and highlighted key takeaway callouts.
+Our objective is to provide travelers with:
+- **Verified property facts** (official addresses, confirmed room counts, banquet hall capacities, direct phone lines, and official booking portals).
+- **Realistic transit intelligence** reflecting actual Gurugram highway underpasses, U-turns, and metro line connections.
+- **Transparent review benchmarks** and seasonal price conditions without deceptive claims of proprietary audits or paid sponsorships.
 
 ---
 
-## 3. Reusable Content Brief: Hotel Profile
+## 2. Prohibited Claims & Editorial Truthfulness
 
-When preparing a new hotel profile for publication, the writer/editor must gather and verify the following minimum required data schema:
+To preserve unwavering credibility and comply with Google's search quality evaluator guidelines:
+
+1. **No Fictional Personas or Desks:**
+   - Prohibited: Referring to "our editorial board", "a team of hospitality inspectors", or "field researchers".
+   - Required: Acknowledge the single-curator model honestly: *"Researched and curated independently by Deepanshu"*.
+
+2. **No False Audit or Verification Assertions:**
+   - Prohibited phrases: `"100% Verified"`, `"independently audited"`, `"physical audit"`, `"on-site inspection team"`.
+   - Permitted phrases: `"Editorially Researched"`, `"Specifications Verified"`, `"Verified via Official Channels"`.
+   - Rule: Never claim an on-site stay, mattress test, or restaurant inspection unless an actual first-hand visit was conducted and documented.
+
+3. **No Commercial or Placement Deception:**
+   - Prohibited: `"Zero Paid Placements"` when used as marketing hype.
+   - Permitted: Transparent non-commercial disclosure: *"This directory does not sell listings, featured placements, or ranking positions. All properties are curated based on public specifications and location value."*
+
+4. **No Self-Serving Review Schema:**
+   - Prohibited: Labeling imported ratings as `"Google Public Verified Reviews"` or generating `AggregateRating` / `Review` structured data in JSON-LD for third-party platforms.
+   - Required: Display as `"Google Maps Benchmark"`, state the observation date (`October 2026`), and include the standard disclaimer: *"Third-party rating benchmark recorded for traveler context. Not collected, verified, or certified by this directory."*
+
+---
+
+## 3. Transit & Location Precision (The Gurugram Standard)
+
+Gurugram's urban layout presents severe pedestrian obstacles due to the NH-48 expressway, grade-separated flyovers, and arterial service lanes. Content writers and contributors must follow these strict transit rules:
+
+1. **No Radial Distances:** Never calculate straight-line distances. A property 500 metres across NH-48 may require a 4.5 km motorized circuit via Shankar Chowk or IFFCO Chowk.
+2. **Walk vs. Drive Thresholds:**
+   - **Walkable (< 1.5 km with safe footpath access):** Specify walking time in minutes (e.g., *"4 min walk to Millennium City Centre Metro"*).
+   - **Non-Walkable (> 1.5 km or across expressways):** Set `walkingTimeToMetroMin: null` and specify driving time via cab/auto (e.g., *"16 min drive to Millennium City Centre Metro"* for Radisson Sohna Road; *"45 min drive"* for ITC Grand Bharat).
+3. **Metro Line Differentiation:** Always explicitly identify the metro network:
+   - **Delhi Metro Yellow Line:** Direct rapid transit to South/Central Delhi (Connaught Place, New Delhi Railway Station). Terminates at Millennium City Centre Gurugram.
+   - **Gurugram Rapid Metro:** Elevated loop connecting Cyber City, DLF Phase 2/3, Sector 42/43, and Sector 55/56.
+4. **Airport Transit Clarity:** State drive time to Indira Gandhi International Airport Terminal 3 (DEL T3) under normal traffic conditions, and advise travelers regarding peak morning/evening highway congestion.
+
+---
+
+## 4. Reusable Content Brief: Hotel Profile Schema
+
+Every property record published in `src/data/hotels.ts` must provide the following verified attributes:
 
 ```yaml
 id: "unique-slug-gurugram"
+slug: "unique-slug-gurugram"
 officialName: "Official Property Name"
-brand: "Parent Hospitality Group (e.g., The Oberoi Group, IHCL Taj, Accor, Marriott, Lemon Tree, Bloom)"
-propertyType: "Luxury Hotel | Business Hotel | Smart Budget | Extended Stay | Boutique Stay"
+brand: "Parent Hospitality Brand"
+category: "luxury | business | budget | resort"
+priceTier: "₹₹₹₹₹ | ₹₹₹₹ | ₹₹₹ | ₹₹ | ₹"
+indicativeStartingRateINR: 6500
+rateVerificationDate: "October 2026"
+pricingConditions: "Indicative starting rate for standard room excluding taxes, recorded from official brand direct booking portal in October 2026. Rates vary seasonally."
 address:
-  street: "Detailed street address and plot number"
-  locality: "Specific sector or commercial sub-district (e.g., DLF Phase 2, Udyog Vihar Phase V, Sector 29)"
+  street: "Physical street and plot number"
+  locality: "Specific sector or commercial enclave"
+  subDistrict: "Neighborhood or corridor (e.g., DLF Cyber City)"
   city: "Gurugram"
   state: "Haryana"
   postalCode: "1220XX"
   country: "India"
 coordinates:
-  latitude: 28.4XXXXX
-  longitude: 77.0XXXXX
+  latitude: 28.XXXXXX
+  longitude: 77.XXXXXX
 phone: "+91 124 XXXXXXX"
-officialWebsite: "https://www.officialhotelurl.com"
-officialBookingUrl: "https://www.officialhotelurl.com/reservations"
-indicativePriceTier: "₹₹₹₹₹ (Luxury) | ₹₹₹₹ (Premium) | ₹₹₹ (Upper Mid-scale) | ₹₹ (Mid-scale) | ₹ (Budget)"
-indicativeStartingRateINR: 6500
-rateVerificationDate: "2026-10"
-nearestTransit:
-  metroStation: "Station Name"
-  metroLine: "Rapid Metro | Yellow Line"
-  distanceMinutes: "X min walk / Y min drive"
-  highwayAccess: "Immediate NH-48 / Golf Course Road / Mehrauli-Gurgaon Road access"
+officialWebsite: "https://www.officialhotelwebsite.com"
+officialBookingUrl: "https://www.officialhotelwebsite.com/booking"
+heroImage:
+  src: "/images/hotels/slug.webp"
+  alt: "Descriptive alt text of property exterior or key amenity"
+  caption: "Official property facade and key architectural highlight"
+summary: "Single-sentence executive summary emphasizing location and core target profile"
+inDepthDescription: "2-3 paragraphs detailing architecture, room standards, business capabilities, and dining venues"
 bestFor:
-  - "Target traveler profile 1 (e.g., C-suite executives working in DLF Cyber City)"
-  - "Target traveler profile 2 (e.g., International travelers prioritizing resort quietude near IGI Airport)"
-editorialStrengths:
-  - "Distinct verified advantage 1"
-  - "Distinct verified advantage 2"
+  - "Target traveler profile 1"
+  - "Target traveler profile 2"
+  - "Target traveler profile 3"
+keyStrengths:
+  - "Verified advantage 1"
+  - "Verified advantage 2"
+  - "Verified advantage 3"
 considerations:
-  - "Objective operational or location constraint 1"
+  - "Objective operational caveat 1 (e.g., peak-hour service road bottleneck)"
+  - "Objective operational caveat 2 (e.g., compact bathroom dimensions)"
 verifiedAmenities:
-  - "High-speed Wi-Fi (complimentary in business rooms)"
-  - "Ergonomic work desk"
-  - "24-hour business centre"
-  - "Swimming pool"
-  - "Fitness centre"
-  - "Multiple on-site dining venues"
-  - "Meeting / conference rooms"
-editorialRationale: "Concise 2-3 sentence explanation of why this property meets the directory's standard."
-verificationSource: "Official Hotel Portal & Public Municipal Directory"
-lastVerified: "2026-10-24"
+  - "High-Speed Wi-Fi"
+  - "Outdoor Swimming Pool"
+  - "Fitness Centre"
+businessFacilities:
+  - "24-Hour Business Centre"
+  - "Executive Boardrooms with Video Conferencing"
+  - "Grand Ballroom with verified dimensions and theatre/banquet capacity"
+diningVenues:
+  - "Verified restaurant name (cuisine specialty)"
+transit:
+  nearestMetroStation: "Official Station Name"
+  metroLine: "Delhi Metro Yellow Line | Gurugram Rapid Metro"
+  distanceToMetroKm: 1.2
+  walkingTimeToMetroMin: 14 # null if > 1.5 km
+  driveTimeToMetroMin: 5    # required if walkingTimeToMetroMin is null
+  driveTimeToCyberCityMin: 8
+  driveTimeToIGI_T3Min: 18
+  highwayAccess: "Specific road or flyover junction"
+  transitTips: "Nuanced local transit tip"
+ratingBenchmark:
+  source: "Google Maps Benchmark"
+  score: 4.6
+  maxScore: 5.0
+  observedReviewCountText: "14,800+ public reviews"
+  dateObserved: "October 2026"
+  disclaimer: "Third-party Google Maps rating benchmark recorded in October 2026 for traveler context. Not collected, verified, or certified by this directory."
+editorialRationale: "Objective explanation of why this property merits inclusion in this category"
+verificationSource: "Official Hotel Portal & Municipal Directory"
+lastVerifiedDate: "2026-10-24"
+verificationStatus: "verified"
+isSponsored: false
 ```
 
 ---
 
-## 4. Content Quality & SEO Pre-Publishing Checklist
+## 5. Contact & Data Correction Protocol
 
-Before any route is set to published status, it must pass all 10 checkpoints:
-
-- [ ] **Check 1: Single Intent Focus.** Does this page answer one specific, non-cannibalizing user query?
-- [ ] **Check 2: Unique Metadata.** Are the `<title>` and `<meta name="description">` 100% unique across the site?
-- [ ] **Check 3: Clean Canonical URL.** Does the canonical tag point to the absolute production URL with consistent trailing slash handling?
-- [ ] **Check 4: Verified Contact Data.** Are the phone number, address, and official website link verified and live?
-- [ ] **Check 5: Realistic Transit Notes.** Are walk times and transit options accurate to local road geometry?
-- [ ] **Check 6: Balanced Editorial Review.** Are both pros and objective caveats included?
-- [ ] **Check 7: Structured Data Validation.** Does the JSON-LD parse without syntax errors and reflect only on-page content?
-- [ ] **Check 8: Accessible Markup.** Do images have descriptive alt text? Do interactive controls have keyboard accessibility and ARIA labels?
-- [ ] **Check 9: Static Pre-rendering.** Is the entire page content available in the initial server-rendered HTML without requiring client-side JS to load?
-- [ ] **Check 10: Freshness Timestamp.** Is the `lastVerified` date clearly visible on the page?
+1. **Truthful Interaction Mechanisms:** The site operates as a pre-rendered static site without a persistent database backend. Correction forms must never claim to submit into an internal database or ticketing queue.
+2. **Implementation Standard:** Forms generate pre-formatted `mailto:` client actions directed to the maintainer (`raijin4551@gmail.com`) and provide a direct fallback link to public GitHub Issues (`https://github.com/DeepanshuAI/10-Best-hotels-in-Gurugram/issues`).
+3. **Turnaround & Review:** Sourced corrections submitted by hoteliers or travelers are investigated against official brand documentation within 5 business days and incorporated in the subsequent repository commit.

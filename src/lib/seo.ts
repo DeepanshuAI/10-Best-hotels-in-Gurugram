@@ -92,13 +92,6 @@ export function generateHotelSchema(hotel: HotelRecord) {
       name: amenity,
       value: true,
     })),
-    aggregateRating: {
-      '@type': 'AggregateRating',
-      ratingValue: hotel.ratingBenchmark.score,
-      bestRating: hotel.ratingBenchmark.maxScore,
-      ratingCount: parseInt(hotel.ratingBenchmark.observedReviewCountText.replace(/\D/g, ''), 10) || 1000,
-      reviewCount: parseInt(hotel.ratingBenchmark.observedReviewCountText.replace(/\D/g, ''), 10) || 1000,
-    },
     containedInPlace: {
       '@type': 'Place',
       name: `${hotel.primaryDistrict}, Gurugram`,
@@ -150,7 +143,7 @@ export function generateArticleSchema(article: GuideArticle) {
     datePublished: article.publishDate,
     dateModified: article.lastUpdated,
     author: {
-      '@type': 'Organization',
+      '@type': 'Person',
       name: article.author,
       url: `${origin}/about/`,
     },

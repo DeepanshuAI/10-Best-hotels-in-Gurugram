@@ -28,7 +28,7 @@ export const GUIDES: Record<string, GuideArticle> = {
     publishDate: '2026-10-24',
     lastUpdated: '2026-10-24',
     readTime: '8 min read',
-    author: 'Gurugram Accommodation Editorial Desk',
+    author: 'Deepanshu (Directory Curator)',
     summary: 'A comprehensive, transit-aware guide to selecting the right neighborhood in Gurugram. We break down the real trade-offs between DLF Cyber City, Golf Course Road, MG Road, Udyog Vihar, and Sohna Road.',
     sections: [
       {
@@ -126,7 +126,7 @@ Sohna Road has developed into a major commercial nerve centre in South Gurugram.
     publishDate: '2026-10-24',
     lastUpdated: '2026-10-24',
     readTime: '7 min read',
-    author: 'Corporate Travel Intelligence Desk',
+    author: 'Deepanshu (Directory Curator)',
     summary: 'A field guide for business executives navigating corporate trips to Gurugram. Discover how to evaluate in-room workstations, ensure reliable Wi-Fi, and master the local transit grid.',
     sections: [
       {
@@ -192,7 +192,7 @@ When evaluating hotel options in Gurugram, prioritize these four concrete criter
     publishDate: '2026-10-24',
     lastUpdated: '2026-10-24',
     readTime: '6 min read',
-    author: 'Consumer Accommodation Integrity Desk',
+    author: 'Deepanshu (Directory Curator)',
     summary: 'How to secure spotless, safe, and comfortable accommodation in Gurugram for under ₹4,500 per night without falling victim to inflated aggregator ratings or deceptive room photography.',
     sections: [
       {

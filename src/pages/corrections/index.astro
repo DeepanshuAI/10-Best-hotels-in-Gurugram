@@ -3,6 +3,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import { HOTELS } from '../../data/hotels';
 import { generateBreadcrumbSchema } from '../../lib/seo';
+import { SITE_CONFIG } from '../../lib/site-config';
 
 const title = 'Submit a Correction: Hotel Data Integrity & Verification (2026)';
 const description = 'Report factual discrepancies, updated room tariffs, altered hotel phone numbers, or changed amenities in our Gurugram hotel directory.';
@@ -30,7 +31,7 @@ const breadcrumbSchema = generateBreadcrumbSchema([
       <span class="badge badge-gold">Data Integrity Protocol</span>
       <h1 class="corrections-h1">Submit a Factual Correction</h1>
       <p class="lead corrections-lead">
-        We strive for 100% factual accuracy. If a hotel has adjusted its starting tariffs, updated its telephone contact, renovated facilities, or altered restaurant venues, please submit the details below for prompt verification.
+        We are committed to factual accuracy and transparency. If a hotel has adjusted its starting tariffs, updated its telephone contact, renovated facilities, or altered restaurant venues, please submit the details below for prompt verification.
       </p>
     </header>
 
@@ -39,7 +40,7 @@ const breadcrumbSchema = generateBreadcrumbSchema([
         <h2>Correction Request Form</h2>
         <p class="subtext">All submissions are reviewed against official hotel documentation before public profiles are updated.</p>
 
-        <form id="correction-form" class="correction-form" novalidate>
+        <form id="correction-form" class="correction-form" data-contact-email={SITE_CONFIG.contactEmail} novalidate>
           <div class="form-group">
             <label for="corr-hotel">Property Name <span class="required">*</span></label>
             <select id="corr-hotel" name="hotel" required class="form-select">
@@ -103,17 +104,17 @@ const breadcrumbSchema = generateBreadcrumbSchema([
 
       <aside class="corrections-sidebar">
         <div class="sidebar-box card">
-          <h3>Our Verification Protocol</h3>
+          <h3>Verification Protocol</h3>
           <ol class="protocol-list" role="list">
-            <li><strong>Intake:</strong> Submissions are logged with a timestamp and assigned to an editorial auditor.</li>
-            <li><strong>Cross-Check:</strong> The claim is corroborated directly against the hotel’s official corporate reservation systems or verified municipal documentation.</li>
-            <li><strong>Profile Update:</strong> Once verified, the listing is updated and the `lastVerified` date is refreshed.</li>
+            <li><strong>Intake:</strong> Reports sent via email or GitHub are reviewed directly by the project maintainer.</li>
+            <li><strong>Cross-Check:</strong> The factual claim is verified against official hotel reservation engines, corporate notices, or municipal records.</li>
+            <li><strong>Codebase Update:</strong> Once verified, the listing data is updated in the project repository and redeployed.</li>
           </ol>
         </div>
 
         <div class="sidebar-box card">
-          <h3>Emergency Corrections</h3>
-          <p>If you represent a hotel with critical security or emergency operational changes, please email our desk directly at <a href="mailto:editor@besthotelsingurugram.com" class="text-link">editor@besthotelsingurugram.com</a> with the subject line <code>[URGENT CORRECTION]</code>.</p>
+          <h3>Direct Communications</h3>
+          <p>For urgent corrections or official inquiries, please email directly at <a href={`mailto:${SITE_CONFIG.contactEmail}`} class="text-link">{SITE_CONFIG.contactEmail}</a> or open an issue on our <a href="https://github.com/DeepanshuAI/10-Best-hotels-in-Gurugram/issues" target="_blank" rel="noopener noreferrer" class="text-link">GitHub Issues Tracker</a>.</p>
         </div>
       </aside>
     </div>
@@ -275,11 +276,15 @@ const breadcrumbSchema = generateBreadcrumbSchema([
 
     if (!form || !statusMsg) return;
 
+    const contactEmail = form.dataset.contactEmail || 'raijin4551@gmail.com';
+
     form.addEventListener('submit', (e) => {
       e.preventDefault();
 
       const hotel = (document.getElementById('corr-hotel') as HTMLSelectElement)?.value;
+      const field = (document.getElementById('corr-field') as HTMLSelectElement)?.value;
       const details = (document.getElementById('corr-details') as HTMLTextAreaElement)?.value.trim();
+      const role = (document.getElementById('corr-submitter-role') as HTMLSelectElement)?.value;
       const email = (document.getElementById('corr-email') as HTMLInputElement)?.value.trim();
 
       if (!hotel || !details || !email) {
@@ -291,10 +296,17 @@ const breadcrumbSchema = generateBreadcrumbSchema([
         return;
       }
 
+      const subject = encodeURIComponent(`[Hotel Data Correction] ${hotel} - ${field}`);
+      const body = encodeURIComponent(
+        `Hotel: ${hotel}\nField: ${field}\nDetails & Source Link: ${details}\nSubmitter Role: ${role}\nSubmitter Contact: ${email}`
+      );
+      const mailtoUrl = `mailto:${contactEmail}?subject=${subject}&body=${body}`;
+
+      window.location.href = mailtoUrl;
+
       statusMsg.hidden = false;
       statusMsg.className = 'corr-status-msg corr-status-success';
-      statusMsg.textContent = 'Thank you. Your correction report has been queued for verification. Our audit desk will cross-check the official sources and apply updates.';
-      form.reset();
+      statusMsg.innerHTML = `Your email client is opening with your formatted report addressed to <strong>${contactEmail}</strong>.<br /><br />Alternatively, you can open an issue directly on our <a href="https://github.com/DeepanshuAI/10-Best-hotels-in-Gurugram/issues" target="_blank" rel="noopener noreferrer" style="text-decoration: underline; font-weight: bold;">GitHub Issues Tracker</a>.`;
     });
   }
 

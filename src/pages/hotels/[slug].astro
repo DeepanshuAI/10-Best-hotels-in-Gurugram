@@ -62,7 +62,7 @@ const relatedHotels = HOTELS
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
             <polyline points="20 6 9 17 4 12"/>
           </svg>
-          Audit Status: Verified ({hotel.lastVerifiedDate})
+          Specifications Verified ({hotel.lastVerifiedDate})
         </span>
       </div>
 
@@ -171,7 +171,11 @@ const relatedHotels = HOTELS
               <div class="transit-metric">
                 <span class="metric-label">Nearest Metro Station</span>
                 <span class="metric-value">{hotel.transit.nearestMetroStation}</span>
-                <span class="metric-sub">{hotel.transit.metroLine} &bull; {hotel.transit.distanceToMetroKm} km ({hotel.transit.walkingTimeToMetroMin} min walk)</span>
+                <span class="metric-sub">{hotel.transit.metroLine} &bull; {hotel.transit.distanceToMetroKm} km {
+                  hotel.transit.walkingTimeToMetroMin !== null
+                    ? `(${hotel.transit.walkingTimeToMetroMin} min walk)`
+                    : `(~${hotel.transit.driveTimeToMetroMin || Math.round(hotel.transit.distanceToMetroKm * 2)} min drive / taxi)`
+                }</span>
               </div>
 
               <div class="transit-metric">
@@ -259,7 +263,7 @@ const relatedHotels = HOTELS
           <div class="sourcing-meta">
             <span><strong>Primary Source:</strong> {hotel.verificationSource}</span>
             <span>&bull;</span>
-            <span><strong>Last Audit:</strong> {hotel.lastVerifiedDate}</span>
+            <span><strong>Last Researched:</strong> {hotel.lastVerifiedDate}</span>
           </div>
           <div class="corrections-prompt">
             Notice a change in rates or amenities? <a href="/corrections/" class="text-link">Submit a correction request</a> to help fellow travelers.
@@ -277,6 +281,9 @@ const relatedHotels = HOTELS
               <span class="period">/ night</span>
             </div>
             <span class="sidebar-price-date">Recorded {hotel.rateVerificationDate}</span>
+            <p class="sidebar-price-conditions">
+              {hotel.pricingConditions || 'Base standard room rate excluding taxes, verified on official booking site. Tariffs fluctuate dynamically by season and occupancy.'}
+            </p>
           </div>
 
           <div class="sidebar-actions">
@@ -783,6 +790,17 @@ const relatedHotels = HOTELS
     font-size: 0.75rem;
     color: var(--text-muted);
     margin-top: 0.15rem;
+  }
+
+  .sidebar-price-conditions {
+    font-size: 0.75rem;
+    line-height: 1.4;
+    color: var(--text-secondary);
+    background-color: var(--bg-subtle);
+    padding: 0.5rem 0.625rem;
+    border-radius: var(--radius-sm);
+    margin-top: 0.5rem;
+    margin-bottom: 0;
   }
 
   .sidebar-actions {

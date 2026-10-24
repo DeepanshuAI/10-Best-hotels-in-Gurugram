@@ -19,19 +19,19 @@ export function getSiteOrigin(): string {
   if (process.env.VERCEL_URL && process.env.VERCEL_URL.trim() !== '') {
     return `https://${process.env.VERCEL_URL.replace(/\/+$/, '')}`;
   }
-  return 'https://besthotelsingurugram.com';
+  return 'https://10-best-hotels-in-gurugram.vercel.app';
 }
 
 export const SITE_ORIGIN = getSiteOrigin();
 
 export const SITE_CONFIG: SiteConfig = {
   name: 'Best Hotels in Gurugram',
-  tagline: 'The Independent, Transit-Aware Accommodation Directory',
-  description: 'Independent, verified directory and comparison guide for hotels in Gurugram, Haryana. Covering DLF Cyber City, Golf Course Road, Udyog Vihar, MG Road & Sohna Road with real transit times.',
+  tagline: 'Independent, Transit-Aware Accommodation Directory',
+  description: 'Independent directory and comparison guide for hotels in Gurugram, Haryana. Covering DLF Cyber City, Golf Course Road, Udyog Vihar, MG Road & Sohna Road with verified transit times and zero sponsored rankings.',
   origin: SITE_ORIGIN,
   defaultOgImage: '/images/og-gurugram-hotels.png',
-  author: 'Gurugram Hotel Directory Editorial Board',
-  contactEmail: 'editor@besthotelsingurugram.com',
+  author: 'Deepanshu (Independent Directory Curator)',
+  contactEmail: 'raijin4551@gmail.com',
   verificationAuditDate: 'October 2026',
 };
 

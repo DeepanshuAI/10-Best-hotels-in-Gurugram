@@ -3,7 +3,7 @@ import sitemap from '@astrojs/sitemap';
 
 const site = process.env.PUBLIC_SITE_URL || 
   (process.env.VERCEL_PROJECT_PRODUCTION_URL ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}` : 
-  (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'https://besthotelsingurugram.com'));
+  (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'https://10-best-hotels-in-gurugram.vercel.app'));
 
 export default defineConfig({
   site,

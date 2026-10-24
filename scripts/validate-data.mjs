@@ -106,6 +106,9 @@ const expectedDocs = [
   'docs/topical-map.md',
   'docs/content-guidelines.md',
   'docs/backlink-strategy.md',
+  'docs/factual-audit.md',
+  'docs/seo-technical-audit.md',
+  'docs/deployment-checklist.md',
 ];
 
 for (const docPath of expectedDocs) {
@@ -113,6 +116,18 @@ for (const docPath of expectedDocs) {
   if (!fs.existsSync(fullDocPath)) {
     errors.push(`Expected documentation missing: ${docPath}`);
   }
+}
+
+// 6. Validate SEO & Transit Invariants
+const seoFilePath = path.join(rootDir, 'src/lib/seo.ts');
+const seoContent = fs.readFileSync(seoFilePath, 'utf-8');
+if (seoContent.includes("aggregateRating: {")) {
+  errors.push('Disallowed AggregateRating detected in generateHotelSchema (violates Google Review Snippet guidelines for third-party reviews).');
+}
+
+const gscVerificationPath = path.join(rootDir, 'public/googlec5446dfb6f035a7e.html');
+if (!fs.existsSync(gscVerificationPath)) {
+  errors.push('Missing Google Search Console verification file in public root.');
 }
 
 // Output summary

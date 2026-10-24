@@ -26,6 +26,6 @@ export const HOMEPAGE_FAQS: FaqItem[] = [
   },
   {
     question: 'Are room rates shown in this directory guaranteed?',
-    answer: 'The starting tariffs displayed are indicative historical benchmark rates recorded during our latest audit and include the month of verification. Hotel pricing in NCR fluctuates dynamically based on corporate conference cycles, weddings, and seasonality. We provide direct links to official hotel websites so travelers can verify live pricing.'
+    answer: 'The starting tariffs displayed are indicative historical benchmark rates recorded during our latest research update and include the month of verification. Hotel pricing in NCR fluctuates dynamically based on corporate conference cycles, weddings, and seasonality. We provide direct links to official hotel websites so travelers can verify live pricing.'
   }
 ];

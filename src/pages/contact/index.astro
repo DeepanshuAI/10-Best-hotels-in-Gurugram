@@ -40,7 +40,7 @@ const breadcrumbSchema = generateBreadcrumbSchema([
         <h2>Send a Message</h2>
         <p class="form-subtext">Fill in your details below and our editorial desk will respond within 24 to 48 business hours.</p>
 
-        <form id="contact-form" class="contact-form" novalidate>
+        <form id="contact-form" class="contact-form" data-contact-email={SITE_CONFIG.contactEmail} novalidate>
           <div class="form-group">
             <label for="contact-name">Full Name <span class="required">*</span></label>
             <input type="text" id="contact-name" name="name" required class="form-input" placeholder="e.g. Rahul Sharma" />
@@ -283,11 +283,14 @@ const breadcrumbSchema = generateBreadcrumbSchema([
 
     if (!form || !statusMsg) return;
 
+    const contactEmail = form.dataset.contactEmail || 'raijin4551@gmail.com';
+
     form.addEventListener('submit', (e) => {
       e.preventDefault();
       
       const name = (document.getElementById('contact-name') as HTMLInputElement)?.value.trim();
       const email = (document.getElementById('contact-email') as HTMLInputElement)?.value.trim();
+      const subjectType = (document.getElementById('contact-subject') as HTMLSelectElement)?.value;
       const message = (document.getElementById('contact-message') as HTMLTextAreaElement)?.value.trim();
 
       if (!name || !email || !message) {
@@ -299,11 +302,15 @@ const breadcrumbSchema = generateBreadcrumbSchema([
         return;
       }
 
-      // Simulate successful client submission
+      const subject = encodeURIComponent(`[Gurugram Directory Inquiry] ${subjectType || 'General'} from ${name}`);
+      const body = encodeURIComponent(`Name: ${name}\nEmail: ${email}\nTopic: ${subjectType}\n\nMessage:\n${message}`);
+      const mailtoUrl = `mailto:${contactEmail}?subject=${subject}&body=${body}`;
+
+      window.location.href = mailtoUrl;
+
       statusMsg.hidden = false;
       statusMsg.className = 'form-status-msg form-status-success';
-      statusMsg.textContent = `Thank you, ${name}. Your message has been received by our Gurugram editorial desk. We will respond to ${email} within 24–48 business hours.`;
-      form.reset();
+      statusMsg.innerHTML = `Your email client is opening with your message pre-filled to <strong>${contactEmail}</strong>.<br /><br />You can also reach out directly via email or on our <a href="https://github.com/DeepanshuAI/10-Best-hotels-in-Gurugram" target="_blank" rel="noopener noreferrer" style="text-decoration: underline; font-weight: bold;">GitHub repository</a>.`;
     });
   }
 

@@ -30,7 +30,8 @@ export interface TransitInfo {
   nearestMetroStation: string;
   metroLine: 'Delhi Metro Yellow Line' | 'Gurugram Rapid Metro' | 'Both Yellow Line & Rapid Metro';
   distanceToMetroKm: number;
-  walkingTimeToMetroMin: number;
+  walkingTimeToMetroMin: number | null;
+  driveTimeToMetroMin?: number;
   driveTimeToCyberCityMin: number;
   driveTimeToIGI_T3Min: number;
   highwayAccess: string;
@@ -55,6 +56,7 @@ export interface HotelRecord {
   priceTier: '₹' | '₹₹' | '₹₹₹' | '₹₹₹₹' | '₹₹₹₹₹';
   indicativeStartingRateINR: number;
   rateVerificationDate: string;
+  pricingConditions?: string;
   address: HotelAddress;
   coordinates: HotelCoordinates;
   districts: GurugramDistrict[];
