@@ -20,6 +20,7 @@
 :root {
   /* Warm Ivory / Off-White Canvas */
   --bg-primary: #FAF8F5;
+  --bg-surface: #FAF8F5;
   --bg-card: #FFFFFF;
   --bg-subtle: #F3EFEA;
   --bg-surface-raised: #FFFFFF;
@@ -53,6 +54,7 @@
 
   /* Borders & Hairlines */
   --border-subtle: #E8E5DF;
+  --border-neutral: #E8E5DF;
   --border-medium: #D5D0C7;
   --border-dark: #22344A;
 
