@@ -2,6 +2,7 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import HotelCard from '../../components/HotelCard.astro';
+import HotelComparisonTable from '../../components/HotelComparisonTable.astro';
 import FaqAccordion from '../../components/FaqAccordion.astro';
 import { HOTELS } from '../../data/hotels';
 import { CATEGORY_HUBS } from '../../data/categories';
@@ -11,6 +12,7 @@ const hub = CATEGORY_HUBS['business-hotels-in-gurugram'];
 const businessHotels = HOTELS.filter((h) => h.category === 'business');
 
 const breadcrumbs = [
+  { label: 'Hotels', href: '/' },
   { label: hub.title, href: '/business-hotels-in-gurugram/' }
 ];
 
@@ -30,136 +32,175 @@ const faqSchema = generateFaqSchema(hub.faqItems);
 >
   <Breadcrumbs items={breadcrumbs} />
 
-  <section class="hub-hero">
+  <!-- Editorial Category Masthead -->
+  <header class="hub-hero">
     <div class="container hub-hero-container">
-      <span class="badge badge-emerald">Corporate & Business Travel</span>
-      <h1 class="hub-h1">{hub.h1}</h1>
+      <div class="hero-kicker-wrap">
+        <span class="editorial-kicker">Curated Category Rankings</span>
+        <span class="badge badge-brass">Corporate Business & Executive Hubs</span>
+      </div>
+      <h1 class="hub-h1 font-serif">{hub.h1}</h1>
       <p class="lead hub-lead">{hub.heroLead}</p>
-      <div class="hub-stats-bar">
-        <span class="hub-stat"><strong>{businessHotels.length} Verified Corporate Properties</strong></span>
-        <span>&bull;</span>
-        <span class="hub-stat">Starting Tariffs: ₹6,000 – ₹9,000</span>
-        <span>&bull;</span>
-        <span class="hub-stat">Verified: October 2026</span>
+      
+      <!-- Selection Criteria Summary -->
+      <div class="category-criteria-box">
+        <span class="criteria-header">Corporate Business Standards:</span>
+        <span>Dedicated in-room executive desks with international power plugs &bull; Reliable high-speed Wi-Fi &bull; Meeting facilities &bull; Under 20-min commute to Cyber City or Golf Course Road</span>
       </div>
     </div>
-  </section>
+  </header>
 
-  <section class="container section-padding">
-    <div class="hub-grid-intro">
-      <h2>Top-Rated Corporate Accommodations in Gurugram</h2>
-      <p>Focused on business productivity: ergonomic work chairs, high-capacity meeting rooms, verified high-speed Wi-Fi, and convenient highway or Rapid Metro links.</p>
+  <!-- Side-by-Side Category Comparison Matrix -->
+  <section class="container comparison-section">
+    <div class="section-heading-row">
+      <span class="editorial-kicker">Comparison Matrix</span>
+      <h2 class="font-serif">Compare Corporate Business Hotels Side-by-Side</h2>
+      <p>Compare boardrooms, metro walkability, and verified benchmark ratings before booking executive delegations.</p>
     </div>
 
-    <div class="hotel-grid">
-      {businessHotels.map((hotel) => (
-        <HotelCard hotel={hotel} />
+    <HotelComparisonTable hotels={businessHotels} id="business-comparison" />
+  </section>
+
+  <!-- Ranked Hotel List Section -->
+  <section class="container rankings-section">
+    <div class="section-heading-row">
+      <span class="editorial-kicker">Editorial Rankings</span>
+      <h2 class="font-serif">The Ranked Business Hotels</h2>
+      <p>Properties ordered by workstation ergonomics, Rapid Metro connectivity, and corporate event capabilities.</p>
+    </div>
+
+    <div class="hotel-ranked-list">
+      {businessHotels.map((hotel, index) => (
+        <HotelCard hotel={hotel} rank={index + 1} />
       ))}
     </div>
   </section>
 
-  <!-- Buying Advice -->
-  <section class="buying-advice-section section-padding">
+  <!-- Editorial Buying Advice -->
+  <section class="buying-advice-section">
     <div class="container advice-container">
-      <div class="advice-header">
-        <span class="badge badge-emerald">Corporate Travel Playbook</span>
-        <h2>How to Select a Business Hotel in Gurugram</h2>
-        <p>Avoid lost working hours and highway gridlock with these executive booking rules.</p>
+      <div class="section-heading-row">
+        <span class="editorial-kicker">Executive Intelligence</span>
+        <h2 class="font-serif">Business Lodging Advice for Gurugram</h2>
+        <p>Key considerations for corporate travel managers, consultants, and solo business visitors.</p>
       </div>
 
       <div class="advice-grid">
         {hub.buyingAdvice.map((item, idx) => (
           <div class="advice-card card">
-            <span class="advice-number">0{idx + 1}</span>
-            <h3>{item.title}</h3>
-            <p>{item.content}</p>
+            <span class="advice-number font-serif">0{idx + 1}</span>
+            <h3 class="advice-title font-serif">{item.title}</h3>
+            <p class="advice-body">{item.content}</p>
           </div>
         ))}
       </div>
     </div>
   </section>
 
+  <!-- Hub FAQs -->
   <FaqAccordion faqs={hub.faqItems} title={`Frequently Asked Questions About ${hub.title}`} />
 </BaseLayout>
 
 <style>
   .hub-hero {
-    background: linear-gradient(180deg, #ECFDF5 0%, var(--bg-primary) 100%);
+    background-color: var(--bg-surface);
     padding: 3rem 0 2rem;
-    border-bottom: 1px solid var(--border-subtle);
+    border-bottom: 1px solid var(--border-neutral);
   }
 
   .hub-hero-container {
-    max-width: 860px;
-    text-align: center;
+    max-width: 920px;
+    margin: 0 auto;
+    text-align: left;
   }
 
-  .hub-hero .badge {
-    margin-bottom: 0.875rem;
+  .hero-kicker-wrap {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .editorial-kicker {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--forest-primary);
   }
 
   .hub-h1 {
-    margin-bottom: 1rem;
+    font-size: clamp(2.2rem, 4.5vw, 3.4rem);
+    line-height: 1.15;
+    color: var(--navy-primary);
+    margin: 0.25rem 0 1rem 0;
   }
 
   .hub-lead {
+    font-size: 1.125rem;
+    line-height: 1.6;
+    color: var(--text-secondary);
+    margin-bottom: 1.5rem;
+    max-width: 76ch;
+  }
+
+  .category-criteria-box {
+    padding: 0.85rem 1.25rem;
+    background-color: var(--bg-subtle);
+    border-left: 3px solid var(--forest-primary);
+    border-radius: 0 var(--radius-xs) var(--radius-xs) 0;
+    font-size: 0.8125rem;
+    color: var(--navy-secondary);
+    line-height: 1.5;
+  }
+
+  .criteria-header {
+    font-weight: 700;
+    color: var(--navy-primary);
+    margin-right: 0.35rem;
+  }
+
+  /* Comparison Section */
+  .comparison-section {
+    padding-top: 3.5rem;
+    padding-bottom: 1.5rem;
+  }
+
+  .section-heading-row {
     margin-bottom: 1.5rem;
   }
 
-  .hub-stats-bar {
-    display: inline-flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: center;
-    gap: 0.75rem;
-    padding: 0.5rem 1rem;
-    background-color: var(--bg-card);
-    border: 1px solid var(--border-subtle);
-    border-radius: var(--radius-full);
-    font-size: 0.8125rem;
+  .section-heading-row h2 {
+    font-size: clamp(1.75rem, 3vw, 2.25rem);
+    color: var(--navy-primary);
+    margin: 0.25rem 0 0.5rem 0;
+  }
+
+  .section-heading-row p {
+    font-size: 0.95rem;
     color: var(--text-secondary);
+    margin: 0;
+    max-width: 68ch;
   }
 
-  .hub-grid-intro {
-    max-width: 750px;
-    margin-bottom: 2rem;
+  /* Ranked List */
+  .rankings-section {
+    padding-top: 2.5rem;
+    padding-bottom: 4rem;
   }
 
-  .hotel-grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 1.75rem;
+  .hotel-ranked-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
   }
 
-  @media (min-width: 640px) {
-    .hotel-grid {
-      grid-template-columns: repeat(2, 1fr);
-    }
-  }
-
-  @media (min-width: 1024px) {
-    .hotel-grid {
-      grid-template-columns: repeat(3, 1fr);
-    }
-  }
-
+  /* Advice Section */
   .buying-advice-section {
-    background-color: var(--bg-card);
-    border-top: 1px solid var(--border-subtle);
-  }
-
-  .advice-container {
-    max-width: 1000px;
-  }
-
-  .advice-header {
-    text-align: center;
-    max-width: 700px;
-    margin: 0 auto 2.5rem;
-  }
-
-  .advice-header .badge {
-    margin-bottom: 0.5rem;
+    background-color: var(--bg-subtle);
+    border-top: 1px solid var(--border-neutral);
+    border-bottom: 1px solid var(--border-neutral);
+    padding: 4rem 0;
   }
 
   .advice-grid {
@@ -176,26 +217,27 @@ const faqSchema = generateFaqSchema(hub.faqItems);
 
   .advice-card {
     padding: 1.75rem;
-    display: flex;
-    flex-direction: column;
+    background-color: var(--bg-surface);
   }
 
   .advice-number {
     font-size: 1.5rem;
     font-weight: 800;
-    color: var(--emerald-primary);
+    color: var(--forest-primary);
+    display: block;
     margin-bottom: 0.5rem;
   }
 
-  .advice-card h3 {
-    font-size: 1.125rem;
-    margin-bottom: 0.75rem;
+  .advice-title {
+    font-size: 1.15rem;
+    color: var(--navy-primary);
+    margin: 0 0 0.5rem 0;
   }
 
-  .advice-card p {
-    font-size: 0.875rem;
-    line-height: 1.6;
+  .advice-body {
+    font-size: 0.84375rem;
+    line-height: 1.55;
     color: var(--text-secondary);
-    margin-bottom: 0;
+    margin: 0;
   }
 </style>

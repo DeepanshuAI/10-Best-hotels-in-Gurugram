@@ -1,47 +1,30 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import HotelDirectory from '../components/HotelDirectory.astro';
+import HotelComparisonTable from '../components/HotelComparisonTable.astro';
 import FaqAccordion from '../components/FaqAccordion.astro';
 import { HOTELS } from '../data/hotels';
 import { HOMEPAGE_FAQS } from '../data/faqs';
 import { generateWebSiteSchema, generateItemListSchema } from '../lib/seo';
 
-const title = 'Best Hotels in Gurugram (2026) | Verified Local Directory & Transit Guide';
-const description = 'Independent, verified guide to the best hotels in Gurugram (Gurgaon). Compare luxury, business & budget stays across Cyber City, Golf Course Road, Udyog Vihar & MG Road.';
+const title = 'Best Hotels in Gurugram (2026) | Editorial Rankings & Directory';
+const description = 'Independent, ranked guide to the best hotels in Gurugram (Gurgaon). Compare luxury, corporate business, and budget stays across Cyber City, Golf Course Road, Udyog Vihar, and MG Road.';
 
 const webSiteSchema = generateWebSiteSchema();
 const itemListSchema = generateItemListSchema('Best Hotels in Gurugram', HOTELS, '/');
 
-const categoryCards = [
-  {
-    title: 'Luxury Stays',
-    count: HOTELS.filter((h) => h.category === 'luxury' || h.category === 'resort').length,
-    description: '5-star sanctuaries, golf retreats & executive lounges.',
-    href: '/luxury-hotels-in-gurugram/',
-    badge: '5-Star Hospitality',
-  },
-  {
-    title: 'Business Hotels',
-    count: HOTELS.filter((h) => h.category === 'business').length,
-    description: 'Ergonomic desks, boardrooms & high-speed enterprise Wi-Fi.',
-    href: '/business-hotels-in-gurugram/',
-    badge: 'Corporate Focus',
-  },
-  {
-    title: 'Smart Budget',
-    count: HOTELS.filter((h) => h.category === 'budget').length,
-    description: 'Standardized cleanliness, CloudBeds & sub-₹4,500 tariffs.',
-    href: '/budget-hotels-in-gurugram/',
-    badge: 'Verified Value',
-  },
+const categoryPills = [
+  { label: '5-Star Luxury', href: '/luxury-hotels-in-gurugram/', count: HOTELS.filter((h) => h.category === 'luxury' || h.category === 'resort').length },
+  { label: 'Corporate Business', href: '/business-hotels-in-gurugram/', count: HOTELS.filter((h) => h.category === 'business').length },
+  { label: 'Smart Budget', href: '/budget-hotels-in-gurugram/', count: HOTELS.filter((h) => h.category === 'budget').length },
 ];
 
-const locationShortcuts = [
-  { name: 'DLF Cyber City', count: '4 properties', href: '/hotels-near-cyber-city/', tag: 'Fortune 500 Hub' },
-  { name: 'Golf Course Road', count: '5 properties', href: '/hotels-near-golf-course-road/', tag: 'Rapid Metro Line' },
-  { name: 'Udyog Vihar', count: '4 properties', href: '/hotels-near-udyog-vihar/', tag: 'Phase 1–5 Access' },
-  { name: 'MG Road & Sec 29', count: '4 properties', href: '/hotels-near-mg-road-gurugram/', tag: 'Yellow Line Metro' },
-  { name: 'Sohna Road', count: '2 properties', href: '/hotels-near-sohna-road/', tag: 'Suburban IT Parks' },
+const corridorPills = [
+  { name: 'DLF Cyber City', href: '/hotels-near-cyber-city/' },
+  { name: 'Golf Course Road', href: '/hotels-near-golf-course-road/' },
+  { name: 'Udyog Vihar', href: '/hotels-near-udyog-vihar/' },
+  { name: 'MG Road & Sec 29', href: '/hotels-near-mg-road-gurugram/' },
+  { name: 'Sohna Road', href: '/hotels-near-sohna-road/' },
 ];
 ---
 
@@ -51,522 +34,741 @@ const locationShortcuts = [
   canonicalPath="/"
   jsonLd={[webSiteSchema, itemListSchema]}
 >
-  <!-- Hero Section -->
-  <section class="hero-section" aria-labelledby="hero-title">
+  <!-- Editorial Introduction (Hero) -->
+  <header class="editorial-hero" aria-labelledby="hero-title">
     <div class="container hero-container">
-      <div class="hero-badge-wrap">
-        <span class="badge badge-emerald">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
-            <polyline points="20 6 9 17 4 12"/>
-          </svg>
-          100% Independent Local Directory &bull; Zero Paid Rankings
-        </span>
+      <div class="hero-kicker-strip">
+        <span class="editorial-kicker">Independent Rankings Directory</span>
+        <span class="kicker-dot" aria-hidden="true">&bull;</span>
+        <span class="kicker-date">2026 Edition</span>
+        <span class="kicker-dot" aria-hidden="true">&bull;</span>
+        <span class="kicker-bias">Zero Commercial Placements</span>
       </div>
 
-      <h1 id="hero-title" class="hero-title">
-        The Best Hotels in Gurugram, <br class="hidden-mobile" />
-        <span class="hero-title-accent">Curated with Transit Reality</span>
+      <h1 id="hero-title" class="hero-h1 font-serif">
+        Best Hotels in Gurugram
       </h1>
 
-      <p class="lead hero-lead">
-        Navigate Gurugram’s divided expressways with confidence. We compile published property specifications, acoustic insulation notes, Rapid Metro walkability, and realistic commute times across <strong>DLF Cyber City</strong>, <strong>Golf Course Road</strong>, <strong>Udyog Vihar</strong>, and <strong>MG Road</strong>.
+      <p class="hero-intro-text">
+        An editorial ranking and comparison guide evaluating <strong>18 verified accommodations</strong> across DLF Cyber City, Golf Course Road, Udyog Vihar, and MG Road. Every position is determined by real transit access, acoustic soundproofing, corporate workstations, and corroborated public reputation.
       </p>
 
-      <!-- Quick Category Cards -->
-      <div class="hero-categories-grid">
-        {categoryCards.map((cat) => (
-          <a href={cat.href} class="hero-cat-card card">
-            <div class="cat-card-header">
-              <span class="badge badge-emerald">{cat.badge}</span>
-              <span class="cat-count">{cat.count} Hotels</span>
-            </div>
-            <h2 class="cat-card-title">{cat.title}</h2>
-            <p class="cat-card-desc">{cat.description}</p>
-            <div class="cat-card-arrow" aria-hidden="true">
-              Explore {cat.title} &rarr;
-            </div>
+      <!-- Quick Discovery Jump Links -->
+      <div class="hero-navigation-bar">
+        <div class="nav-cluster">
+          <span class="cluster-label">Rankings by Tier:</span>
+          <div class="cluster-links">
+            {categoryPills.map((cat) => (
+              <a href={cat.href} class="cluster-chip">
+                <span>{cat.label}</span>
+                <span class="chip-count">({cat.count})</span>
+              </a>
+            ))}
+          </div>
+        </div>
+
+        <div class="nav-cluster">
+          <span class="cluster-label">By Business Area:</span>
+          <div class="cluster-links">
+            {corridorPills.map((c) => (
+              <a href={c.href} class="cluster-chip-subtle">
+                {c.name}
+              </a>
+            ))}
+          </div>
+        </div>
+
+        <div class="nav-compare-action">
+          <a href="/compare/" class="btn btn-outline btn-sm">
+            Compare All 18 Hotels Matrix &rarr;
           </a>
-        ))}
-      </div>
-    </div>
-  </section>
-
-  <!-- Location Shortcuts Bar -->
-  <section class="locations-bar-section" aria-label="Corporate districts shortcuts">
-    <div class="container">
-      <div class="locations-bar card">
-        <span class="locations-bar-label">Explore by Business Corridor:</span>
-        <div class="locations-chip-list">
-          {locationShortcuts.map((loc) => (
-            <a href={loc.href} class="location-chip">
-              <span class="loc-name">{loc.name}</span>
-              <span class="loc-tag">{loc.tag}</span>
-            </a>
-          ))}
         </div>
       </div>
     </div>
-  </section>
+  </header>
 
-  <!-- Main Directory Section -->
-  <section class="container directory-section" aria-labelledby="directory-main-heading">
-    <div class="section-intro">
-      <span class="badge badge-neutral">Interactive Directory</span>
-      <h2 id="directory-main-heading">Compare Verified Gurugram Hotels</h2>
-      <p>Filter by stay category, business district, indicative starting tariff, or search by landmark.</p>
-    </div>
-
-    <HotelDirectory hotels={HOTELS} />
-  </section>
-
-  <!-- Selection Methodology Feature Section -->
-  <section class="methodology-feature-section section-padding" aria-labelledby="methodology-feature-heading">
-    <div class="container methodology-feature-container">
-      <div class="methodology-feature-card card">
-        <div class="methodology-badge">
-          <span class="badge badge-gold">Transparent Editorial Process</span>
-        </div>
-        <h2 id="methodology-feature-heading" class="methodology-feature-title">
-          How We Evaluate & Select Hotels in Gurugram
-        </h2>
-        <p class="methodology-feature-lead">
-          Unlike online booking portals that list thousands of unverified rooms with artificially inflated star ratings, this directory follows strict, non-commercial quality criteria:
+  <!-- Central Element: The Ranked Hotel Selection -->
+  <main class="container directory-main-wrapper" id="rankings-section">
+    <div class="rankings-header-row">
+      <div>
+        <span class="editorial-kicker">The Definitive Selection</span>
+        <h2 class="rankings-title font-serif">Ranked Hotel Directory</h2>
+        <p class="rankings-subtitle">
+          Properties ordered by verified physical specifications, transit realities, and traveler suitability. Click any entry to access the complete editorial dossier.
         </p>
+      </div>
+      <div class="rankings-header-link">
+        <a href="#how-we-rank" class="text-link">How rankings are determined &darr;</a>
+      </div>
+    </div>
 
-        <div class="methodology-pillars-grid">
-          <div class="pillar-item">
-            <div class="pillar-icon" aria-hidden="true">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <circle cx="12" cy="12" r="10"/>
-                <polyline points="12 6 12 12 16 14"/>
-              </svg>
-            </div>
-            <h3>1. The Gurugram Transit Reality</h3>
-            <p>We reject straight-line distance claims. Every listing details real driving routes across NH-48 flyovers and confirms exact walkability to Yellow Line or Rapid Metro stations.</p>
+    <!-- The Directory Component with Vertical Ranked Rows -->
+    <HotelDirectory hotels={HOTELS} />
+  </main>
+
+  <!-- Hotel Comparison Table Section -->
+  <section class="comparison-feature-section" id="comparison-preview" aria-labelledby="comparison-heading">
+    <div class="container">
+      <div class="section-intro-block">
+        <span class="editorial-kicker">Side-by-Side Analysis</span>
+        <h2 id="comparison-heading" class="section-h2 font-serif">Compare Key Gurugram Hotels</h2>
+        <p class="section-sub-p">
+          Compare leading properties across Cyber City, Golf Course Road, and Udyog Vihar by transit times, indicative rates, and primary traveller suitability.
+        </p>
+      </div>
+
+      <!-- Preview of Top 8 Ranked Properties in Table -->
+      <HotelComparisonTable hotels={HOTELS} maxHotels={8} id="homepage-comparison-table" />
+
+      <div class="comparison-cta-box">
+        <p>Evaluating specialized corporate needs, event facilities, or budget stays?</p>
+        <a href="/compare/" class="btn btn-navy">
+          View Complete 18-Property Comparison Table &rarr;
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Explain The Ranking (Methodology Section) -->
+  <section class="methodology-feature-section" id="how-we-rank" aria-labelledby="ranking-criteria-heading">
+    <div class="container">
+      <div class="methodology-card card">
+        <div class="methodology-masthead">
+          <span class="editorial-kicker">Transparent Standards</span>
+          <h2 id="ranking-criteria-heading" class="methodology-h2 font-serif">
+            How We Select and Rank Gurugram Hotels
+          </h2>
+          <p class="methodology-desc">
+            Unlike commercial booking engines that shuffle rankings according to sponsor commissions or inflated star badges, our directory uses an objective, evidence-based editorial framework:
+          </p>
+        </div>
+
+        <div class="criteria-grid">
+          <div class="criteria-item">
+            <span class="criteria-num font-serif">01</span>
+            <h3 class="criteria-title">Transit Reality, Not Straight-Line Distance</h3>
+            <p>
+              We reject radius marketing claims. Properties are evaluated on actual driving minutes through Shankar Chowk underpasses, DLF Cyber City flyovers, and walking access to Rapid Metro stations.
+            </p>
           </div>
 
-          <div class="pillar-item">
-            <div class="pillar-icon" aria-hidden="true">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
-                <line x1="8" y1="21" x2="16" y2="21"/>
-                <line x1="12" y1="17" x2="12" y2="21"/>
-              </svg>
-            </div>
-            <h3>2. Workstation Ergonomics</h3>
-            <p>We review published specifications for dedicated in-room desk space, acoustic soundproofing against expressways, and high-speed Wi-Fi stability.</p>
+          <div class="criteria-item">
+            <span class="criteria-num font-serif">02</span>
+            <h3 class="criteria-title">Workstation Ergonomics & Soundproofing</h3>
+            <p>
+              Gurugram expressways generate heavy noise. We verify acoustic double/triple glazing, dedicated in-room executive work desks, ergonomic task seating, and private business meeting rooms.
+            </p>
           </div>
 
-          <div class="pillar-item">
-            <div class="pillar-icon" aria-hidden="true">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-              </svg>
-            </div>
-            <h3>3. Zero Paid Placement</h3>
-            <p>Hoteliers cannot purchase inclusion, higher rankings, or positive editorial characterizations. All listings are based strictly on corroborated physical facts and public consistency.</p>
+          <div class="criteria-item">
+            <span class="criteria-num font-serif">03</span>
+            <h3 class="criteria-title">Corroborated Public Reputation</h3>
+            <p>
+              We cross-reference multiple independent public review benchmarks across Google Maps and verified traveler databases, excluding self-promoted hotel marketing claims.
+            </p>
+          </div>
+
+          <div class="criteria-item">
+            <span class="criteria-num font-serif">04</span>
+            <h3 class="criteria-title">Zero Sponsored Ranks or Placement Fees</h3>
+            <p>
+              No hotel can pay to be included, promoted, or moved up in position. When rates or amenities change, anyone can submit a verifiable correction.
+            </p>
           </div>
         </div>
 
-        <div class="methodology-cta">
-          <a href="/how-we-choose-hotels/" class="btn btn-outline">
-            Read Full Selection Methodology &rarr;
+        <div class="methodology-footer-row">
+          <a href="/how-we-choose-hotels/" class="btn btn-outline btn-sm">
+            Read Complete Editorial Methodology &rarr;
           </a>
-          <a href="/corrections/" class="btn btn-outline">
-            Report a Factual Discrepancy
+          <a href="/corrections/" class="text-link">
+            Report an amenity or rate discrepancy
           </a>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Area Guide Preview Section -->
-  <section class="guide-preview-section section-padding" aria-labelledby="guide-preview-heading">
+  <!-- Explore Different Needs (Categories & Corridors) -->
+  <section class="explore-needs-section" aria-labelledby="explore-needs-heading">
     <div class="container">
-      <div class="guide-preview-header">
-        <span class="badge badge-emerald">Decision Support</span>
-        <h2 id="guide-preview-heading">Essential Guides for Gurugram Visitors</h2>
-        <p>In-depth, transit-aware resources designed to help you avoid common travel mistakes in NCR.</p>
+      <div class="section-intro-block">
+        <span class="editorial-kicker">Decision Support</span>
+        <h2 id="explore-needs-heading" class="section-h2 font-serif">Explore by Travel Requirement</h2>
+        <p class="section-sub-p">
+          Navigate tailored rankings and practical advice based on your budget tier or business destination.
+        </p>
       </div>
 
-      <div class="guide-cards-grid">
-        <article class="guide-card card">
-          <div class="guide-card-body">
-            <span class="guide-tag">Neighborhood Orientation</span>
-            <h3 class="guide-title">
-              <a href="/guides/where-to-stay-in-gurugram/">Where to Stay in Gurugram: Neighborhood & District Guide</a>
-            </h3>
-            <p class="guide-desc">
-              Understand the real trade-offs between DLF Cyber City, Golf Course Road, MG Road, Udyog Vihar, and Sohna Road before booking.
-            </p>
-            <a href="/guides/where-to-stay-in-gurugram/" class="text-link guide-read-more">
-              Read 8-Min Guide &rarr;
-            </a>
+      <div class="needs-grid">
+        <!-- Luxury -->
+        <a href="/luxury-hotels-in-gurugram/" class="need-card card">
+          <div class="need-header">
+            <span class="need-tier">5-Star Luxury</span>
+            <span class="need-count">6 Properties</span>
           </div>
+          <h3 class="need-title font-serif">Luxury & Executive Sanctuaries</h3>
+          <p class="need-summary">
+            Spacious suites (600+ sq ft), resort reflection pools, dedicated butlers, and soundproof rooms near Cyber City.
+          </p>
+          <span class="need-link-text">Explore Luxury Rankings &rarr;</span>
+        </a>
+
+        <!-- Business -->
+        <a href="/business-hotels-in-gurugram/" class="need-card card">
+          <div class="need-header">
+            <span class="need-tier">Corporate Business</span>
+            <span class="need-count">6 Properties</span>
+          </div>
+          <h3 class="need-title font-serif">Corporate Business Hotels</h3>
+          <p class="need-summary">
+            Engineered for productivity: boardrooms, executive lounges, Rapid Metro connectivity, and fast IGI airport access.
+          </p>
+          <span class="need-link-text">Explore Business Rankings &rarr;</span>
+        </a>
+
+        <!-- Budget -->
+        <a href="/budget-hotels-in-gurugram/" class="need-card card">
+          <div class="need-header">
+            <span class="need-tier">Smart Budget</span>
+            <span class="need-count">6 Properties</span>
+          </div>
+          <h3 class="need-title font-serif">Verified Smart Budget Stays</h3>
+          <p class="need-summary">
+            Branded, reliable stays (Bloom, ibis, Ginger) avoiding unregulated guesthouse pitfalls and hygiene surprises.
+          </p>
+          <span class="need-link-text">Explore Budget Rankings &rarr;</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Helpful Guides Section -->
+  <section class="guides-section" aria-labelledby="guides-heading">
+    <div class="container">
+      <div class="section-intro-block">
+        <span class="editorial-kicker">Local Intelligence</span>
+        <h2 id="guides-heading" class="section-h2 font-serif">Practical Gurugram Travel Guides</h2>
+        <p class="section-sub-p">
+          Essential insights on neighborhood geography, highway traffic avoidance, and airport transit realities.
+        </p>
+      </div>
+
+      <div class="guides-grid">
+        <article class="guide-item card">
+          <span class="guide-topic">Neighborhood Comparison</span>
+          <h3 class="guide-title font-serif">
+            <a href="/guides/where-to-stay-in-gurugram/">Where to Stay in Gurugram: Practical District Comparison</a>
+          </h3>
+          <p class="guide-desc">
+            Understand the real commuting trade-offs between DLF Cyber City, Golf Course Road, MG Road, Udyog Vihar, and Sohna Road before choosing a base.
+          </p>
+          <a href="/guides/where-to-stay-in-gurugram/" class="guide-read-link">Read 8-Min Guide &rarr;</a>
         </article>
 
-        <article class="guide-card card">
-          <div class="guide-card-body">
-            <span class="guide-tag">Corporate Travel</span>
-            <h3 class="guide-title">
-              <a href="/guides/hotels-for-business-travel-in-gurugram/">Hotels for Business Travel in Gurugram: Practical Executive Guide</a>
-            </h3>
-            <p class="guide-desc">
-              How to evaluate in-room desk ergonomics, soundproofing against highway roar, airport departure times, and Rapid Metro access.
-            </p>
-            <a href="/guides/hotels-for-business-travel-in-gurugram/" class="text-link guide-read-more">
-              Read 7-Min Guide &rarr;
-            </a>
-          </div>
+        <article class="guide-item card">
+          <span class="guide-topic">Corporate Travel</span>
+          <h3 class="guide-title font-serif">
+            <a href="/guides/hotels-for-business-travel-in-gurugram/">Hotels for Business Travel: Workstation & Transit Checklist</a>
+          </h3>
+          <p class="guide-desc">
+            How to evaluate desk ergonomics, highway soundproofing, breakfast timing, and airport departure windows for executive trips.
+          </p>
+          <a href="/guides/hotels-for-business-travel-in-gurugram/" class="guide-read-link">Read 7-Min Guide &rarr;</a>
         </article>
 
-        <article class="guide-card card">
-          <div class="guide-card-body">
-            <span class="guide-tag">Budget Due Diligence</span>
-            <h3 class="guide-title">
-              <a href="/guides/choosing-a-budget-hotel-in-gurugram/">Choosing a Budget Hotel in Gurugram: How to Avoid Bad Stays</a>
-            </h3>
-            <p class="guide-desc">
-              How to bypass fake reviews and unbranded guest house traps by selecting vetted branded chains like Bloom, ibis, and Ginger.
-            </p>
-            <a href="/guides/choosing-a-budget-hotel-in-gurugram/" class="text-link guide-read-more">
-              Read 6-Min Guide &rarr;
-            </a>
-          </div>
+        <article class="guide-item card">
+          <span class="guide-topic">Budget Diligence</span>
+          <h3 class="guide-title font-serif">
+            <a href="/guides/choosing-a-budget-hotel-in-gurugram/">Choosing a Budget Hotel: How to Avoid Guesthouse Traps</a>
+          </h3>
+          <p class="guide-desc">
+            Why standardized branded chains offer far greater safety, power backup reliability, and accurate booking confirmation than unregulated local rooms.
+          </p>
+          <a href="/guides/choosing-a-budget-hotel-in-gurugram/" class="guide-read-link">Read 6-Min Guide &rarr;</a>
         </article>
       </div>
     </div>
   </section>
 
   <!-- Homepage FAQs -->
-  <FaqAccordion faqs={HOMEPAGE_FAQS} title="Frequently Asked Questions About Staying in Gurugram" />
+  <FaqAccordion faqs={HOMEPAGE_FAQS} title="Frequently Asked Questions About Gurugram Accommodations" />
 </BaseLayout>
 
 <style>
-  /* Hero Section */
-  .hero-section {
-    background: linear-gradient(180deg, #F0FDF4 0%, var(--bg-primary) 100%);
-    padding-top: 3.5rem;
-    padding-bottom: 2.5rem;
-    border-bottom: 1px solid var(--border-subtle);
+  /* Editorial Hero Header */
+  .editorial-hero {
+    background-color: var(--bg-surface);
+    border-bottom: 1px solid var(--border-neutral);
+    padding: 3.5rem 0 2.5rem;
   }
 
   .hero-container {
-    text-align: center;
     max-width: 960px;
-  }
-
-  .hero-badge-wrap {
-    margin-bottom: 1.25rem;
-  }
-
-  .hero-title {
-    font-size: 2.375rem;
-    line-height: 1.15;
-    margin-bottom: 1.25rem;
-  }
-
-  @media (min-width: 768px) {
-    .hero-title {
-      font-size: 3.25rem;
-    }
-  }
-
-  .hero-title-accent {
-    color: var(--emerald-primary);
-  }
-
-  .hero-lead {
-    max-width: 800px;
-    margin-left: auto;
-    margin-right: auto;
-    margin-bottom: 2.5rem;
-    color: var(--text-secondary);
-  }
-
-  .hidden-mobile {
-    display: none;
-  }
-
-  @media (min-width: 768px) {
-    .hidden-mobile {
-      display: inline;
-    }
-  }
-
-  /* Hero Categories Grid */
-  .hero-categories-grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 1.25rem;
+    margin: 0 auto;
     text-align: left;
   }
 
-  @media (min-width: 640px) {
-    .hero-categories-grid {
-      grid-template-columns: repeat(3, 1fr);
-    }
-  }
-
-  .hero-cat-card {
-    padding: 1.5rem;
+  .hero-kicker-strip {
     display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    text-decoration: none;
-    border-top: 4px solid var(--emerald-primary);
-  }
-
-  .cat-card-header {
-    display: flex;
-    justify-content: space-between;
+    flex-wrap: wrap;
     align-items: center;
-    margin-bottom: 0.75rem;
-  }
-
-  .cat-count {
+    gap: 0.5rem;
     font-size: 0.75rem;
-    font-weight: 700;
     color: var(--text-muted);
-  }
-
-  .cat-card-title {
-    font-size: 1.25rem;
-    margin-bottom: 0.375rem;
-  }
-
-  .cat-card-desc {
-    font-size: 0.875rem;
-    color: var(--text-secondary);
     margin-bottom: 1rem;
-    flex: 1 0 auto;
   }
 
-  .cat-card-arrow {
-    font-size: 0.8125rem;
+  .editorial-kicker {
     font-weight: 700;
-    color: var(--emerald-primary);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--forest-primary);
   }
 
-  /* Locations Bar Section */
-  .locations-bar-section {
-    margin-top: -1rem;
-    margin-bottom: 2rem;
+  .kicker-dot {
+    color: var(--border-neutral);
   }
 
-  .locations-bar {
-    padding: 1rem 1.25rem;
+  .kicker-bias {
+    color: var(--brass-accent);
+    font-weight: 600;
+  }
+
+  .hero-h1 {
+    font-size: clamp(2.4rem, 5vw, 3.8rem);
+    line-height: 1.1;
+    color: var(--navy-primary);
+    margin: 0 0 1.25rem 0;
+    letter-spacing: -0.025em;
+  }
+
+  .hero-intro-text {
+    font-size: 1.125rem;
+    line-height: 1.65;
+    color: var(--text-secondary);
+    max-width: 76ch;
+    margin: 0 0 2rem 0;
+  }
+
+  /* Quick Navigation Bar */
+  .hero-navigation-bar {
     display: flex;
     flex-direction: column;
-    gap: 0.75rem;
+    gap: 1.25rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border-subtle);
   }
 
   @media (min-width: 768px) {
-    .locations-bar {
+    .hero-navigation-bar {
       flex-direction: row;
       align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+    }
+  }
+
+  .nav-cluster {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+
+  @media (min-width: 640px) {
+    .nav-cluster {
+      flex-direction: row;
+      align-items: center;
+      gap: 0.75rem;
+    }
+  }
+
+  .cluster-label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-muted);
+  }
+
+  .cluster-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+
+  .cluster-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    padding: 0.3rem 0.65rem;
+    background-color: var(--bg-subtle);
+    border: 1px solid var(--border-neutral);
+    border-radius: var(--radius-xs);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--navy-primary);
+    text-decoration: none;
+    transition: all 0.15s ease;
+  }
+
+  .cluster-chip:hover {
+    background-color: var(--forest-primary);
+    color: #FFFFFF;
+    border-color: var(--forest-primary);
+  }
+
+  .chip-count {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+  }
+
+  .cluster-chip:hover .chip-count {
+    color: rgba(255, 255, 255, 0.85);
+  }
+
+  .cluster-chip-subtle {
+    font-size: 0.8125rem;
+    color: var(--text-secondary);
+    padding: 0.25rem 0.5rem;
+    border-radius: var(--radius-xs);
+    text-decoration: none;
+    transition: color 0.15s ease, background-color 0.15s ease;
+  }
+
+  .cluster-chip-subtle:hover {
+    color: var(--forest-primary);
+    background-color: var(--forest-soft);
+  }
+
+  /* Main Directory Section */
+  .directory-main-wrapper {
+    padding-top: 3.5rem;
+    padding-bottom: 3.5rem;
+  }
+
+  .rankings-header-row {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+
+  @media (min-width: 768px) {
+    .rankings-header-row {
+      flex-direction: row;
+      align-items: flex-end;
       justify-content: space-between;
     }
   }
 
-  .locations-bar-label {
-    font-size: 0.8125rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
-    color: var(--text-muted);
-    flex-shrink: 0;
+  .rankings-title {
+    font-size: clamp(1.8rem, 3.5vw, 2.5rem);
+    color: var(--navy-primary);
+    line-height: 1.2;
+    margin: 0.25rem 0 0.5rem 0;
   }
 
-  .locations-chip-list {
+  .rankings-subtitle {
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    max-width: 68ch;
+    margin: 0;
+    line-height: 1.55;
+  }
+
+  .rankings-header-link {
+    white-space: nowrap;
+  }
+
+  .rankings-header-link .text-link {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--forest-primary);
+  }
+
+  /* Comparison Feature Section */
+  .comparison-feature-section {
+    background-color: var(--bg-surface);
+    border-top: 1px solid var(--border-neutral);
+    border-bottom: 1px solid var(--border-neutral);
+    padding: 4rem 0;
+  }
+
+  .section-intro-block {
+    margin-bottom: 2rem;
+  }
+
+  .section-h2 {
+    font-size: clamp(1.75rem, 3vw, 2.25rem);
+    color: var(--navy-primary);
+    margin: 0.25rem 0 0.5rem 0;
+  }
+
+  .section-sub-p {
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    max-width: 68ch;
+    margin: 0;
+    line-height: 1.55;
+  }
+
+  .comparison-cta-box {
     display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-  }
-
-  .location-chip {
-    display: inline-flex;
+    flex-direction: column;
     align-items: center;
-    gap: 0.375rem;
-    padding: 0.35rem 0.75rem;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 2rem;
+    padding: 1.5rem;
     background-color: var(--bg-subtle);
     border: 1px solid var(--border-subtle);
     border-radius: var(--radius-sm);
-    font-size: 0.8125rem;
-    transition: all var(--transition-fast);
-  }
-
-  .location-chip:hover {
-    border-color: var(--emerald-primary);
-    background-color: var(--emerald-light);
-    color: var(--emerald-hover);
-  }
-
-  .loc-name {
-    font-weight: 600;
-    color: var(--text-primary);
-  }
-
-  .loc-tag {
-    font-size: 0.6875rem;
-    color: var(--text-muted);
-  }
-
-  /* Section Intro */
-  .section-intro {
     text-align: center;
-    max-width: 650px;
-    margin: 2rem auto 1.5rem;
   }
 
-  .section-intro .badge {
-    margin-bottom: 0.5rem;
-  }
-
-  /* Methodology Feature */
-  .methodology-feature-section {
-    background-color: var(--bg-card);
-    border-top: 1px solid var(--border-subtle);
-    border-bottom: 1px solid var(--border-subtle);
-  }
-
-  .methodology-feature-card {
-    padding: 2.5rem 1.5rem;
-    border: 1px solid var(--border-subtle);
-  }
-
-  @media (min-width: 768px) {
-    .methodology-feature-card {
-      padding: 3.5rem 3rem;
+  @media (min-width: 640px) {
+    .comparison-cta-box {
+      flex-direction: row;
+      justify-content: space-between;
+      text-align: left;
     }
   }
 
-  .methodology-badge {
-    margin-bottom: 1rem;
+  .comparison-cta-box p {
+    margin: 0;
+    font-size: 0.9375rem;
+    color: var(--navy-primary);
+    font-weight: 500;
   }
 
-  .methodology-feature-title {
-    font-size: 1.875rem;
-    margin-bottom: 0.75rem;
+  /* Methodology Section */
+  .methodology-feature-section {
+    padding: 4rem 0;
   }
 
-  .methodology-feature-lead {
-    font-size: 1.125rem;
-    color: var(--text-secondary);
-    max-width: 750px;
+  .methodology-card {
+    padding: 2.5rem;
+    background-color: var(--bg-surface);
+  }
+
+  .methodology-masthead {
     margin-bottom: 2.5rem;
+    border-bottom: 1px solid var(--border-subtle);
+    padding-bottom: 1.5rem;
   }
 
-  .methodology-pillars-grid {
+  .methodology-h2 {
+    font-size: clamp(1.75rem, 3vw, 2.25rem);
+    color: var(--navy-primary);
+    margin: 0.25rem 0 0.75rem 0;
+  }
+
+  .methodology-desc {
+    font-size: 1rem;
+    color: var(--text-secondary);
+    max-width: 72ch;
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  .criteria-grid {
     display: grid;
     grid-template-columns: 1fr;
     gap: 2rem;
     margin-bottom: 2.5rem;
   }
 
-  @media (min-width: 768px) {
-    .methodology-pillars-grid {
-      grid-template-columns: repeat(3, 1fr);
+  @media (min-width: 640px) {
+    .criteria-grid {
+      grid-template-columns: repeat(2, 1fr);
     }
   }
 
-  .pillar-item {
+  @media (min-width: 1024px) {
+    .criteria-grid {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+
+  .criteria-item {
     display: flex;
     flex-direction: column;
+    gap: 0.5rem;
   }
 
-  .pillar-icon {
-    width: 2.75rem;
-    height: 2.75rem;
-    background-color: var(--emerald-light);
-    color: var(--emerald-primary);
-    border-radius: var(--radius-md);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 1rem;
-    border: 1px solid var(--emerald-border);
+  .criteria-num {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--forest-primary);
+    line-height: 1;
   }
 
-  .pillar-item h3 {
-    font-size: 1.125rem;
-    margin-bottom: 0.5rem;
+  .criteria-title {
+    font-size: 1.05rem;
+    color: var(--navy-primary);
+    line-height: 1.3;
+    margin: 0;
   }
 
-  .pillar-item p {
-    font-size: 0.875rem;
-    line-height: 1.6;
+  .criteria-item p {
+    font-size: 0.84375rem;
+    line-height: 1.55;
     color: var(--text-secondary);
+    margin: 0;
   }
 
-  .methodology-cta {
+  .methodology-footer-row {
     display: flex;
     flex-wrap: wrap;
-    gap: 1rem;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.25rem;
     padding-top: 1.5rem;
     border-top: 1px solid var(--border-subtle);
   }
 
-  /* Guide Preview Section */
-  .guide-preview-header {
-    text-align: center;
-    max-width: 700px;
-    margin: 0 auto 2.5rem;
+  /* Explore Needs Section */
+  .explore-needs-section {
+    padding: 4rem 0;
+    background-color: var(--bg-subtle);
+    border-top: 1px solid var(--border-neutral);
+    border-bottom: 1px solid var(--border-neutral);
   }
 
-  .guide-preview-header .badge {
-    margin-bottom: 0.5rem;
-  }
-
-  .guide-cards-grid {
+  .needs-grid {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 1.75rem;
+    gap: 1.5rem;
   }
 
   @media (min-width: 768px) {
-    .guide-cards-grid {
+    .needs-grid {
       grid-template-columns: repeat(3, 1fr);
     }
   }
 
-  .guide-card {
+  .need-card {
+    padding: 1.75rem;
+    background-color: var(--bg-surface);
+    text-decoration: none;
+    color: inherit;
     display: flex;
     flex-direction: column;
-    padding: 1.5rem;
+    justify-content: space-between;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
   }
 
-  .guide-card-body {
+  .need-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-hover);
+    border-color: var(--forest-primary);
+  }
+
+  .need-header {
     display: flex;
-    flex-direction: column;
-    height: 100%;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.75rem;
+    font-size: 0.75rem;
   }
 
-  .guide-tag {
-    font-size: 0.6875rem;
+  .need-tier {
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.05em;
-    color: var(--emerald-primary);
+    color: var(--forest-primary);
+  }
+
+  .need-count {
+    color: var(--text-muted);
+  }
+
+  .need-title {
+    font-size: 1.25rem;
+    color: var(--navy-primary);
+    margin: 0 0 0.5rem 0;
+  }
+
+  .need-summary {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    line-height: 1.5;
+    margin: 0 0 1.25rem 0;
+  }
+
+  .need-link-text {
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--forest-primary);
+  }
+
+  /* Guides Section */
+  .guides-section {
+    padding: 4rem 0;
+  }
+
+  .guides-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  @media (min-width: 768px) {
+    .guides-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .guide-item {
+    padding: 1.75rem;
+    background-color: var(--bg-surface);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .guide-topic {
+    font-size: 0.6875rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--brass-accent);
     margin-bottom: 0.5rem;
   }
 
   .guide-title {
-    font-size: 1.125rem;
+    font-size: 1.15rem;
+    color: var(--navy-primary);
     line-height: 1.35;
-    margin-bottom: 0.75rem;
+    margin: 0 0 0.75rem 0;
+  }
+
+  .guide-title a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .guide-title a:hover {
+    color: var(--forest-primary);
+    text-decoration: underline;
   }
 
   .guide-desc {
-    font-size: 0.875rem;
+    font-size: 0.84375rem;
     color: var(--text-secondary);
-    line-height: 1.5;
-    margin-bottom: 1.25rem;
-    flex: 1 0 auto;
+    line-height: 1.55;
+    margin: 0 0 1.25rem 0;
   }
 
-  .guide-read-more {
-    font-size: 0.875rem;
+  .guide-read-link {
+    font-size: 0.8125rem;
     font-weight: 600;
+    color: var(--forest-primary);
+    text-decoration: none;
+  }
+
+  .guide-read-link:hover {
+    text-decoration: underline;
   }
 </style>

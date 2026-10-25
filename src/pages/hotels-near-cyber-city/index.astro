@@ -2,6 +2,7 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import HotelCard from '../../components/HotelCard.astro';
+import HotelComparisonTable from '../../components/HotelComparisonTable.astro';
 import FaqAccordion from '../../components/FaqAccordion.astro';
 import { HOTELS } from '../../data/hotels';
 import { CATEGORY_HUBS } from '../../data/categories';
@@ -11,6 +12,7 @@ const hub = CATEGORY_HUBS['hotels-near-cyber-city'];
 const cyberCityHotels = HOTELS.filter((h) => h.districts.includes('DLF Cyber City'));
 
 const breadcrumbs = [
+  { label: 'Hotels', href: '/' },
   { label: hub.title, href: '/hotels-near-cyber-city/' }
 ];
 
@@ -30,136 +32,165 @@ const faqSchema = generateFaqSchema(hub.faqItems);
 >
   <Breadcrumbs items={breadcrumbs} />
 
-  <section class="hub-hero">
+  <!-- Editorial Corridor Masthead -->
+  <header class="hub-hero">
     <div class="container hub-hero-container">
-      <span class="badge badge-emerald">DLF Cyber City & Cyber Hub Corridor</span>
-      <h1 class="hub-h1">{hub.h1}</h1>
+      <div class="hero-kicker-wrap">
+        <span class="editorial-kicker">Corridor Intelligence Dossier</span>
+        <span class="badge badge-navy">DLF Cyber City & Cyber Hub</span>
+      </div>
+      <h1 class="hub-h1 font-serif">{hub.h1}</h1>
       <p class="lead hub-lead">{hub.heroLead}</p>
-      <div class="hub-stats-bar">
-        <span class="hub-stat"><strong>{cyberCityHotels.length} Verified Properties</strong></span>
-        <span>&bull;</span>
-        <span class="hub-stat">Rapid Metro: Shankar Chowk & Cyber City</span>
-        <span>&bull;</span>
-        <span class="hub-stat">Airport: 15–18 Mins</span>
+      <div class="corridor-transit-bar">
+        <span><strong>Key Transit Links:</strong> Shankar Chowk Flyover &bull; Rapid Metro Cyber City &bull; 15 mins to DEL Airport T3</span>
       </div>
     </div>
-  </section>
+  </header>
 
-  <section class="container section-padding">
-    <div class="hub-grid-intro">
-      <h2>Accommodations Serving DLF Cyber City</h2>
-      <p>Strategically located properties offering rapid vehicular access across Shankar Chowk or seamless transit via the Gurugram Rapid Metro line.</p>
+  <!-- Side-by-Side Comparison Matrix -->
+  <section class="container comparison-section">
+    <div class="section-heading-row">
+      <span class="editorial-kicker">Corridor Comparison</span>
+      <h2 class="font-serif">Compare Cyber City Accommodations</h2>
+      <p>Evaluate commute times, indicative tariffs, and corporate workstation setups side-by-side.</p>
     </div>
 
-    <div class="hotel-grid">
-      {cyberCityHotels.map((hotel) => (
-        <HotelCard hotel={hotel} />
+    <HotelComparisonTable hotels={cyberCityHotels} id="cyber-city-comparison" />
+  </section>
+
+  <!-- Ranked List Section -->
+  <section class="container rankings-section">
+    <div class="section-heading-row">
+      <span class="editorial-kicker">Editorial Rankings</span>
+      <h2 class="font-serif">Ranked Accommodations Serving DLF Cyber City</h2>
+      <p>Properties evaluated on actual driving minutes through Shankar Chowk underpasses and direct Rapid Metro access.</p>
+    </div>
+
+    <div class="hotel-ranked-list">
+      {cyberCityHotels.map((hotel, index) => (
+        <HotelCard hotel={hotel} rank={index + 1} />
       ))}
     </div>
   </section>
 
   <!-- Buying Advice -->
-  <section class="buying-advice-section section-padding">
+  <section class="buying-advice-section">
     <div class="container advice-container">
-      <div class="advice-header">
-        <span class="badge badge-emerald">Cyber City Transit Intelligence</span>
-        <h2>Navigating Accommodation Around DLF Cyber City</h2>
-        <p>Key transit realities to factor in before booking near Shankar Chowk and Belvedere Towers.</p>
+      <div class="section-heading-row">
+        <span class="editorial-kicker">Corridor Intelligence</span>
+        <h2 class="font-serif">Navigating Stays Around DLF Cyber City</h2>
+        <p>Key transit realities to factor in before booking near Shankar Chowk, Belvedere Towers, and DLF Phase 2.</p>
       </div>
 
       <div class="advice-grid">
         {hub.buyingAdvice.map((item, idx) => (
           <div class="advice-card card">
-            <span class="advice-number">0{idx + 1}</span>
-            <h3>{item.title}</h3>
-            <p>{item.content}</p>
+            <span class="advice-number font-serif">0{idx + 1}</span>
+            <h3 class="advice-title font-serif">{item.title}</h3>
+            <p class="advice-body">{item.content}</p>
           </div>
         ))}
       </div>
     </div>
   </section>
 
+  <!-- Hub FAQs -->
   <FaqAccordion faqs={hub.faqItems} title={`Frequently Asked Questions About ${hub.title}`} />
 </BaseLayout>
 
 <style>
   .hub-hero {
-    background: linear-gradient(180deg, #ECFDF5 0%, var(--bg-primary) 100%);
+    background-color: var(--bg-surface);
     padding: 3rem 0 2rem;
-    border-bottom: 1px solid var(--border-subtle);
+    border-bottom: 1px solid var(--border-neutral);
   }
 
   .hub-hero-container {
-    max-width: 860px;
-    text-align: center;
+    max-width: 920px;
+    margin: 0 auto;
+    text-align: left;
   }
 
-  .hub-hero .badge {
-    margin-bottom: 0.875rem;
+  .hero-kicker-wrap {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .editorial-kicker {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--forest-primary);
   }
 
   .hub-h1 {
-    margin-bottom: 1rem;
+    font-size: clamp(2.2rem, 4.5vw, 3.4rem);
+    line-height: 1.15;
+    color: var(--navy-primary);
+    margin: 0.25rem 0 1rem 0;
   }
 
   .hub-lead {
+    font-size: 1.125rem;
+    line-height: 1.6;
+    color: var(--text-secondary);
+    margin-bottom: 1.5rem;
+    max-width: 76ch;
+  }
+
+  .corridor-transit-bar {
+    padding: 0.85rem 1.25rem;
+    background-color: var(--bg-subtle);
+    border-left: 3px solid var(--forest-primary);
+    border-radius: 0 var(--radius-xs) var(--radius-xs) 0;
+    font-size: 0.8125rem;
+    color: var(--navy-secondary);
+  }
+
+  /* Comparison Section */
+  .comparison-section {
+    padding-top: 3.5rem;
+    padding-bottom: 1.5rem;
+  }
+
+  .section-heading-row {
     margin-bottom: 1.5rem;
   }
 
-  .hub-stats-bar {
-    display: inline-flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: center;
-    gap: 0.75rem;
-    padding: 0.5rem 1rem;
-    background-color: var(--bg-card);
-    border: 1px solid var(--border-subtle);
-    border-radius: var(--radius-full);
-    font-size: 0.8125rem;
+  .section-heading-row h2 {
+    font-size: clamp(1.75rem, 3vw, 2.25rem);
+    color: var(--navy-primary);
+    margin: 0.25rem 0 0.5rem 0;
+  }
+
+  .section-heading-row p {
+    font-size: 0.95rem;
     color: var(--text-secondary);
+    margin: 0;
+    max-width: 68ch;
   }
 
-  .hub-grid-intro {
-    max-width: 750px;
-    margin-bottom: 2rem;
+  /* Ranked List */
+  .rankings-section {
+    padding-top: 2.5rem;
+    padding-bottom: 4rem;
   }
 
-  .hotel-grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 1.75rem;
+  .hotel-ranked-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
   }
 
-  @media (min-width: 640px) {
-    .hotel-grid {
-      grid-template-columns: repeat(2, 1fr);
-    }
-  }
-
-  @media (min-width: 1024px) {
-    .hotel-grid {
-      grid-template-columns: repeat(3, 1fr);
-    }
-  }
-
+  /* Advice Section */
   .buying-advice-section {
-    background-color: var(--bg-card);
-    border-top: 1px solid var(--border-subtle);
-  }
-
-  .advice-container {
-    max-width: 1000px;
-  }
-
-  .advice-header {
-    text-align: center;
-    max-width: 700px;
-    margin: 0 auto 2.5rem;
-  }
-
-  .advice-header .badge {
-    margin-bottom: 0.5rem;
+    background-color: var(--bg-subtle);
+    border-top: 1px solid var(--border-neutral);
+    border-bottom: 1px solid var(--border-neutral);
+    padding: 4rem 0;
   }
 
   .advice-grid {
@@ -176,26 +207,27 @@ const faqSchema = generateFaqSchema(hub.faqItems);
 
   .advice-card {
     padding: 1.75rem;
-    display: flex;
-    flex-direction: column;
+    background-color: var(--bg-surface);
   }
 
   .advice-number {
     font-size: 1.5rem;
     font-weight: 800;
-    color: var(--emerald-primary);
+    color: var(--forest-primary);
+    display: block;
     margin-bottom: 0.5rem;
   }
 
-  .advice-card h3 {
-    font-size: 1.125rem;
-    margin-bottom: 0.75rem;
+  .advice-title {
+    font-size: 1.15rem;
+    color: var(--navy-primary);
+    margin: 0 0 0.5rem 0;
   }
 
-  .advice-card p {
-    font-size: 0.875rem;
-    line-height: 1.6;
+  .advice-body {
+    font-size: 0.84375rem;
+    line-height: 1.55;
     color: var(--text-secondary);
-    margin-bottom: 0;
+    margin: 0;
   }
 </style>

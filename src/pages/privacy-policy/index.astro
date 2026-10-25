@@ -27,8 +27,11 @@ const breadcrumbSchema = generateBreadcrumbSchema([
 
   <article class="privacy-page container section-padding">
     <header class="privacy-header">
-      <span class="badge badge-neutral">Legal Compliance</span>
-      <h1 class="privacy-h1">Privacy Policy</h1>
+      <div class="kicker-wrap">
+        <span class="editorial-kicker">Legal Compliance</span>
+        <span class="badge badge-navy">Data Privacy</span>
+      </div>
+      <h1 class="privacy-h1 font-serif">Privacy Policy</h1>
       <p class="lead privacy-lead">
         Your privacy is paramount. This policy describes how Best Hotels in Gurugram handles visitor data, communications, and server logs.
       </p>
@@ -99,50 +102,63 @@ const breadcrumbSchema = generateBreadcrumbSchema([
   .privacy-header {
     text-align: center;
     max-width: 860px;
-    margin: 0 auto 3rem;
+    margin: 0 auto 3.5rem;
   }
 
-  .privacy-header .badge {
-    margin-bottom: 0.875rem;
+  .kicker-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
   }
 
   .privacy-h1 {
-    font-size: 2.25rem;
-    line-height: 1.2;
-    margin-bottom: 1rem;
+    font-size: 2.35rem;
+    line-height: 1.15;
+    color: var(--navy-primary);
+    margin-bottom: 1.25rem;
   }
 
   @media (min-width: 768px) {
     .privacy-h1 {
-      font-size: 2.875rem;
+      font-size: 3.25rem;
     }
   }
 
   .privacy-lead {
-    font-size: 1.125rem;
+    font-size: 1.1875rem;
+    line-height: 1.65;
+    color: var(--text-secondary);
+    max-width: 780px;
+    margin-left: auto;
+    margin-right: auto;
   }
 
   .privacy-content-layout {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 3rem;
+    gap: 3.5rem;
   }
 
   @media (min-width: 1024px) {
     .privacy-content-layout {
-      grid-template-columns: 1fr 320px;
+      grid-template-columns: 1fr 300px;
     }
   }
 
   .privacy-section {
-    margin-bottom: 3rem;
+    margin-bottom: 3.5rem;
   }
 
   .privacy-section h2 {
-    font-size: 1.625rem;
-    margin-bottom: 1rem;
+    font-size: 1.85rem;
+    font-family: var(--font-serif);
+    color: var(--navy-primary);
+    margin-bottom: 1.25rem;
     padding-bottom: 0.5rem;
-    border-bottom: 2px solid var(--bg-subtle);
+    border-bottom: 1px solid var(--border-subtle);
   }
 
   .privacy-section p {

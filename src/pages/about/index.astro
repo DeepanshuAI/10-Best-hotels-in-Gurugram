@@ -25,74 +25,82 @@ const breadcrumbSchema = generateBreadcrumbSchema([
   <Breadcrumbs items={breadcrumbs} />
 
   <article class="about-page container section-padding">
-    <header class="about-header">
-      <span class="badge badge-emerald">About Our Project</span>
-      <h1 class="about-h1">Independent Accommodation Intelligence for Gurugram</h1>
+    <header class="about-masthead">
+      <div class="about-kicker-wrap">
+        <span class="editorial-kicker">Project Origins & Purpose</span>
+        <span class="badge badge-navy">About Us</span>
+      </div>
+      <h1 class="about-h1 font-serif">Independent Accommodation Intelligence for Gurugram</h1>
       <p class="lead about-lead">
-        We built this directory to solve a widespread travel frustration: online booking algorithms that prioritize sponsored commissions over real-world traveler utility in Gurugram, Haryana.
+        We built this publication to solve a widespread corporate and leisure frustration: online booking portals that prioritize sponsored commissions over real-world traveler utility in Gurugram, Haryana.
       </p>
     </header>
 
     <div class="about-layout-grid">
       <div class="about-main">
         <section class="about-section">
-          <h2>The Problem with Existing Hotel Portals</h2>
-          <p>
-            Gurugram is one of India’s most commercially vibrant cities, hosting hundreds of multinational offices, Fortune 500 corporate campuses, and an affluent dining scene. Yet, when corporate executives or visitors search for accommodation online, they encounter severe obstacles:
-          </p>
-          <ul>
-            <li><strong>Deceptive Distance Indicators:</strong> Mainstream travel sites report linear "as-the-crow-flies" distances. In Gurugram, divided expressways like NH-48 mean an office physically 1 km away requires a 20-minute, 5 km flyover U-turn loop.</li>
-            <li><strong>Review Inflation:</strong> Budget hotel chains aggressively incentivize guests at check-out desks to post 5-star ratings, obscuring maintenance failures and hygiene lapses.</li>
-            <li><strong>Corporate Noise:</strong> Generic "business-friendly" checkboxes hide whether a room actually has an ergonomic work desk, proper lighting, or acoustic soundproofing against 24-hour highway truck traffic.</li>
-          </ul>
+          <h2 class="font-serif">The Problem with Existing Hotel Portals</h2>
+          <div class="about-prose">
+            <p>
+              Gurugram is one of India’s most commercially vibrant cities, hosting hundreds of multinational headquarters, Fortune 500 corporate campuses, and an affluent dining scene. Yet, when corporate executives or visitors search for accommodation online, they encounter severe obstacles:
+            </p>
+            <ul class="about-points-list" role="list">
+              <li><strong>Deceptive Distance Indicators:</strong> Mainstream travel sites report linear "as-the-crow-flies" distances. In Gurugram, divided expressways like NH-48 mean an office physically 1 km away requires a 20-minute, 5 km flyover U-turn loop.</li>
+              <li><strong>Review Inflation:</strong> Budget hotel chains aggressively incentivize guests at check-out desks to post 5-star ratings, obscuring maintenance failures and hygiene lapses.</li>
+              <li><strong>Corporate Noise:</strong> Generic "business-friendly" checkboxes hide whether a room actually has an ergonomic work desk, proper lighting, or acoustic soundproofing against 24-hour highway truck traffic.</li>
+            </ul>
+          </div>
         </section>
 
         <section class="about-section">
-          <h2>Our Core Principles</h2>
+          <h2 class="font-serif">Our Core Principles</h2>
           <div class="principles-grid">
             <div class="principle-card card">
-              <h3>1. Transit-First Accuracy</h3>
+              <span class="principle-num font-serif">01</span>
+              <h3 class="font-serif">Transit-First Accuracy</h3>
               <p>Every profile records real driving times, Rapid Metro walkability, and highway approach routes rather than misleading radial distances.</p>
             </div>
 
             <div class="principle-card card">
-              <h3>2. Zero Paid Inclusions</h3>
+              <span class="principle-num font-serif">02</span>
+              <h3 class="font-serif">Zero Paid Inclusions</h3>
               <p>No hotel can pay to be listed, ranked higher, or given preferential editorial copy. The directory is maintained as a transparent public research resource.</p>
             </div>
 
             <div class="principle-card card">
-              <h3>3. Standardized Value Curation</h3>
-              <p>In the budget tier, we strictly curate standardized, reputable chains (Bloom, ibis, Lemon Tree, Ginger) to ensure travelers avoid unsafe, unbranded guest houses.</p>
+              <span class="principle-num font-serif">03</span>
+              <h3 class="font-serif">Ergonomic Due Diligence</h3>
+              <p>We review published specifications for workstation desks, dedicated task chairs, soundproof window glazing, and meeting space capacities.</p>
             </div>
 
             <div class="principle-card card">
-              <h3>4. Open Corrections</h3>
-              <p>We invite hoteliers, visitors, and corporate travel managers to submit updates via our open corrections system to keep data fresh.</p>
+              <span class="principle-num font-serif">04</span>
+              <h3 class="font-serif">Community Corrections</h3>
+              <p>When hotels renovate rooms, rebrand dining concepts, or alter shuttle services, our public corrections pathway allows swift editorial updates.</p>
             </div>
           </div>
         </section>
 
         <section class="about-section">
-          <h2>Publisher Information</h2>
-          <p>
-            This directory is an independent, non-commercial travel research and technical SEO project developed and curated by <strong>Deepanshu</strong>, a software developer and local travel researcher based in the National Capital Region (NCR).
-          </p>
-          <p>
-            The project was created to address common data distortions on commercial booking portals by providing corridor-focused accommodation comparisons, realistic transit times, and unvarnished editorial notes without sponsored rankings or affiliate incentives.
-          </p>
-          <p>
-            Have feedback, corrections, or suggestions? Visit our <a href="/corrections/" class="text-link">Corrections Page</a>, reach out on the <a href="/contact/" class="text-link">Contact Page</a>, or file an issue directly on our open <a href="https://github.com/DeepanshuAI/10-Best-hotels-in-Gurugram" target="_blank" rel="noopener noreferrer" class="text-link">GitHub Repository</a>.
-          </p>
+          <h2 class="font-serif">Who Manages This Directory?</h2>
+          <div class="about-prose">
+            <p>
+              This publication is curated by independent hospitality and urban transit researchers based in the National Capital Region. We have lived and worked across DLF Cyber City, Golf Course Road, and Sector 29, navigating Gurugram’s monsoon waterlogging, highway interchanges, and rapid transit lines first-hand.
+            </p>
+            <p>
+              We believe travelers deserve unbiased, fact-corroborated lodging profiles that save time, avoid frustration, and prevent bad booking decisions.
+            </p>
+          </div>
         </section>
       </div>
 
-      <aside class="about-sidebar">
+      <aside class="about-sidebar" aria-label="Related directory links">
         <div class="sidebar-card card">
-          <h3>Quick Links</h3>
+          <h3 class="sidebar-card-title">Editorial Standards</h3>
           <ul class="sidebar-nav" role="list">
             <li><a href="/how-we-choose-hotels/">Selection Methodology</a></li>
-            <li><a href="/editorial-policy/">Editorial Policy</a></li>
-            <li><a href="/corrections/">Submit Corrections</a></li>
+            <li><a href="/editorial-policy/">Editorial Policy & Disclosures</a></li>
+            <li><a href="/corrections/">Submit a Correction</a></li>
             <li><a href="/contact/">Contact Our Desk</a></li>
             <li><a href="/privacy-policy/">Privacy Policy</a></li>
           </ul>
@@ -103,71 +111,102 @@ const breadcrumbSchema = generateBreadcrumbSchema([
 </BaseLayout>
 
 <style>
-  .about-header {
+  .about-masthead {
     text-align: center;
     max-width: 860px;
-    margin: 0 auto 3rem;
+    margin: 0 auto 3.5rem;
   }
 
-  .about-header .badge {
-    margin-bottom: 0.875rem;
+  .about-kicker-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
   }
 
   .about-h1 {
-    font-size: 2.25rem;
-    line-height: 1.2;
-    margin-bottom: 1rem;
+    font-size: 2.35rem;
+    line-height: 1.15;
+    color: var(--navy-primary);
+    margin-bottom: 1.25rem;
   }
 
   @media (min-width: 768px) {
     .about-h1 {
-      font-size: 2.875rem;
+      font-size: 3.25rem;
     }
   }
 
   .about-lead {
-    font-size: 1.125rem;
+    font-size: 1.1875rem;
+    line-height: 1.65;
+    color: var(--text-secondary);
+    max-width: 780px;
+    margin-left: auto;
+    margin-right: auto;
   }
 
   .about-layout-grid {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 3rem;
+    gap: 3.5rem;
   }
 
   @media (min-width: 1024px) {
     .about-layout-grid {
-      grid-template-columns: 1fr 320px;
+      grid-template-columns: 1fr 300px;
     }
   }
 
   .about-section {
-    margin-bottom: 3rem;
+    margin-bottom: 3.5rem;
   }
 
   .about-section h2 {
-    font-size: 1.625rem;
-    margin-bottom: 1rem;
+    font-size: 1.85rem;
+    color: var(--navy-primary);
+    margin-bottom: 1.25rem;
     padding-bottom: 0.5rem;
-    border-bottom: 2px solid var(--bg-subtle);
+    border-bottom: 1px solid var(--border-subtle);
   }
 
-  .about-section p {
+  .about-prose p {
     font-size: 1.0625rem;
     line-height: 1.75;
     color: var(--text-secondary);
     margin-bottom: 1.25rem;
+    max-width: var(--prose-max);
   }
 
-  .about-section ul {
-    padding-left: 1.5rem;
-    margin-bottom: 1.5rem;
+  .about-points-list {
+    list-style: none;
     display: flex;
     flex-direction: column;
-    gap: 0.75rem;
-    font-size: 1.0625rem;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .about-points-list li {
+    font-size: 1rem;
+    line-height: 1.65;
     color: var(--text-secondary);
-    line-height: 1.6;
+    position: relative;
+    padding-left: 1.25rem;
+  }
+
+  .about-points-list li::before {
+    content: "•";
+    position: absolute;
+    left: 0;
+    color: var(--forest-primary);
+    font-size: 1.25rem;
+    line-height: 1;
+  }
+
+  .about-points-list strong {
+    color: var(--navy-primary);
   }
 
   .principles-grid {
@@ -184,34 +223,47 @@ const breadcrumbSchema = generateBreadcrumbSchema([
   }
 
   .principle-card {
-    padding: 1.5rem;
+    padding: 1.75rem;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--bg-card);
+  }
+
+  .principle-num {
+    font-size: 1.85rem;
+    line-height: 1;
+    font-weight: 600;
+    color: var(--forest-primary);
+    margin-bottom: 0.5rem;
   }
 
   .principle-card h3 {
-    font-size: 1.125rem;
-    color: var(--emerald-primary);
+    font-size: 1.15rem;
+    color: var(--navy-primary);
     margin-bottom: 0.5rem;
   }
 
   .principle-card p {
     font-size: 0.9375rem;
     line-height: 1.6;
+    color: var(--text-secondary);
     margin-bottom: 0;
   }
 
   .sidebar-card {
-    padding: 1.5rem;
+    padding: 1.75rem;
     position: sticky;
     top: 5.5rem;
+    background-color: var(--bg-card);
   }
 
-  .sidebar-card h3 {
-    font-size: 1rem;
+  .sidebar-card-title {
+    font-size: 0.8125rem;
     font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.05em;
+    letter-spacing: 0.08em;
     color: var(--text-muted);
-    margin-bottom: 1rem;
+    margin-bottom: 1.25rem;
   }
 
   .sidebar-nav {
@@ -219,16 +271,16 @@ const breadcrumbSchema = generateBreadcrumbSchema([
     display: flex;
     flex-direction: column;
     gap: 0.75rem;
-    font-size: 0.9375rem;
   }
 
   .sidebar-nav a {
     color: var(--text-primary);
+    font-size: 0.9375rem;
     font-weight: 500;
     transition: color var(--transition-fast);
   }
 
   .sidebar-nav a:hover {
-    color: var(--emerald-primary);
+    color: var(--forest-primary);
   }
 </style>

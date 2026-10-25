@@ -1,0 +1,347 @@
+---
+import type { HotelRecord } from '../data/types';
+import { formatINR } from '../lib/site-config';
+
+interface Props {
+  hotels: HotelRecord[];
+  maxHotels?: number;
+  highlightCategory?: string;
+  id?: string;
+}
+
+const { hotels, maxHotels, highlightCategory, id = 'comparison-table' } = Astro.props;
+
+const displayHotels = maxHotels ? hotels.slice(0, maxHotels) : hotels;
+
+const categoryLabels: Record<string, string> = {
+  luxury: '5-Star Luxury',
+  business: 'Corporate Business',
+  budget: 'Smart Budget',
+  resort: 'Resort Sanctuary',
+  boutique: 'Boutique',
+};
+---
+
+<div class="comparison-table-wrapper" id={id}>
+  <div class="table-scroll-hint" aria-hidden="true">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <polyline points="9 18 15 12 9 6" />
+    </svg>
+    <span>Scroll horizontally to view all property metrics</span>
+  </div>
+
+  <div class="table-responsive-container" tabindex="0" role="region" aria-label="Hotel Comparison Table">
+    <table class="editorial-comparison-table">
+      <thead>
+        <tr>
+          <th scope="col" class="th-rank">Rank</th>
+          <th scope="col" class="th-hotel">Hotel & Location</th>
+          <th scope="col" class="th-category">Category</th>
+          <th scope="col" class="th-suitability">Best For / Traveller Profile</th>
+          <th scope="col" class="th-transit">Transit Reality</th>
+          <th scope="col" class="th-rating">Rating Benchmark</th>
+          <th scope="col" class="th-price">Indicative Rate</th>
+          <th scope="col" class="th-action">Editorial Dossier</th>
+        </tr>
+      </thead>
+      <tbody>
+        {displayHotels.map((hotel, index) => {
+          const rank = index + 1;
+          const isCategoryMatch = !highlightCategory || hotel.category === highlightCategory;
+          return (
+            <tr class:list={[{ 'tr-highlighted': isCategoryMatch }]}>
+              <!-- Rank -->
+              <td class="td-rank">
+                <span class="rank-number" aria-label={`Ranked #${rank}`}>
+                  #{String(rank).padStart(2, '0')}
+                </span>
+              </td>
+
+              <!-- Hotel & Location -->
+              <td class="td-hotel">
+                <a href={`/hotels/${hotel.slug}/`} class="hotel-table-title">
+                  {hotel.officialName}
+                </a>
+                <span class="hotel-table-loc">
+                  {hotel.address.locality} &bull; {hotel.primaryDistrict}
+                </span>
+              </td>
+
+              <!-- Category -->
+              <td class="td-category">
+                <span class="category-chip">
+                  {categoryLabels[hotel.category] || hotel.category}
+                </span>
+              </td>
+
+              <!-- Suitability -->
+              <td class="td-suitability">
+                <span class="suitability-summary">
+                  {hotel.bestFor && hotel.bestFor.length > 0 ? hotel.bestFor[0] : hotel.summary}
+                </span>
+              </td>
+
+              <!-- Transit -->
+              <td class="td-transit">
+                <div class="transit-brief">
+                  <span class="transit-bold">{hotel.transit.driveTimeToCyberCityMin}m Cyber City</span>
+                  <span class="transit-sub">{hotel.transit.driveTimeToIGI_T3Min}m IGI T3</span>
+                </div>
+              </td>
+
+              <!-- Rating Benchmark -->
+              <td class="td-rating">
+                <div class="rating-brief">
+                  <span class="rating-score">{hotel.ratingBenchmark.score} / {hotel.ratingBenchmark.maxScore}</span>
+                  <span class="rating-source">{hotel.ratingBenchmark.source.split(' ')[0]}</span>
+                </div>
+              </td>
+
+              <!-- Indicative Rate -->
+              <td class="td-price">
+                <div class="price-brief">
+                  <span class="price-amount">{formatINR(hotel.indicativeStartingRateINR)}</span>
+                  <span class="price-cycle">/ night</span>
+                </div>
+                <span class="price-date">{hotel.rateVerificationDate}</span>
+              </td>
+
+              <!-- Action Link -->
+              <td class="td-action">
+                <a href={`/hotels/${hotel.slug}/`} class="btn btn-outline btn-xs table-dossier-btn" aria-label={`View dossier for ${hotel.officialName}`}>
+                  View Dossier
+                </a>
+              </td>
+            </tr>
+          );
+        })}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<style>
+  .comparison-table-wrapper {
+    margin: 2rem 0;
+    background-color: var(--bg-surface);
+    border: 1px solid var(--border-neutral);
+    border-radius: var(--radius-sm);
+    box-shadow: var(--shadow-sm);
+    overflow: hidden;
+  }
+
+  .table-scroll-hint {
+    display: none;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background-color: var(--bg-subtle);
+    border-bottom: 1px solid var(--border-subtle);
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    font-weight: 500;
+  }
+
+  .table-responsive-container {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .editorial-comparison-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+    font-size: 0.875rem;
+    white-space: normal;
+  }
+
+  .editorial-comparison-table th {
+    background-color: var(--bg-subtle);
+    color: var(--navy-primary);
+    font-family: var(--font-sans);
+    font-weight: 700;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 0.875rem 1rem;
+    border-bottom: 2px solid var(--border-neutral);
+    vertical-align: middle;
+  }
+
+  .editorial-comparison-table td {
+    padding: 1rem;
+    border-bottom: 1px solid var(--border-subtle);
+    vertical-align: top;
+    color: var(--text-primary);
+  }
+
+  .editorial-comparison-table tbody tr:last-child td {
+    border-bottom: none;
+  }
+
+  .editorial-comparison-table tbody tr:hover {
+    background-color: rgba(244, 239, 235, 0.4);
+  }
+
+  /* Columns Sizing & Specifics */
+  .th-rank, .td-rank {
+    width: 70px;
+    text-align: center;
+  }
+
+  .rank-number {
+    display: inline-block;
+    font-family: var(--font-serif);
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: var(--forest-primary);
+    background-color: var(--forest-soft);
+    padding: 0.2rem 0.45rem;
+    border-radius: var(--radius-xs);
+    border: 1px solid rgba(20, 83, 45, 0.15);
+  }
+
+  .th-hotel, .td-hotel {
+    min-width: 220px;
+  }
+
+  .hotel-table-title {
+    display: block;
+    font-family: var(--font-serif);
+    font-weight: 700;
+    font-size: 1rem;
+    color: var(--navy-primary);
+    line-height: 1.25;
+    margin-bottom: 0.25rem;
+    text-decoration: none;
+  }
+
+  .hotel-table-title:hover {
+    color: var(--forest-primary);
+    text-decoration: underline;
+  }
+
+  .hotel-table-loc {
+    display: block;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+  }
+
+  .th-category, .td-category {
+    min-width: 130px;
+  }
+
+  .category-chip {
+    display: inline-block;
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 0.2rem 0.5rem;
+    background-color: var(--bg-subtle);
+    color: var(--navy-secondary);
+    border-radius: var(--radius-xs);
+    border: 1px solid var(--border-subtle);
+  }
+
+  .th-suitability, .td-suitability {
+    min-width: 240px;
+    max-width: 320px;
+  }
+
+  .suitability-summary {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    line-height: 1.4;
+    font-size: 0.8125rem;
+    color: var(--text-secondary);
+  }
+
+  .th-transit, .td-transit {
+    min-width: 140px;
+  }
+
+  .transit-brief {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+  }
+
+  .transit-bold {
+    font-weight: 600;
+    color: var(--navy-primary);
+    font-size: 0.8125rem;
+  }
+
+  .transit-sub {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+  }
+
+  .th-rating, .td-rating {
+    min-width: 110px;
+  }
+
+  .rating-brief {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+  }
+
+  .rating-score {
+    font-weight: 700;
+    color: var(--brass-accent);
+    font-size: 0.875rem;
+  }
+
+  .rating-source {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+  }
+
+  .th-price, .td-price {
+    min-width: 130px;
+  }
+
+  .price-brief {
+    display: flex;
+    align-items: baseline;
+    gap: 0.2rem;
+  }
+
+  .price-amount {
+    font-family: var(--font-sans);
+    font-weight: 700;
+    color: var(--navy-primary);
+    font-size: 0.9375rem;
+  }
+
+  .price-cycle {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+  }
+
+  .price-date {
+    display: block;
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    margin-top: 0.1rem;
+  }
+
+  .th-action, .td-action {
+    width: 120px;
+    text-align: right;
+  }
+
+  .table-dossier-btn {
+    white-space: nowrap;
+    font-size: 0.75rem;
+    padding: 0.35rem 0.65rem;
+  }
+
+  @media (max-width: 900px) {
+    .table-scroll-hint {
+      display: flex;
+    }
+  }
+</style>

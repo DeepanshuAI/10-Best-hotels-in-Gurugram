@@ -9,67 +9,79 @@ interface Props {
 const { benchmark, size = 'md' } = Astro.props;
 ---
 
-<div class:list={['rating-badge', `rating-badge-${size}`]}>
-  <div class="score-pill">
-    <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" stroke="none" aria-hidden="true">
+<div class:list={['rating-benchmark-widget', `rating-size-${size}`]}>
+  <div class="benchmark-score-chip">
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" stroke="none" aria-hidden="true" class="star-icon">
       <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
     </svg>
-    <span class="score-value">{benchmark.score.toFixed(1)}</span>
-    <span class="score-max">/{benchmark.maxScore}</span>
+    <span class="score-number">{benchmark.score.toFixed(1)}</span>
+    <span class="score-denominator">/{benchmark.maxScore}</span>
   </div>
-  <div class="rating-meta">
-    <span class="rating-source">{benchmark.source}</span>
-    <span class="rating-count">({benchmark.observedReviewCountText} &bull; Checked {benchmark.dateObserved})</span>
+  <div class="benchmark-details">
+    <span class="benchmark-source">{benchmark.source}</span>
+    <span class="benchmark-count">({benchmark.observedReviewCountText})</span>
   </div>
 </div>
 
 <style>
-  .rating-badge {
+  .rating-benchmark-widget {
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
     font-size: 0.8125rem;
   }
 
-  .rating-badge-sm {
+  .rating-size-sm {
     font-size: 0.75rem;
   }
 
-  .score-pill {
+  .rating-size-lg {
+    font-size: 0.875rem;
+  }
+
+  .benchmark-score-chip {
     display: inline-flex;
     align-items: center;
     gap: 0.25rem;
-    background-color: var(--emerald-primary);
-    color: white;
-    padding: 0.15rem 0.45rem;
+    background-color: var(--navy-primary);
+    color: #FFFFFF;
+    padding: 0.2rem 0.5rem;
     border-radius: var(--radius-sm);
     font-weight: 700;
     line-height: 1;
+    letter-spacing: -0.01em;
   }
 
-  .score-value {
-    letter-spacing: -0.02em;
+  .star-icon {
+    color: #FBBF24;
+    flex-shrink: 0;
   }
 
-  .score-max {
-    font-size: 0.7em;
-    opacity: 0.85;
+  .score-number {
+    font-variant-numeric: tabular-nums;
   }
 
-  .rating-meta {
+  .score-denominator {
+    font-size: 0.75em;
+    opacity: 0.8;
+    font-weight: 500;
+  }
+
+  .benchmark-details {
     display: flex;
     flex-wrap: wrap;
-    align-items: center;
-    gap: 0.25rem;
+    align-items: baseline;
+    gap: 0.35rem;
     color: var(--text-muted);
   }
 
-  .rating-source {
+  .benchmark-source {
     font-weight: 600;
     color: var(--text-secondary);
   }
 
-  .rating-count {
+  .benchmark-count {
     color: var(--text-muted);
+    font-size: 0.9em;
   }
 </style>

@@ -28,8 +28,11 @@ const breadcrumbSchema = generateBreadcrumbSchema([
 
   <article class="corrections-page container section-padding">
     <header class="corrections-header">
-      <span class="badge badge-gold">Data Integrity Protocol</span>
-      <h1 class="corrections-h1">Submit a Factual Correction</h1>
+      <div class="kicker-wrap">
+        <span class="editorial-kicker">Data Integrity Protocol</span>
+        <span class="badge badge-brass">Verification</span>
+      </div>
+      <h1 class="corrections-h1 font-serif">Submit a Factual Correction</h1>
       <p class="lead corrections-lead">
         We are committed to factual accuracy and transparency. If a hotel has adjusted its starting tariffs, updated its telephone contact, renovated facilities, or altered restaurant venues, please submit the details below for prompt verification.
       </p>
@@ -37,7 +40,7 @@ const breadcrumbSchema = generateBreadcrumbSchema([
 
     <div class="corrections-layout-grid">
       <div class="corrections-form-col card">
-        <h2>Correction Request Form</h2>
+        <h2 class="font-serif">Correction Request Form</h2>
         <p class="subtext">All submissions are reviewed against official hotel documentation before public profiles are updated.</p>
 
         <form id="correction-form" class="correction-form" data-contact-email={SITE_CONFIG.contactEmail} novalidate>
@@ -125,27 +128,38 @@ const breadcrumbSchema = generateBreadcrumbSchema([
   .corrections-header {
     text-align: center;
     max-width: 860px;
-    margin: 0 auto 3rem;
+    margin: 0 auto 3.5rem;
   }
 
-  .corrections-header .badge {
-    margin-bottom: 0.875rem;
+  .kicker-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
   }
 
   .corrections-h1 {
-    font-size: 2.25rem;
-    line-height: 1.2;
-    margin-bottom: 1rem;
+    font-size: 2.35rem;
+    line-height: 1.15;
+    color: var(--navy-primary);
+    margin-bottom: 1.25rem;
   }
 
   @media (min-width: 768px) {
     .corrections-h1 {
-      font-size: 2.875rem;
+      font-size: 3.25rem;
     }
   }
 
   .corrections-lead {
-    font-size: 1.125rem;
+    font-size: 1.1875rem;
+    line-height: 1.65;
+    color: var(--text-secondary);
+    max-width: 780px;
+    margin-left: auto;
+    margin-right: auto;
   }
 
   .corrections-layout-grid {

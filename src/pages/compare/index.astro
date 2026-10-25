@@ -1,0 +1,228 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import HotelComparisonTable from '../../components/HotelComparisonTable.astro';
+import { HOTELS } from '../../data/hotels';
+import { generateBreadcrumbSchema } from '../../lib/seo';
+
+const title = 'Compare Best Hotels in Gurugram (2026) | Editorial Comparison Matrix';
+const description = 'Side-by-side comparison of Gurugram’s 18 top hotels across Cyber City, Golf Course Road, and MG Road. Objective data on transit times, corporate facilities, indicative tariffs, and traveler fit.';
+
+const breadcrumbs = [
+  { label: 'Hotels', href: '/' },
+  { label: 'Compare Hotels', href: '/compare/' },
+];
+
+const breadcrumbSchema = generateBreadcrumbSchema([
+  { name: 'Home', url: '/' },
+  { name: 'Compare Hotels', url: '/compare/' },
+]);
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  canonicalPath="/compare/"
+  jsonLd={[breadcrumbSchema]}
+>
+  <Breadcrumbs items={breadcrumbs} />
+
+  <main class="compare-page">
+    <header class="compare-header container">
+      <div class="kicker-row">
+        <span class="editorial-kicker">Objective Decision Support</span>
+        <span class="kicker-sep" aria-hidden="true">&bull;</span>
+        <span class="kicker-note">18 Verified Properties Analyzed</span>
+      </div>
+
+      <h1 class="compare-title font-serif">Compare Hotels in Gurugram</h1>
+
+      <p class="lead compare-lead">
+        A direct, side-by-side comparison matrix designed to help business travelers, conference organizers, and visitors evaluate Gurugram accommodations by verified transit access, corporate amenities, and dated tariff benchmarks.
+      </p>
+
+      <div class="compare-criteria-strip">
+        <div class="criteria-pill">
+          <strong>Transit Reality:</strong> Actual highway loops and Rapid Metro access, not straight-line radius.
+        </div>
+        <div class="criteria-pill">
+          <strong>Acoustic Isolation:</strong> Soundproof double/triple glazing assessment near NH-48.
+        </div>
+        <div class="criteria-pill">
+          <strong>Zero Sponsored Bias:</strong> No paid placements or artificial algorithm boosts.
+        </div>
+      </div>
+    </header>
+
+    <div class="container">
+      <!-- Full Comparison Table -->
+      <HotelComparisonTable hotels={HOTELS} id="full-hotel-comparison" />
+
+      <!-- Comparison Insights & Decision Advice -->
+      <section class="compare-editorial-advice card">
+        <h2 class="advice-heading font-serif">Key Factors When Comparing Gurugram Properties</h2>
+        
+        <div class="advice-grid">
+          <div class="advice-col">
+            <h3 class="col-title">1. The Shankar Chowk Highway Bottleneck</h3>
+            <p>
+              Properties in Udyog Vihar (such as The Oberoi and Trident) are physically directly across from DLF Cyber City. However, crossing NH-48 during morning rush hour (8:30 AM – 10:15 AM) involves a busy highway underpass loop that can add 10 to 15 minutes. If your meetings are strictly inside Cyber Hub, walking across via the pedestrian skywalk from The Leela Ambience avoids all vehicular gridlock.
+            </p>
+          </div>
+
+          <div class="advice-col">
+            <h3 class="col-title">2. Airport Proximity vs. City Centre Access</h3>
+            <p>
+              If your itinerary requires multiple trips to New Delhi or a quick early morning departure from IGI Airport Terminal 3, prioritize properties in northern Gurugram along NH-48 (The Oberoi, The Leela Ambience, Trident). If your work is anchored around Golf Course Extension, South City, or Sohna Road, staying in Cyber City requires a 30-minute reverse commute along the Golf Course Road underpass network.
+            </p>
+          </div>
+
+          <div class="advice-col">
+            <h3 class="col-title">3. Workstation Facilities vs. Standard Rooms</h3>
+            <p>
+              Not all hotel desks are equal for business productivity. While budget hotels like Bloom and ibis provide compact work tables with international plug sockets, luxury flagships like Grand Hyatt and The Westin provide ergonomic executive task seating, multi-line speakerphones, and 24-hour dedicated business centers with private boardrooms.
+            </p>
+          </div>
+        </div>
+
+        <div class="advice-footer-links">
+          <span>Looking for ranked lists by travel profile?</span>
+          <a href="/luxury-hotels-in-gurugram/" class="text-link">Explore Luxury Rankings &rarr;</a>
+          <a href="/business-hotels-in-gurugram/" class="text-link">Explore Business Rankings &rarr;</a>
+          <a href="/budget-hotels-in-gurugram/" class="text-link">Explore Budget Rankings &rarr;</a>
+        </div>
+      </section>
+    </div>
+  </main>
+</BaseLayout>
+
+<style>
+  .compare-page {
+    padding-bottom: 5rem;
+  }
+
+  .compare-header {
+    padding: 2.5rem 0 1.5rem;
+  }
+
+  .kicker-row {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .editorial-kicker {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--forest-primary);
+  }
+
+  .kicker-sep {
+    color: var(--border-neutral);
+  }
+
+  .kicker-note {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+  }
+
+  .compare-title {
+    font-size: clamp(2.1rem, 4vw, 3rem);
+    color: var(--navy-primary);
+    line-height: 1.15;
+    margin-bottom: 1rem;
+    letter-spacing: -0.02em;
+  }
+
+  .compare-lead {
+    font-size: 1.05rem;
+    color: var(--text-secondary);
+    max-width: 68ch;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+  }
+
+  .compare-criteria-strip {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 1rem;
+  }
+
+  .criteria-pill {
+    background-color: var(--bg-surface);
+    border: 1px solid var(--border-neutral);
+    border-radius: var(--radius-xs);
+    padding: 0.5rem 0.85rem;
+    font-size: 0.8125rem;
+    color: var(--navy-secondary);
+  }
+
+  .criteria-pill strong {
+    color: var(--navy-primary);
+  }
+
+  /* Editorial Advice Section */
+  .compare-editorial-advice {
+    padding: 2.5rem;
+    margin-top: 3rem;
+    background-color: var(--bg-surface);
+  }
+
+  .advice-heading {
+    font-size: 1.6rem;
+    color: var(--navy-primary);
+    margin-bottom: 1.75rem;
+    border-bottom: 1px solid var(--border-subtle);
+    padding-bottom: 0.75rem;
+  }
+
+  .advice-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  @media (min-width: 768px) {
+    .advice-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .col-title {
+    font-family: var(--font-serif);
+    font-size: 1.15rem;
+    color: var(--navy-primary);
+    margin-bottom: 0.65rem;
+  }
+
+  .advice-col p {
+    font-size: 0.875rem;
+    line-height: 1.6;
+    color: var(--text-secondary);
+  }
+
+  .advice-footer-links {
+    margin-top: 2rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--border-subtle);
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1.25rem;
+    font-size: 0.875rem;
+    color: var(--text-muted);
+  }
+
+  .advice-footer-links .text-link {
+    font-weight: 600;
+    color: var(--forest-primary);
+  }
+
+  .advice-footer-links .text-link:hover {
+    text-decoration: underline;
+  }
+</style>

@@ -1,26 +1,30 @@
 ---
 import type { HotelRecord, HotelCategory } from '../data/types';
+import { HOTELS } from '../data/hotels';
 import { formatINR } from '../lib/site-config';
-import RatingBadge from './RatingBadge.astro';
 
 interface Props {
   hotel: HotelRecord;
+  rank?: number;
   featured?: boolean;
 }
 
-const { hotel, featured = false } = Astro.props;
+const { hotel, rank: propRank, featured = false } = Astro.props;
+
+// Determine directory ranking number (1-18)
+const computedRank = propRank || (HOTELS.findIndex((h) => h.id === hotel.id) + 1) || 1;
 
 const categoryLabelMap: Record<HotelCategory, string> = {
   luxury: '5-Star Luxury',
   business: 'Corporate Business',
   budget: 'Smart Budget',
-  resort: 'Luxury Resort',
-  boutique: 'Boutique Stay',
+  resort: 'Resort Sanctuary',
+  boutique: 'Boutique Hotel',
 };
 ---
 
 <article 
-  class:list={['hotel-card card', { 'hotel-card-featured': featured }]} 
+  class:list={['hotel-ranking-row card', { 'ranking-row-leading': computedRank === 1, 'ranking-row-featured': featured }]} 
   data-hotel-id={hotel.id}
   data-category={hotel.category}
   data-district={hotel.primaryDistrict}
@@ -28,281 +32,443 @@ const categoryLabelMap: Record<HotelCategory, string> = {
   data-price={hotel.indicativeStartingRateINR}
   data-score={hotel.ratingBenchmark.score}
   data-name={hotel.officialName.toLowerCase()}
+  data-rank={computedRank}
 >
-  <div class="card-image-wrap">
-    <img
-      src={hotel.heroImage.src}
-      alt={hotel.heroImage.alt}
-      width="400"
-      height="225"
-      loading="lazy"
-      decoding="async"
-      class="card-image"
-    />
-    <div class="card-badges-top">
-      <span class:list={['badge', hotel.category === 'luxury' || hotel.category === 'resort' ? 'badge-gold' : 'badge-emerald']}>
-        {categoryLabelMap[hotel.category] || hotel.category}
-      </span>
-      <span class="badge badge-neutral price-tier-badge">{hotel.priceTier}</span>
-    </div>
+  <!-- 1. Left Architectural Ranking Badge -->
+  <div class="row-rank-badge" aria-label={`Directory Rank #${computedRank}`}>
+    <span class="rank-hash" aria-hidden="true">#</span>
+    <span class="rank-digit">{String(computedRank).padStart(2, '0')}</span>
+    <span class="rank-tier-tag">{categoryLabelMap[hotel.category] || hotel.category}</span>
   </div>
 
-  <div class="card-body">
-    <div class="card-header">
-      <div class="card-location">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-          <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
-          <circle cx="12" cy="10" r="3"/>
-        </svg>
-        <span>{hotel.address.locality}</span>
-      </div>
-      <h3 class="card-title">
-        <a href={`/hotels/${hotel.slug}/`} class="card-title-link">
-          {hotel.officialName}
-        </a>
-      </h3>
+  <!-- 2. Central Editorial Content Column -->
+  <div class="row-editorial-content">
+    <!-- Top Metadata Eyebrow -->
+    <div class="row-meta-eyebrow">
+      <span class="eyebrow-locality">{hotel.address.locality}</span>
+      <span class="eyebrow-sep" aria-hidden="true">&bull;</span>
+      <span class="eyebrow-corridor">{hotel.primaryDistrict} Corridor</span>
+      <span class="eyebrow-status">Verified Oct 2026</span>
     </div>
 
-    <!-- Rating Benchmark -->
-    <div class="card-rating">
-      <RatingBadge benchmark={hotel.ratingBenchmark} size="sm" />
-    </div>
+    <!-- Hotel Name & Direct Dossier Link -->
+    <h3 class="row-hotel-name font-serif">
+      <a href={`/hotels/${hotel.slug}/`} class="hotel-title-link">
+        {hotel.officialName}
+      </a>
+    </h3>
 
-    <p class="card-summary">{hotel.summary}</p>
-
-    <!-- Transit Quick Tag -->
-    <div class="card-transit-snippet">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-        <rect x="2" y="5" width="20" height="14" rx="2"/>
-        <line x1="2" y1="10" x2="22" y2="10"/>
-      </svg>
-      <span>
-        <strong>Transit:</strong> {
-          hotel.transit.walkingTimeToMetroMin !== null
-            ? `${hotel.transit.walkingTimeToMetroMin} min walk to ${hotel.transit.nearestMetroStation.split(' ')[0]} Metro`
-            : `${hotel.transit.driveTimeToMetroMin || Math.round(hotel.transit.distanceToMetroKm * 2)} min drive to ${hotel.transit.nearestMetroStation.split(' ')[0]} Metro`
-        } &bull; {hotel.transit.driveTimeToCyberCityMin} min drive to Cyber City
-      </span>
-    </div>
-
-    <!-- Best For Pill -->
+    <!-- Justified "Best For" Suitability -->
     {hotel.bestFor && hotel.bestFor.length > 0 && (
-      <div class="card-best-for">
-        <span class="best-for-label">Best for:</span>
-        <span class="best-for-value">{hotel.bestFor[0]}</span>
+      <div class="row-suitability-pill">
+        <span class="suitability-kicker">Best for:</span>
+        <span class="suitability-val">{hotel.bestFor[0]}</span>
       </div>
     )}
 
-    <!-- Top Verified Amenities -->
-    <div class="card-amenities" aria-label="Key amenities">
-      {hotel.verifiedAmenities.slice(0, 3).map((amenity: string) => (
-        <span class="amenity-chip">{amenity}</span>
-      ))}
-    </div>
+    <!-- Editorial Selection Rationale -->
+    <p class="row-editorial-rationale">
+      {hotel.editorialRationale || hotel.summary}
+    </p>
 
-    <!-- Card Footer: Rate & Actions -->
-    <div class="card-footer">
-      <div class="card-pricing">
-        <span class="rate-label">Indicative starting rate:</span>
-        <div class="rate-value-wrap">
-          <span class="rate-amount">{formatINR(hotel.indicativeStartingRateINR)}</span>
-          <span class="rate-period">/ night</span>
-        </div>
-        <span class="rate-date">Verified {hotel.rateVerificationDate}</span>
-      </div>
-
-      <div class="card-actions">
-        <a href={`/hotels/${hotel.slug}/`} class="btn btn-primary btn-sm">
-          View Profile
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-            <polyline points="9 18 15 12 9 6"/>
+    <!-- 2–3 Key Verified Differentiators -->
+    <ul class="row-differentiators-list" role="list">
+      {hotel.keyStrengths.slice(0, 3).map((strength) => (
+        <li class="differentiator-item">
+          <svg class="diff-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+            <polyline points="20 6 9 17 4 12"/>
           </svg>
-        </a>
+          <span>{strength}</span>
+        </li>
+      ))}
+    </ul>
+
+    <!-- Bottom Facts Strip: Rating Benchmark, Tariff, Transit -->
+    <div class="row-facts-strip">
+      <!-- Benchmark -->
+      <div class="fact-col fact-rating">
+        <span class="fact-lbl">Public Rating:</span>
+        <span class="fact-score">★ {hotel.ratingBenchmark.score} / {hotel.ratingBenchmark.maxScore}</span>
+        <span class="fact-source">({hotel.ratingBenchmark.source.split(' ')[0]})</span>
       </div>
+
+      <!-- Price -->
+      <div class="fact-col fact-tariff">
+        <span class="fact-lbl">Indicative Tariff:</span>
+        <span class="fact-rate">{formatINR(hotel.indicativeStartingRateINR)}</span>
+        <span class="fact-cycle">/ night</span>
+      </div>
+
+      <!-- Transit Commute -->
+      <div class="fact-col fact-transit">
+        <span class="fact-lbl">Highway Commute:</span>
+        <span class="fact-commute">{hotel.transit.driveTimeToCyberCityMin}m Cyber City &bull; {hotel.transit.driveTimeToIGI_T3Min}m IGI T3</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. Right Supporting Visual & Dossier Link -->
+  <div class="row-visual-action">
+    <a href={`/hotels/${hotel.slug}/`} class="row-thumbnail-link" tabindex="-1" aria-hidden="true">
+      <img
+        src={hotel.heroImage.src}
+        alt={hotel.heroImage.alt}
+        width="340"
+        height="210"
+        loading="lazy"
+        decoding="async"
+        class="row-thumbnail"
+      />
+    </a>
+
+    <div class="row-action-block">
+      <a href={`/hotels/${hotel.slug}/`} class="btn btn-outline btn-sm row-cta-btn" aria-label={`View editorial dossier for ${hotel.officialName}`}>
+        View Hotel Dossier
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <line x1="5" y1="12" x2="19" y2="12"/>
+          <polyline points="12 5 19 12 12 19"/>
+        </svg>
+      </a>
+      <span class="action-subtext">Verified facilities & transit matrix</span>
     </div>
   </div>
 </article>
 
 <style>
-  .hotel-card {
+  .hotel-ranking-row {
+    display: grid;
+    grid-template-columns: 1fr;
+    background-color: var(--bg-surface);
+    border: 1px solid var(--border-neutral);
+    border-radius: var(--radius-sm);
+    box-shadow: var(--shadow-sm);
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+    overflow: hidden;
+    margin-bottom: 1.5rem;
+  }
+
+  .hotel-ranking-row:hover {
+    box-shadow: var(--shadow-hover);
+    border-color: rgba(20, 83, 45, 0.35);
+  }
+
+  /* Desktop Layout: 3 Columns [Rank Badge (76px)] [Editorial Content (1fr)] [Supporting Photo & CTA (240px)] */
+  @media (min-width: 900px) {
+    .hotel-ranking-row {
+      grid-template-columns: 78px 1fr 240px;
+    }
+  }
+
+  /* 1. Rank Badge Column */
+  .row-rank-badge {
+    background-color: var(--bg-subtle);
+    border-right: 1px solid var(--border-neutral);
     display: flex;
     flex-direction: column;
-    overflow: hidden;
-    height: 100%;
-    background-color: var(--bg-card);
-  }
-
-  .card-image-wrap {
-    position: relative;
-    width: 100%;
-    aspect-ratio: 16 / 9;
-    background-color: #0F172A;
-    overflow: hidden;
-  }
-
-  .card-image {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform var(--transition-normal);
-  }
-
-  .hotel-card:hover .card-image {
-    transform: scale(1.02);
-  }
-
-  .card-badges-top {
-    position: absolute;
-    top: 0.75rem;
-    left: 0.75rem;
-    right: 0.75rem;
-    display: flex;
-    justify-content: space-between;
     align-items: center;
-    pointer-events: none;
+    justify-content: flex-start;
+    padding: 1.5rem 0.5rem;
+    text-align: center;
+    gap: 0.15rem;
   }
 
-  .card-body {
+  @media (max-width: 899px) {
+    .row-rank-badge {
+      flex-direction: row;
+      justify-content: space-between;
+      border-right: none;
+      border-bottom: 1px solid var(--border-neutral);
+      padding: 0.75rem 1.25rem;
+    }
+  }
+
+  .rank-hash {
+    font-family: var(--font-serif);
+    font-size: 0.85rem;
+    color: var(--forest-primary);
+    font-weight: 700;
+  }
+
+  .rank-digit {
+    font-family: var(--font-serif);
+    font-size: 1.75rem;
+    font-weight: 800;
+    line-height: 1;
+    color: var(--navy-primary);
+    letter-spacing: -0.02em;
+  }
+
+  .ranking-row-leading .rank-digit {
+    color: var(--forest-primary);
+  }
+
+  .rank-tier-tag {
+    margin-top: 0.5rem;
+    font-size: 0.625rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-muted);
+    line-height: 1.2;
+    padding: 0.2rem 0.35rem;
+    background-color: var(--bg-surface);
+    border-radius: var(--radius-xs);
+    border: 1px solid var(--border-subtle);
+  }
+
+  @media (max-width: 899px) {
+    .rank-tier-tag {
+      margin-top: 0;
+    }
+  }
+
+  /* 2. Central Editorial Content Column */
+  .row-editorial-content {
+    padding: 1.5rem 1.75rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  @media (max-width: 640px) {
+    .row-editorial-content {
+      padding: 1.25rem;
+    }
+  }
+
+  .row-meta-eyebrow {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    font-weight: 500;
+    margin-bottom: 0.4rem;
+  }
+
+  .eyebrow-locality {
+    font-weight: 600;
+    color: var(--navy-secondary);
+  }
+
+  .eyebrow-sep {
+    color: var(--border-neutral);
+  }
+
+  .eyebrow-status {
+    margin-left: auto;
+    font-size: 0.7rem;
+    color: var(--forest-primary);
+    font-weight: 600;
+    background-color: var(--forest-soft);
+    padding: 0.1rem 0.4rem;
+    border-radius: var(--radius-xs);
+  }
+
+  .row-hotel-name {
+    font-size: clamp(1.2rem, 2vw, 1.45rem);
+    line-height: 1.25;
+    color: var(--navy-primary);
+    margin: 0 0 0.5rem 0;
+  }
+
+  .hotel-title-link {
+    color: inherit;
+    text-decoration: none;
+    transition: color 0.15s ease;
+  }
+
+  .hotel-title-link:hover {
+    color: var(--forest-primary);
+    text-decoration: underline;
+  }
+
+  /* Suitability Pill */
+  .row-suitability-pill {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.4rem;
+    background-color: var(--bg-subtle);
+    border-left: 3px solid var(--forest-primary);
+    padding: 0.35rem 0.65rem;
+    border-radius: 0 var(--radius-xs) var(--radius-xs) 0;
+    margin-bottom: 0.75rem;
+    font-size: 0.8125rem;
+    max-width: fit-content;
+  }
+
+  .suitability-kicker {
+    font-weight: 700;
+    color: var(--forest-primary);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  .suitability-val {
+    color: var(--navy-secondary);
+    font-weight: 500;
+  }
+
+  /* Editorial Rationale */
+  .row-editorial-rationale {
+    font-size: 0.90625rem;
+    line-height: 1.55;
+    color: var(--text-secondary);
+    margin: 0 0 0.85rem 0;
+    max-width: 72ch;
+  }
+
+  /* Key Differentiators (Bullet items) */
+  .row-differentiators-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 1.25rem 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+
+  .differentiator-item {
+    display: flex;
+    align-items: baseline;
+    gap: 0.45rem;
+    font-size: 0.8125rem;
+    color: var(--text-primary);
+    line-height: 1.4;
+  }
+
+  .diff-icon {
+    flex-shrink: 0;
+    color: var(--forest-primary);
+    margin-top: 0.1rem;
+  }
+
+  /* Facts Strip */
+  .row-facts-strip {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1.25rem;
+    padding-top: 0.85rem;
+    border-top: 1px solid var(--border-subtle);
+    font-size: 0.8125rem;
+  }
+
+  .fact-col {
+    display: flex;
+    align-items: baseline;
+    gap: 0.3rem;
+  }
+
+  .fact-lbl {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    font-weight: 500;
+  }
+
+  .fact-score {
+    font-weight: 700;
+    color: var(--brass-accent);
+  }
+
+  .fact-source {
+    font-size: 0.7rem;
+    color: var(--text-muted);
+  }
+
+  .fact-rate {
+    font-family: var(--font-sans);
+    font-weight: 700;
+    color: var(--navy-primary);
+  }
+
+  .fact-cycle {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+  }
+
+  .fact-commute {
+    color: var(--navy-secondary);
+    font-weight: 500;
+  }
+
+  /* 3. Right Supporting Visual & Action Column */
+  .row-visual-action {
+    background-color: var(--bg-subtle);
+    border-left: 1px solid var(--border-neutral);
     padding: 1.25rem;
     display: flex;
     flex-direction: column;
-    flex: 1 0 auto;
-  }
-
-  .card-header {
-    margin-bottom: 0.5rem;
-  }
-
-  .card-location {
-    display: flex;
-    align-items: center;
-    gap: 0.375rem;
-    font-size: 0.75rem;
-    font-weight: 600;
-    color: var(--emerald-primary);
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
-    margin-bottom: 0.25rem;
-  }
-
-  .card-title {
-    font-size: 1.25rem;
-    line-height: 1.3;
-    margin-bottom: 0;
-  }
-
-  .card-title-link {
-    color: var(--text-primary);
-    transition: color var(--transition-fast);
-  }
-
-  .card-title-link:hover {
-    color: var(--emerald-primary);
-  }
-
-  .card-rating {
-    margin-bottom: 0.75rem;
-  }
-
-  .card-summary {
-    font-size: 0.875rem;
-    line-height: 1.5;
-    color: var(--text-secondary);
-    margin-bottom: 0.875rem;
-    flex: 1 0 auto;
-  }
-
-  .card-transit-snippet {
-    display: flex;
-    align-items: flex-start;
-    gap: 0.375rem;
-    font-size: 0.75rem;
-    color: var(--text-muted);
-    background-color: var(--bg-subtle);
-    padding: 0.5rem 0.625rem;
-    border-radius: var(--radius-sm);
-    margin-bottom: 0.75rem;
-    line-height: 1.4;
-  }
-
-  .card-transit-snippet svg {
-    flex-shrink: 0;
-    margin-top: 0.1rem;
-    color: var(--text-secondary);
-  }
-
-  .card-best-for {
-    font-size: 0.75rem;
-    background-color: var(--emerald-light);
-    border: 1px solid var(--emerald-border);
-    color: var(--emerald-hover);
-    padding: 0.375rem 0.625rem;
-    border-radius: var(--radius-sm);
-    margin-bottom: 0.75rem;
-    line-height: 1.4;
-  }
-
-  .best-for-label {
-    font-weight: 700;
-    margin-right: 0.25rem;
-  }
-
-  .card-amenities {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.375rem;
-    margin-bottom: 1.25rem;
-  }
-
-  .amenity-chip {
-    font-size: 0.6875rem;
-    background-color: var(--bg-subtle);
-    border: 1px solid var(--border-subtle);
-    padding: 0.2rem 0.5rem;
-    border-radius: var(--radius-sm);
-    color: var(--text-secondary);
-  }
-
-  .card-footer {
-    display: flex;
-    align-items: flex-end;
     justify-content: space-between;
-    padding-top: 1rem;
-    border-top: 1px solid var(--border-subtle);
-    margin-top: auto;
+    gap: 1rem;
   }
 
-  .card-pricing {
+  @media (max-width: 899px) {
+    .row-visual-action {
+      border-left: none;
+      border-top: 1px solid var(--border-neutral);
+      flex-direction: row;
+      align-items: center;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .row-visual-action {
+      flex-direction: column;
+      align-items: stretch;
+    }
+  }
+
+  .row-thumbnail-link {
+    display: block;
+    border-radius: var(--radius-xs);
+    overflow: hidden;
+    background-color: var(--bg-image-fallback);
+    aspect-ratio: 16 / 10;
+  }
+
+  .row-thumbnail {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+  }
+
+  .row-ranking-row:hover .row-thumbnail {
+    transform: scale(1.03);
+  }
+
+  @media (max-width: 899px) and (min-width: 641px) {
+    .row-thumbnail-link {
+      width: 180px;
+      flex-shrink: 0;
+    }
+  }
+
+  .row-action-block {
     display: flex;
     flex-direction: column;
+    gap: 0.35rem;
   }
 
-  .rate-label {
+  @media (max-width: 899px) and (min-width: 641px) {
+    .row-action-block {
+      flex-grow: 1;
+    }
+  }
+
+  .row-cta-btn {
+    width: 100%;
+    justify-content: center;
+    font-size: 0.8125rem;
+    padding: 0.55rem 0.85rem;
+  }
+
+  .action-subtext {
     font-size: 0.6875rem;
     color: var(--text-muted);
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
-  }
-
-  .rate-value-wrap {
-    display: flex;
-    align-items: baseline;
-    gap: 0.25rem;
-  }
-
-  .rate-amount {
-    font-size: 1.125rem;
-    font-weight: 800;
-    color: var(--text-primary);
-  }
-
-  .rate-period {
-    font-size: 0.75rem;
-    color: var(--text-muted);
-  }
-
-  .rate-date {
-    font-size: 0.6875rem;
-    color: var(--text-muted);
+    text-align: center;
   }
 </style>

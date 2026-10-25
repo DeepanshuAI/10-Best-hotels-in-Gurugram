@@ -89,6 +89,7 @@ const expectedStaticPages = [
   'src/pages/corrections/index.astro',
   'src/pages/editorial-policy/index.astro',
   'src/pages/privacy-policy/index.astro',
+  'src/pages/compare/index.astro',
   'src/pages/404.astro',
   'src/pages/robots.txt.ts',
 ];
